@@ -1,0 +1,188 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DevsHub</title>
+    <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+</head>
+
+<body>
+<form action="#" th:object="${member}" th:action="@{/saveMessage}" method="post" class="hide" id="myText" style="border-radius: 10px;">
+    <div style="background-color: white; border-radius: 10px;">
+        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Edit Personal Information</h3>
+        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeForm()">Exit</button>
+    </div>
+    <br>
+    <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
+    <br>
+    <p style="width: 80%; margin:0 auto;"> This field should contain any information you would like possible employers to know.<br>Ensure to give proper information as this could help with getting interviews quicker.</p>
+    <br>
+    <textarea th:field="*{message}" style="border-radius:5px; height:200px; width: 80%; margin:0 auto; border: 1px solid black;"></textarea>
+    <br>
+    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+</form>
+
+<form action="#" th:if="${!member.education.isEmpty()}" th:each="education : ${member.getEducation()}" th:action="@{/editEducation}" method="post" th:id="${education}" class="hide editforms" style="border-radius: 10px;">
+    <div style="background-color: white; border-radius: 10px;">
+        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add education information</h3>
+        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${education}" onclick="closeEditForm(this.getAttribute('data-longDescription'));">Exit</button>
+    </div>
+    <br>
+    <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
+    <br>
+    <p style="width: 80%; margin:0 auto;">Enter details</p>
+    <input type="hidden" th:field="*{education.id}" th:id="${education.id}">
+    <br>
+    <input type="text" th:field="*{education.universityLocation}" th:id="${education.universityLocation}+'-'+${education.id}">
+    <br>
+    <input type="text" th:field="*{education.yearStarted}" th:id="${education.yearStarted}+'-'+${education.id}">
+    <br>
+    <input type="text" th:field="*{education.yearEnded}" th:id="${education.yearEnded}+'-'+${education.id}">
+    <br>
+    <input type="text" th:field="*{education.courseStudied}" th:id="${education.courseStudied}+'-'+${education.id}">
+    <br>
+    <input type="text" th:field="*{education.degreeLevel}" th:id="${education.degreeLevel}+'-'+${education.id}">
+    <br>
+    <input type="text" th:field="*{education.resultsAchieved}" th:id="${education.resultsAchieved}+'-'+${education.id}">
+    <br>
+    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+</form>
+
+<form action="#" th:object="${education}" th:action="@{/saveEducation}" method="post" class="hide" id="eduform" style="border-radius: 10px;">
+    <div style="background-color: white; border-radius: 10px;">
+        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add education information</h3>
+        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeEducationForm();">Exit</button>
+    </div>
+    <br>
+    <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
+    <br>
+    <p style="width: 80%; margin:0 auto;">Enter details</p>
+    <br>
+    <input th:field="*{universityLocation}" type="text" name="place" placeholder="Enter school location">
+    <br>
+    <input th:field="*{yearStarted}" type="text" name="yearstart" placeholder="Years started">
+    <br>
+    <input th:field="*{yearEnded}" type="text" name="yearend" placeholder="Years ended">
+    <br>
+    <input th:field="*{courseStudied}" type="text" name="year" placeholder="Course studied">
+    <br>
+    <input th:field="*{degreeLevel}" type="text" name="degree" placeholder="Degree level">
+    <br>
+    <input th:field="*{resultsAchieved}" type="text" name="degree" placeholder="Results Achieved">
+    <br>
+    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+</form>
+
+<div class="backlayout" id="backlayout">
+    <header>
+        <div class="contain" style="border-radius: 10px; margin-top:0.5em; border: 1px solid #d9d9d9; text-align: center; background-color: white;">
+            <div style="width: 600px; margin: auto;">
+                <div class="center">
+                    <label>
+                        <img src="../static/images/person.png" width=190px; height=190px; style="border-radius: 50%; margin-top: 5px; margin-left: 5px;" th:src="@{../images/person.png}"/>
+                        <input type="file" accept="images/*" name="images" id="file" onchange="loadFile(event)" style="display:none">
+                    </label>
+                </div>
+                <div class="player">
+                    <div style="width: 200px; height:100%; float:right; background-color:black; border-top-right-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+                        <label>Position</label>
+                        <label>Years Experience</label>
+                        <label>Blank</label>
+                        <label>Blank</label>
+                    </div>
+
+                    <div th:object="${member}" style="width: 200px; height:100%; background-color:black; border-top-left-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+                        <label th:text="*{firstName}">First Name</label>
+                        <label th:text="*{lastName}">Last Name</label>
+                        <label th:text="*{getEmail}">Email</label>
+                        <label th:text="*{location}">Location</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div id="navbar" class="navb">
+            <div id="prof" class="flexlist"><a href="/user/profile">Profile</a></div>
+            <div id="cv" class="flexlist active"><a class="active" href="/user/cv">CV</a></div>
+            <div class="flexlist"><a href="/user/projects">Projects</a></div>
+            <div class="flexlist"><a href="/about">About</a></div>
+            <div class="flexlist"><a href="/user/learn">Learn</a></div>
+            <div class="flexlist"><a href="/devshub">Logout</a></div>
+        </div>
+
+        <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+            <h2 style="margin-left: 1em;">Personal Information</h2><br>
+            <div th:if="${member.message==null}" style="margin-left: 1.5em;">
+                <h4>Give possible employers a quick summary of yourself.</h4><br>
+                <p>This can help potential employers determine if you might be a good candidate.</p>
+            </div>
+            <div th:if="${member.message!=null}" style="margin-left: 1.5em;">
+                <p th:object="${member}" th:text="*{message}">Message</p>
+            </div><br>
+            <button class="btn" type="button" value="submit" style="margin-left: 2em; padding: 1em 1em;" onclick="openForm()">Add personal statement</button>
+        </div>
+
+        <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+            <h2 style="margin-left: 1em;">Education</h2><br>
+            <div th:if="${member.education.isEmpty()}" style="margin-left: 1.5em;">
+                <h4>Give details about your education.</h4><br>
+                <p>This will help employers decided what role to offer you.</p>
+            </div>
+            <div th:if="${!member.education.isEmpty()}" style="margin-left: 1.5em;">
+                <div th:each="education : ${member.getEducation()}" style="border: 1px dashed black; margin-bottom:1em;">
+                    <button type="button" th:data-longDescription="${education}" onclick="editEducationForm(this.getAttribute('data-longDescription'));" style="color:white; background-color: black;">Edit</button><br>
+                    <label th:text="*{education.universityLocation}" id="location">universityLocation</label><br>
+                    <label th:text="*{education.yearStarted}" id="started">yearStarted</label><br>
+                    <label th:text="*{education.yearEnded}">yearEnded</label><br>
+                    <label th:text="*{education.courseStudied}">courseStudied</label><br>
+                    <label th:text="*{education.degreeLevel}">degreeLevel</label><br>
+                    <label th:text="*{education.resultsAchieved}">resultsAchieved</label>
+                </div>
+            </div>
+            <button class="btn" type="button" value="submit" style="margin-left: 2em; padding: 1em 1em;" onclick="openEducationForm();">Education Info</button>
+        </div>
+
+        <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+            <h2 style="margin-left: 1em;">Previous Experience</h2><br>
+            <div style="margin-left: 1.5em;">
+                <h4>Give details about your previous experience.</h4><br>
+                <p>This will help employers decided what role to offer you.</p>
+            </div><br>
+            <button class="btn" type="button" value="submit" style="margin-left: 2em; padding: 1em 1em;" onclick="openForm()">Add experience</button>
+        </div>
+
+        <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+            <h2 style="margin-left: 1em;">Job Related Skills</h2><br>
+            <div style="margin-left: 1.5em;">
+                <h4>Add job related skills.</h4><br>
+                <p>This will help employers decided what role to offer you.</p>
+            </div><br>
+            <button class="btn" type="button" value="submit" style="margin-left: 2em; padding: 1em 1em;" onclick="openForm()">Add skills</button>
+        </div>
+
+        <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+            <h2 style="margin-left: 1em;">Programming Languages - Frontend</h2><br>
+            <div style="margin-left: 1.5em;">
+                <h4>Known programming languages.</h4><br>
+                <p>This will help employers decided what role to offer you.</p>
+            </div><br>
+            <button class="btn" type="button" value="submit" style="margin-left: 2em; padding: 1em 1em;" onclick="openForm()">Add programming languages</button>
+        </div>
+    </section>
+
+    <aside>
+    </aside>
+
+    <beside>
+
+    </beside>
+
+    <footer>
+        <p th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}">msg</p>
+    </footer>
+</div>
+</body>
+</html>

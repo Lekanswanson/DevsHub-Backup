@@ -1,0 +1,84 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>DevsHub</title>
+  <link th:href="@{/css/profstyle.css}" type="text/css" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" th:src="@{/js/script.js}"></script>
+</head>
+
+<body>
+
+<div class="backlayout" id="backlayout">
+  <header>
+    <div class="contain" style="border-radius: 10px; border: 1px solid #d9d9d9; margin-top:0.5em; text-align: center; background-color: white;">
+      <div style="width: 600px; margin: auto;">
+        <div class="center">
+          <label>
+            <img src="../static/images/person.png" width=190px; height=190px; style="border-radius: 50%; margin-top: 5px; margin-left: 5px;" th:src="@{../images/person.png}"/>
+            <input type="file" accept="images/*" name="images" id="file" onchange="loadFile(event)" style="display:none">
+          </label>
+        </div>
+        <div class="player">
+          <div style="width: 200px; height:100%; float:right; background-color:black; border-top-right-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+            <label>Position</label>
+            <label>Years Experience</label>
+            <label>Blank</label>
+            <label>Blank</label>
+          </div>
+
+          <div th:object="${member}" style="width: 200px; height:100%; background-color:black; border-top-left-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+            <label th:text="*{firstName}">First Name</label>
+            <label th:text="*{lastName}">Last Name</label>
+            <label th:text="*{getEmail}">Email</label>
+            <label th:text="*{location}">Location</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div style="background-color: black; margin-top:0.5em; border-radius: 10px; border: 1px solid #d9d9d9; display:flex; flex-direction:row; justify-content: center;">
+      <div id="prof" class="flexlist"><a href="/user/profile">Profile</a></div>
+      <div id="cv" class="flexlist"><a href="/user/cv">CV</a></div>
+      <div class="flexlist active"><a class="active" href="/user/projects">Projects</a></div>
+      <div class="flexlist"><a href="/about">About</a></div>
+      <div class="flexlist"><a href="/user/learn">Learn</a></div>
+      <div class="flexlist"><a href="/devshub">Logout</a></div>
+    </div>
+
+    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+
+    </div>
+
+    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+
+    </div>
+
+    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+
+    </div>
+
+    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+
+    </div>
+
+    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+
+    </div>
+  </section>
+
+  <aside>
+  </aside>
+
+  <beside>
+
+  </beside>
+
+  <footer>
+    <p th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}">msg</p>
+  </footer>
+</div>
+</body>
+</html>

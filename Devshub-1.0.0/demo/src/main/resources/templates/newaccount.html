@@ -1,0 +1,76 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>DevsHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/newaccstyle.css}" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+</head>
+
+<body>
+<div class="backlayout">
+    <leftheader>
+        <div class="flexit">
+            <h2 class="left">Just4Devs</h2>
+            <h2 class="right">Hub</h2>
+        </div>
+    </leftheader>
+    <rightheader>
+        <div class="list">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="home.html">About</a></li>
+                <li><a href="">Contributors</a></li>
+                <li><a href="">Careers</a></li>
+            </ul>
+        </div>
+    </rightheader>
+
+    <section>
+        <form action="#" th:object="${newEmail}" th:action="@{/next}" method="post" id="details">
+            <div class="expand">
+                <h2>Create Account</h2>
+            </div>
+
+            <div class="expand">
+                <input type="text" th:field="*{email}" placeholder="Enter username or email" id="email">
+            </div>
+
+            <div class="expand">
+                <input type="password" th:field="*{password}" placeholder="Password">
+            </div>
+
+            <div class="expand">
+                <button type="submit" class="sub">Next</button>
+            </div>
+
+            <div class="expand" style="border:none">
+                <h1>Already have an account?<a href="http://localhost:8080/devshub">Sign in</a></h1>
+            </div>
+
+            <div class="expand">
+                <button type="submit" class="sub padded">Continue with Google</button>
+            </div>
+        </form>
+    </section>
+
+    <aside>
+        <div class="block">
+            <div class="flextoo">
+                <h2 class="left" style="background-color: whitesmoke; color: red;">Devs</h2>
+                <h2 class="right" style="box-shadow: none">Hub</h2>
+            </div>
+            <div class="motto">
+                <h2>Join a global network of young talented developers and find the perfect career for you</h2>
+            </div>
+        </div>
+    </aside>
+
+    <footer>
+        <p th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}">msg</p>
+    </footer>
+</div>
+</body>
+
+</html>

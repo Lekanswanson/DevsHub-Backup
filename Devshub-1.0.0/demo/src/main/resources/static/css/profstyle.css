@@ -1,0 +1,286 @@
+*{
+	border: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+}
+header{
+	background-color: whitesmoke;
+	grid-area: header;
+}
+
+section{
+	background-color: whitesmoke;
+	grid-area: section;
+}
+
+aside{
+	background-color: whitesmoke;
+	grid-area: aside;
+}
+
+beside{
+	background-color: whitesmoke;
+	grid-area: beside;
+}
+
+footer{
+	background-color: whitesmoke;
+	grid-area: footer;
+}
+
+
+.btn:hover{
+	background-color: red;
+}
+.btn{
+    background-color: pink;
+}
+
+.formbtn:hover{
+	background-color: red;
+}
+
+.formbtn{
+    background-color: pink;
+}
+
+.blur{
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+    overflow-y:hidden;
+}
+
+.center {
+  background: #e6e6e6;
+  border: 1px solid black;
+  max-width: 200px;
+  width: auto;
+  height: 200px;
+  border-radius: 50%;
+  #display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 2em;
+  margin-left: 12.5em;
+}
+.center:hover {
+    background-color: gray;
+}
+
+
+.player {
+  margin-top: -2em;
+  max-width: 600px;
+  width: auto;
+  height: 200px;
+  border-top-right-radius: 40px;
+  border-top-left-radius: 40px;
+  background-image: radial-gradient(circle at 300px -50px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 110px, black 10px);
+  color: #FFF;
+}
+
+
+
+
+
+a, a:link{
+	text-decoration: none;
+	border: none;
+	color: white;
+	padding: 1em 1em;
+}
+a:hover{
+    color:whitesmoke;
+	padding: 1em 2em;
+}
+
+.flexlist{
+    padding: 1em 0em;
+    background-color: black;
+}
+
+.flexlist:hover{
+	border-top: 5px solid green;
+}
+.active{
+    padding: 0.6875em 0em;
+    border-top: 5px solid yellow;
+    color:gray;
+}
+.active:hover{
+    padding: 1em 1em;
+    color:white;
+}
+
+
+
+.educationbox{
+	width: 40%;
+	height: 400px;
+	position:absolute;
+	top:10em;
+	left:30%;
+	border: 1px solid black;
+	display: inline-flex;
+	flex-direction: column;
+	background-color: white;
+    z-index: 2;
+}
+
+.editbox{
+	width: 40%;
+	height: 400px;
+	position:absolute;
+	top:10em;
+	left:30%;
+	border: 1px solid black;
+	display: inline-flex;
+	flex-direction: column;
+	background-color: white;
+	z-index: 2;
+}
+
+#eduform input{
+    width:80%;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+.editforms input{
+    width:80%;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+#msg{
+    margin-left: 1em;
+}
+
+
+.player label{
+	#border: 1px solid black;
+	flex-grow: 1;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bcenter {
+  background: #FF7A59;
+  width: 200px;
+  height: 80px;
+  border-radius: 50%;
+  #display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 2em;
+  margin-left: 3em;
+}
+
+
+.bplayer {
+  margin-top: 2em;
+  margin-left: -3em;
+  width: 480px;
+  height: 80px;
+  border-radius: 40px;
+  background-image: radial-gradient(circle at 38px 40px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40px, blue 40px);
+  color: #FFF;
+}
+
+
+#facebook-icon {
+      background: blue;
+      text-indent: -999em;
+      width: 100px;
+      height: 110px;
+      box-sizing: content-box;
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+      border: 15px solid blue;
+      border-bottom: 0;
+}
+#facebook-icon:before {
+      content: "/20";
+      position: absolute;
+      background: blue;
+      width: 40px;
+      height: 90px;
+      bottom: -30px;
+      right: -37px;
+      border: 20px solid #eee;
+      border-radius: 25px;
+      box-sizing: content-box;
+}
+#facebook-icon:after {
+      content: "/20";
+      position: absolute;
+      width: 55px;
+      top: 50px;
+      height: 20px;
+      background: #eee;
+      right: 5px;
+      box-sizing: content-box;
+}
+
+
+
+
+footer{
+	text-align: center;
+}
+
+footer p{
+	margin: 1% 0 0 0;
+}
+
+
+
+/* Show section before nav on mobile */
+.backlayout
+{
+	display: grid;
+	height: 100vh;
+	grid-template-areas: 	"header"
+				            "aside"
+				            "section"
+				            "footer";
+}
+
+
+/* Apply the following styles to screens > 720px */
+
+@media only screen and (min-width: 720px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		height: 100vh;
+		overflow-x: hidden; !important;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: 20vw 60vw 20vw;
+		grid-template-areas: 	"header header header"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+/* Apply the following styles to screens > 1024px */
+@media only screen and (min-width: 1024px) {
+
+	.backlayout{
+		display: grid;
+		height: 100vh;
+		overflow-x: hidden; !important;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: 20vw 60vw 20vw;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+
