@@ -88,6 +88,7 @@ a, a:link{
 	text-decoration: none;
 	border: none;
 	padding: 1em 1em;
+	color: green;
 }
 a:hover{
     color:whitesmoke;
@@ -240,7 +241,6 @@ a:hover{
 }
 .sticky {
     position: fixed;
-    display: none;
 	top: 0;
 	width: 100%;
 }
