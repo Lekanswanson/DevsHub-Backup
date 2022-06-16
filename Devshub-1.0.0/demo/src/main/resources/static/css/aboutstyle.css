@@ -5,11 +5,6 @@
 	#font-family: Arial, Helvetica, sans-serif;
 }
 
-nav{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: nav;
-}
 header{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
@@ -20,17 +15,6 @@ section{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
 	grid-area: section;
-}
-
-aside{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: aside;
-}
-beside{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: beside;
 }
 footer{
 	background-color: white;
@@ -66,15 +50,15 @@ footer{
   width: auto;
   height: 200px;
   border-radius: 50%;
+  #display: flex;
   align-items: center;
   text-align: center;
   margin-top: 2em;
   margin-left: 12.5em;
 }
 .center:hover {
-    background-color: #e6e5e5;
+    background-color: gray;
 }
-
 
 
 .player {
@@ -188,52 +172,12 @@ footer{
     height:100px;
     margin: 50px 50px;
 }
-.default:hover{
-    border-radius: 50%;
-    width:150px;
-    height:150px;
-    margin: 25px 25px;
-}
 .replace{
     border-radius: 50%;
     width:200px;
     height:200px;
 }
 
-#facebook-icon {
-      background: blue;
-      text-indent: -999em;
-      width: 100px;
-      height: 110px;
-      box-sizing: content-box;
-      border-radius: 5px;
-      position: relative;
-      overflow: hidden;
-      border: 15px solid blue;
-      border-bottom: 0;
-}
-#facebook-icon:before {
-      content: "/20";
-      position: absolute;
-      background: blue;
-      width: 40px;
-      height: 90px;
-      bottom: -30px;
-      right: -37px;
-      border: 20px solid #eee;
-      border-radius: 25px;
-      box-sizing: content-box;
-}
-#facebook-icon:after {
-      content: "/20";
-      position: absolute;
-      width: 55px;
-      top: 50px;
-      height: 20px;
-      background: #eee;
-      right: 5px;
-      box-sizing: content-box;
-}
 
 
 
@@ -255,10 +199,7 @@ footer p{
 	display: grid;
 	height: 100vh;
 	width:100vw;
-	grid-template-areas: 	"nav"
-	                        "header"
-				            "aside"
-				            "beside"
+	grid-template-areas: 	"header"
 				            "section"
 				            "footer";
 }
@@ -268,19 +209,17 @@ footer p{
 
 @media only screen and (min-width: 720px)
 {
-
 	.backlayout
 	{
 		display: grid;
 		height: 100vh;
 		width:100vw;
 		overflow-x: hidden; !important;
-		grid-template-rows: 4vh auto auto 4vh;
-		grid-template-columns: 20vw 60vw 20vw;
-		grid-template-areas: 	"aside nav beside"
-		                        "aside header beside"
-								"aside section beside"
-								"footer footer footer";
+		grid-template-rows: auto;
+		grid-template-columns: 100vw;
+		grid-template-areas: 	"header"
+								"section"
+								"footer";
 	}
 }
 
@@ -292,11 +231,10 @@ footer p{
 		height: 100vh;
 		width:100vw;
 		overflow-x: hidden; !important;
-		grid-template-rows: 4vh auto auto 4vh;
-		grid-template-columns: 20vw 60vw 20vw;
-		grid-template-areas: 	"aside nav beside"
-		                        "aside header beside"
-								"aside section beside"
-								"footer footer footer";
+		grid-template-rows: auto;
+		grid-template-columns: 100vw;
+		grid-template-areas: 	"header"
+								"section"
+								"footer";
 	}
 }

@@ -4,12 +4,6 @@
 	box-sizing: border-box;
 	#font-family: Arial, Helvetica, sans-serif;
 }
-
-nav{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: nav;
-}
 header{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
@@ -27,11 +21,13 @@ aside{
 	font-family: Arial, Helvetica, sans-serif;
 	grid-area: aside;
 }
+
 beside{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
 	grid-area: beside;
 }
+
 footer{
 	background-color: white;
 	grid-area: footer;
@@ -66,15 +62,15 @@ footer{
   width: auto;
   height: 200px;
   border-radius: 50%;
+  #display: flex;
   align-items: center;
   text-align: center;
   margin-top: 2em;
   margin-left: 12.5em;
 }
 .center:hover {
-    background-color: #e6e5e5;
+    background-color: gray;
 }
-
 
 
 .player {
@@ -89,15 +85,6 @@ footer{
 }
 
 
-
-.react{
-    border-right:1px solid  #d9d9d9;;
-    width: 33.3vw;
-    height:50px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
 
 
 .flexlist{
@@ -116,19 +103,22 @@ footer{
     color:whitesmoke;
 	padding: 1em 2em;
 }
+
 .active{
     padding: 0.6875em 0em;
     border-top: 5px solid yellow;
     color:gray;
 }
 .active:hover{
-    padding: 1em 1em;
+    padding: 1em 0em;
     color:white;
 }
 .stop{
     padding: 1em 0em;
     background-color: black;
 }
+
+
 
 
 .educationbox{
@@ -182,23 +172,44 @@ footer{
     align-items: center;
 }
 
-.default{
-    border-radius: 50%;
-    width:100px;
-    height:100px;
-    margin: 50px 50px;
+.project{
+    border: 1px solid black;
+    width: 80%;
+    margin: 2% 10%;
+    border-radius: 5px;
 }
-.default:hover{
-    border-radius: 50%;
-    width:150px;
-    height:150px;
-    margin: 25px 25px;
+
+.project button{
+    float:right;
 }
-.replace{
-    border-radius: 50%;
-    width:200px;
-    height:200px;
+.project button:hover{
+    background-color: pink;
 }
+
+
+.bcenter {
+  background: #FF7A59;
+  width: 200px;
+  height: 80px;
+  border-radius: 50%;
+  #display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 2em;
+  margin-left: 3em;
+}
+
+
+.bplayer {
+  margin-top: 2em;
+  margin-left: -3em;
+  width: 480px;
+  height: 80px;
+  border-radius: 40px;
+  background-image: radial-gradient(circle at 38px 40px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40px, blue 40px);
+  color: #FFF;
+}
+
 
 #facebook-icon {
       background: blue;
@@ -248,17 +259,14 @@ footer p{
 
 
 
-
 /* Show section before nav on mobile */
 .backlayout
 {
 	display: grid;
 	height: 100vh;
 	width:100vw;
-	grid-template-areas: 	"nav"
-	                        "header"
+	grid-template-areas: 	"header"
 				            "aside"
-				            "beside"
 				            "section"
 				            "footer";
 }
@@ -275,10 +283,9 @@ footer p{
 		height: 100vh;
 		width:100vw;
 		overflow-x: hidden; !important;
-		grid-template-rows: 4vh auto auto 4vh;
+		grid-template-rows: auto auto 4vh;
 		grid-template-columns: 20vw 60vw 20vw;
-		grid-template-areas: 	"aside nav beside"
-		                        "aside header beside"
+		grid-template-areas: 	"aside header beside"
 								"aside section beside"
 								"footer footer footer";
 	}
@@ -292,11 +299,13 @@ footer p{
 		height: 100vh;
 		width:100vw;
 		overflow-x: hidden; !important;
-		grid-template-rows: 4vh auto auto 4vh;
+		grid-template-rows: auto auto 4vh;
 		grid-template-columns: 20vw 60vw 20vw;
-		grid-template-areas: 	"aside nav beside"
-		                        "aside header beside"
+		grid-template-areas: 	"aside header beside"
 								"aside section beside"
 								"footer footer footer";
 	}
 }
+
+
+

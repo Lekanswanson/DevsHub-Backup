@@ -18,10 +18,12 @@
     <rightheader>
         <div class="list">
             <ul>
-                <li><a href="index.html" class="active set">Home</a></li>
+                <li><a href="index.html" class="set">Home</a></li>
                 <li><a href="home.html" class="set">About</a></li>
                 <li><a href="" class="set">Contributors</a></li>
                 <li><a href="" class="set">Careers</a></li>
+                <li class="disable" style="border:none; padding:0.2em 0; border-left:3px solid black;"><a style="color:whitesmoke;">.</a></li>
+                <li><a href="" class="set">Members</a></li>
             </ul>
         </div>
     </rightheader>
@@ -68,7 +70,11 @@
     </aside>
 
     <footer>
-        <p th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}">msg</p>
+        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
+            <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
+            <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
+            <p><a href="">Privacy policy</a>
+        </div>
     </footer>
 </div>
 </body>

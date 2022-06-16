@@ -2,16 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>DevsHub</title>
-  <link th:href="@{/css/profstyle.css}" type="text/css" rel="stylesheet"/>
+  <link th:href="@{/css/projstyle.css}" type="text/css" rel="stylesheet"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
 
 <body>
-
 <div class="backlayout" id="backlayout">
   <header>
-    <div class="contain" style="border-radius: 10px; border: 1px solid #d9d9d9; margin-top:0.5em; text-align: center; background-color: white;">
+    <div style="z-index:1; position:fixed; width:60vw; background-color: black; margin-top:0em; border: 1px solid #d9d9d9; display:flex; flex-direction:row; justify-content: center;">
+      <div id="prof" class="flexlist"><a href="/user/profile">Profile</a></div>
+      <div id="cv" class="flexlist"><a href="/user/cv">CV</a></div>
+      <div class="flexlist active"><a class="active" href="/user/projects">Projects</a></div>
+      <div class="flexlist"><a href="/about">About</a></div>
+      <div class="flexlist"><a href="/user/learn">Learn</a></div>
+      <div class="flexlist"><a href="/devshub">Logout</a></div>
+
+      <form class="stop">
+        <input type="text" name="search">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+    <div class="contain" style="border-radius: 10px; border: 1px solid #d9d9d9; margin-top:0.5em; text-align: center; background-color: white; display:none">
       <div style="width: 600px; margin: auto;">
         <div class="center">
           <label>
@@ -39,33 +52,90 @@
   </header>
 
   <section>
-    <div style="background-color: black; margin-top:0.5em; border-radius: 10px; border: 1px solid #d9d9d9; display:flex; flex-direction:row; justify-content: center;">
-      <div id="prof" class="flexlist"><a href="/user/profile">Profile</a></div>
-      <div id="cv" class="flexlist"><a href="/user/cv">CV</a></div>
-      <div class="flexlist active"><a class="active" href="/user/projects">Projects</a></div>
-      <div class="flexlist"><a href="/about">About</a></div>
-      <div class="flexlist"><a href="/user/learn">Learn</a></div>
-      <div class="flexlist"><a href="/devshub">Logout</a></div>
+    <div style="z-index:0; width:60vw; height:420px; display:flex; flex-direction:row; margin:4em 0 0 0;">
+      <div style="width:400px; height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+        <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;">Add project</h2>
+        <form class="project" style="display:flex; flex-direction:row;" id="addvid" th:action="@{/projects/save/video}" method="post" enctype="multipart/form-data">
+          <input type="file" accept="video/mp4" name="file" style="width:100%;">
+          <button type="submit" name="upload">Upload</button>
+        </form>
+        <textarea class="project" rows="5"></textarea>
+        <div class="project" style="height:150px;">Tools</div>
+      </div>
+
+      <div style="width:800px; height:400px; height:auto; padding:10px 0; background-color:black; border-radius:10px; border:1px solid #d9d9d9;">
+        <video style="background-color:black;" width="100%" height="100%" controls autoplay>
+            <source th:if="${member.video != ''}" th:src="@{${member.video}}" type="video/mp4">
+        </video>
+      </div>
     </div>
 
-    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+    <div style="width:60vw; height:420px; display:flex; flex-direction:row;">
+      <div style="width:400px; min-height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+        <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;">Add project</h2>
+        <form class="project" style="display:flex; flex-direction:row;">
+          <input type="text" style="width:100%;">
+          <button type="submit">Edit</button>
+        </form>
+        <textarea class="project" rows="5"></textarea>
+        <div class="project" style="height:150px;">Tools</div>
+      </div>
 
+      <div style="width:800px; height:400px; height:auto; padding:10px 0; background-color:black; border-radius:10px; border:1px solid #d9d9d9;">
+        <video style="background-color:black;" width="100%" height="100%" controls>
+        </video>
+      </div>
     </div>
 
-    <div style="position:sticky; min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+    <div style="width:60vw; height:420px; display:flex; flex-direction:row;">
+      <div style="width:400px; height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+        <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;">Add project</h2>
+        <form class="project" style="display:flex; flex-direction:row;">
+          <input type="text" style="width:100%;">
+          <button type="submit">Edit</button>
+        </form>
+        <textarea class="project" rows="5"></textarea>
+        <div class="project" style="height:150px;">Tools</div>
+      </div>
 
+      <div style="width:800px; height:400px; height:auto; padding:10px 0; background-color:black; border-radius:10px; border:1px solid #d9d9d9;">
+        <video style="background-color:black;" width="100%" height="100%" controls>
+        </video>
+      </div>
     </div>
 
-    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+    <div style="width:60vw; height:420px; display:flex; flex-direction:row;">
+      <div style="width:400px; height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+        <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;">Add project</h2>
+        <form class="project" style="display:flex; flex-direction:row;">
+          <input type="text" style="width:100%;">
+          <button type="submit">Edit</button>
+        </form>
+        <textarea class="project" rows="5"></textarea>
+        <div class="project" style="height:150px;">Tools</div>
+      </div>
 
+      <div style="width:800px; height:400px; height:auto; padding:10px 0; background-color:black; border-radius:10px; border:1px solid #d9d9d9;">
+        <video style="background-color:black;" width="100%" height="100%" controls>
+        </video>
+      </div>
     </div>
 
-    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+    <div style="width:60vw; height:420px; display:flex; flex-direction:row;">
+      <div style="width:400px; height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+        <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;">Add project</h2>
+        <form class="project" style="display:flex; flex-direction:row;">
+          <input type="text" style="width:100%;">
+          <button type="submit">Edit</button>
+        </form>
+        <textarea class="project" rows="5"></textarea>
+        <div class="project" style="height:150px;">Tools</div>
+      </div>
 
-    </div>
-
-    <div style="min-width: 200px; width: auto; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
-
+      <div style="width:800px; height:400px; height:auto; padding:10px 0; background-color:black; border-radius:10px; border:1px solid #d9d9d9;">
+        <video style="background-color:black;" width="100%" height="100%" controls>
+        </video>
+      </div>
     </div>
   </section>
 
@@ -77,7 +147,11 @@
   </beside>
 
   <footer>
-    <p th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}">msg</p>
+    <div style="display:flex; flex-direction:row; justify-content:center; align-items: center; height:100%;">
+      <p style="margin:0;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
+      <p style="margin:0;"><a href="">Terms and conditions</a>
+      <p><a href="">Privacy policy</a>
+    </div>
   </footer>
 </div>
 </body>

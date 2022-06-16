@@ -2,30 +2,31 @@
 	border: 0;
 	margin: 0;
 	box-sizing: border-box;
-	font-family: Arial, Helvetica, sans-serif;
+	#font-family: Arial, Helvetica, sans-serif;
 }
+
 header{
 	background-color: whitesmoke;
+	font-family: Arial, Helvetica, sans-serif;
 	grid-area: header;
 }
-
 section{
 	background-color: whitesmoke;
+	font-family: Arial, Helvetica, sans-serif;
 	grid-area: section;
 }
-
 aside{
 	background-color: whitesmoke;
+	font-family: Arial, Helvetica, sans-serif;
 	grid-area: aside;
 }
-
 beside{
 	background-color: whitesmoke;
+	font-family: Arial, Helvetica, sans-serif;
 	grid-area: beside;
 }
-
 footer{
-	background-color: whitesmoke;
+	background-color: white;
 	grid-area: footer;
 }
 
@@ -48,7 +49,7 @@ footer{
 .blur{
     filter: blur(4px);
     -webkit-filter: blur(4px);
-    #overflow-y:hidden;
+    overflow-y:hidden;
 }
 
 .center {
@@ -58,14 +59,13 @@ footer{
   width: auto;
   height: 200px;
   border-radius: 50%;
-  #display: flex;
   align-items: center;
   text-align: center;
   margin-top: 2em;
   margin-left: 12.5em;
 }
 .center:hover {
-    background-color: gray;
+    background-color: #e6e5e5;
 }
 
 
@@ -84,24 +84,21 @@ footer{
 
 
 
-a, a:link{
-	text-decoration: none;
-	border: none;
-	padding: 1em 1em;
-	color: green;
-}
-a:hover{
-    color:whitesmoke;
-	padding: 1em 2em;
-}
-
 .flexlist{
     padding: 1em 0em;
     background-color: black;
 }
-
 .flexlist:hover{
 	border-top: 5px solid green;
+}
+.flexlist a, a:link{
+	text-decoration: none;
+	border: none;
+	padding: 1em 1em;
+}
+.flexlist a:hover{
+    color:whitesmoke;
+	padding: 1em 2em;
 }
 .active{
     padding: 0.6875em 0em;
@@ -114,31 +111,38 @@ a:hover{
 }
 
 
+
+.show *{
+    width: 10px;
+    height: 10px;
+    margin: 0 0.2em;
+    background: pink;
+}
+
+
+.show{
+    width:100px;
+    height:25px;
+    background-color:green;
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
 .hide{
 	display: none;
 }
-
-
-.educationbox{
+.displayForms{
 	width: 40%;
 	height: 400px;
 	position:fixed;
 	top:10em;
 	left:30%;
 	border: 1px solid black;
-	display: inline-flex;
-	flex-direction: column;
-	background-color: white;
-    z-index: 2;
-}
-
-.editbox{
-	width: 40%;
-	height: 400px;
-	position:fixed;
-	top:10em;
-	left:30%;
-	border: 1px solid black;
+	box-shadow: 0px 0px 10px #aa9dc8;
 	display: inline-flex;
 	flex-direction: column;
 	background-color: white;
@@ -148,13 +152,28 @@ a:hover{
 #eduform input{
     width:80%;
     margin: 0 auto;
-    border: 1px solid black;
+    border: 2px solid whitesmoke;
+}
+#expform input{
+    width:80%;
+    margin: 0 auto;
+    border: 2px solid whitesmoke;
+}
+#skillform input{
+    width:80%;
+    margin: 0 auto;
+    border: 2px solid whitesmoke;
+}
+#langForm input{
+    width:80%;
+    margin: 0 auto;
+    border: 2px solid whitesmoke;
 }
 
 .editforms input{
     width:80%;
     margin: 0 auto;
-    border: 1px solid black;
+    border: 2px solid whitesmoke;
 }
 
 #msg{
@@ -170,6 +189,25 @@ a:hover{
     align-items: center;
     color:gray;
 }
+
+.default{
+    border-radius: 50%;
+    width:100px;
+    height:100px;
+    margin: 50px 50px;
+}
+.default:hover{
+    border-radius: 50%;
+    width:150px;
+    height:150px;
+    margin: 25px 25px;
+}
+.replace{
+    border-radius: 50%;
+    width:200px;
+    height:200px;
+}
+
 
 .bcenter {
   background: #FF7A59;
@@ -249,16 +287,16 @@ footer{
 	text-align: center;
 }
 footer p{
-	margin: 1% 0 0 0;
+	margin: 0 0 0 0;
 }
-
 
 
 /* Show section before nav on mobile */
 .backlayout
 {
 	display: grid;
-	height: 100vh;
+	height:100vh;
+	width:100vw;
 	grid-template-areas: 	"header"
 				            "aside"
 				            "section"
@@ -274,11 +312,12 @@ footer p{
 	.backlayout
 	{
 		display: grid;
-		height: 100vh;
 		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
 		grid-template-rows: auto auto 4vh;
 		grid-template-columns: 20vw 60vw 20vw;
-		grid-template-areas: 	"header header header"
+		grid-template-areas: 	"aside header beside"
 								"aside section beside"
 								"footer footer footer";
 	}
@@ -289,8 +328,9 @@ footer p{
 
 	.backlayout{
 		display: grid;
-		height: 100vh;
 		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
 		grid-template-rows: auto auto 4vh;
 		grid-template-columns: 20vw 60vw 20vw;
 		grid-template-areas: 	"aside header beside"

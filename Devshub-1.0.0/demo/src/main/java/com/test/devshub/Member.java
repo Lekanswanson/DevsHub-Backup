@@ -19,21 +19,38 @@ public class Member
     @Autowired
     private ArrayList<Education> education = new ArrayList<>();
 
+    @Autowired
+    private ArrayList<Experience> experiences = new ArrayList<>();
+
     private String firstName;
     private String lastName;
     private String location;
     private String message;
+    private String image;
 
+    private String video;
 
     public Member()
     {
 
     }
 
-    public Member(MemberEmail email, ArrayList<Education> education)
+    public Member(MemberEmail email, ArrayList<Education> education, ArrayList<Experience> experiences)
     {
         this.email=email;
         this.education=education;
+        this.experiences=experiences;
+    }
+
+    public void setExperiences(Experience experience)
+    {
+        MemberDB.expID++;
+        experience.setId(MemberDB.expID);
+        this.experiences.add(experience);
+    }
+    public ArrayList<Experience> getExperiences()
+    {
+        return experiences;
     }
 
     public void setEducation(Education education)
@@ -96,9 +113,28 @@ public class Member
         this.message = message;
     }
 
+    public void setImage(String image)
+    {
+        this.image=image;
+    }
+
+    public String getImage()
+    {
+        return image;
+    }
+
     @Override
     public String toString()
     {
         return String.format("%s %s %s %s", email, firstName, lastName, location);
+    }
+
+    public void setVideo(String video) {
+        this.video=video;
+    }
+
+    public String getVideo()
+    {
+        return this.video;
     }
 }

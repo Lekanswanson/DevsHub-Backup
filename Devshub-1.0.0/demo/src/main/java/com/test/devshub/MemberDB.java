@@ -15,23 +15,38 @@ import java.util.List;
 public class MemberDB
 {
     static List<Member> members = new ArrayList<Member>();
+    static ArrayList<Articles> articles = new ArrayList<>();
 
     static int memberCount=0;
     static int ID=0;
 
+    static int expID=0;
+
+    static String path ="../images/";
+    static String videoPath="../videos/";
+
+
+    static String title="What is Maven: Here's What You Need to Know";
+    static String description="Interactive maven tutorial";
+    static String url = "https://www.simplilearn.com/tutorials/maven-tutorial/what-is-maven";
+
     static
     {
-        Member admin = new Member(new MemberEmail("admin", "password"), new ArrayList<>());
-        Member user1 = new Member(new MemberEmail("laykon", "password"), new ArrayList<>());
-        Member user2 = new Member(new MemberEmail("public", "public"), new ArrayList<>());
+        Member admin = new Member(new MemberEmail("admin", "password"), new ArrayList<>(), new ArrayList<>());
+        Member user1 = new Member(new MemberEmail("laykon", "password"), new ArrayList<>(), new ArrayList<>());
+        Member user2 = new Member(new MemberEmail("public", "public"), new ArrayList<>(), new ArrayList<>());
 
         admin.setFirstName("admin");
         admin.setLastName("null");
         admin.setLocation("null");
+        admin.setImage(path+"person.png");
+        admin.setVideo("");
 
         members.add(admin);
         members.add(user1);
         members.add(user2);
+
+        articles.add(new Articles(title, description, url));
     }
 
     public static List<Member> getMembers()
@@ -107,7 +122,7 @@ public class MemberDB
         if(!exists)
         {
             System.out.println("Adding New Member");
-            members.add(new Member(email, new ArrayList<>()));
+            members.add(new Member(email, new ArrayList<>(), new ArrayList<>()));
         }
         return exists;
     }
