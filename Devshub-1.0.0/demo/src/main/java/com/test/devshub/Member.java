@@ -14,6 +14,7 @@ import java.util.List;
 @RequestScope
 public class Member
 {
+    //private int memberId;
     @Autowired
     private MemberEmail email;
     @Autowired
@@ -28,7 +29,10 @@ public class Member
     private String message;
     private String image;
 
+    private String color;
+
     private String video;
+
 
     public Member()
     {
@@ -136,5 +140,13 @@ public class Member
     public String getVideo()
     {
         return this.video;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

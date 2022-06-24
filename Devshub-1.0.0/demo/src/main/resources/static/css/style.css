@@ -94,7 +94,7 @@ footer{
 .flexlist a, a:link{
 	text-decoration: none;
 	border: none;
-	padding: 1em 1em;
+	padding: 0em 1em;
 }
 .flexlist a:hover{
     color:whitesmoke;
@@ -118,23 +118,23 @@ footer{
     margin: 0 0.2em;
     background: pink;
 }
-
-
 .show{
-    width:100px;
+    width:auto;
     height:25px;
-    background-color:green;
+    background-color:yellow;
+    opacity:0.5;
     display: flex;
     flex-direction:row;
     justify-content: center;
     align-items: center;
 }
-
-
-
 .hide{
 	display: none;
 }
+
+
+
+
 .displayForms{
 	width: 40%;
 	height: 400px;
@@ -170,7 +170,7 @@ footer{
     border: 2px solid whitesmoke;
 }
 
-.editforms input{
+#editinfo input{
     width:80%;
     margin: 0 auto;
     border: 2px solid whitesmoke;
@@ -316,7 +316,41 @@ footer p{
 		height:100vh;
 		width:100vw;
 		grid-template-rows: auto auto 4vh;
-		grid-template-columns: 20vw 60vw 20vw;
+		grid-template-columns: auto 720px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+@media only screen and (min-width: 900px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 900px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+@media only screen and (min-width: 1024px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 1024px auto;
 		grid-template-areas: 	"aside header beside"
 								"aside section beside"
 								"footer footer footer";
@@ -324,7 +358,7 @@ footer p{
 }
 
 /* Apply the following styles to screens > 1024px */
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1200px) {
 
 	.backlayout{
 		display: grid;
@@ -332,7 +366,7 @@ footer p{
 		height:100vh;
 		width:100vw;
 		grid-template-rows: auto auto 4vh;
-		grid-template-columns: 20vw 60vw 20vw;
+		grid-template-columns: auto 1200px auto;
 		grid-template-areas: 	"aside header beside"
 								"aside section beside"
 								"footer footer footer";

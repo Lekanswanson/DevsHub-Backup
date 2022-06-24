@@ -94,7 +94,7 @@ footer{
 .flexlist a, a:link{
 	text-decoration: none;
 	border: none;
-	padding: 1em 1em;
+	padding: 0em 1em;
 }
 .flexlist a:hover{
     color:whitesmoke;

@@ -5,11 +5,6 @@
 	#font-family: Arial, Helvetica, sans-serif;
 }
 
-nav{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: nav;
-}
 header{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
@@ -92,11 +87,32 @@ footer{
 
 .react{
     border-right:1px solid  #d9d9d9;;
-    width: 33.3vw;
+    width: auto;
     height:50px;
     display:flex;
     justify-content:center;
     align-items:center;
+    flex-grow:1;
+}
+
+.show *{
+    width: 10px;
+    height: 10px;
+    margin: 0 0.2em;
+    background: pink;
+}
+.show{
+    width:auto;
+    height:25px;
+    background-color:yellow;
+    opacity:0.5;
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+}
+.hide{
+    display:none;
 }
 
 
@@ -110,7 +126,7 @@ footer{
 .flexlist a, a:link{
 	text-decoration: none;
 	border: none;
-	padding: 1em 1em;
+	padding: 0em 1em;
 }
 .flexlist a:hover{
     color:whitesmoke;
@@ -200,41 +216,10 @@ footer{
     height:200px;
 }
 
-#facebook-icon {
-      background: blue;
-      text-indent: -999em;
-      width: 100px;
-      height: 110px;
-      box-sizing: content-box;
-      border-radius: 5px;
-      position: relative;
-      overflow: hidden;
-      border: 15px solid blue;
-      border-bottom: 0;
-}
-#facebook-icon:before {
-      content: "/20";
-      position: absolute;
-      background: blue;
-      width: 40px;
-      height: 90px;
-      bottom: -30px;
-      right: -37px;
-      border: 20px solid #eee;
-      border-radius: 25px;
-      box-sizing: content-box;
-}
-#facebook-icon:after {
-      content: "/20";
-      position: absolute;
-      width: 55px;
-      top: 50px;
-      height: 20px;
-      background: #eee;
-      right: 5px;
-      box-sizing: content-box;
-}
 
+.react button:hover {
+    background:cyan;
+}
 
 
 
@@ -257,8 +242,6 @@ footer p{
 	width:100vw;
 	grid-template-areas: 	"nav"
 	                        "header"
-				            "aside"
-				            "beside"
 				            "section"
 				            "footer";
 }
@@ -275,28 +258,68 @@ footer p{
 		height: 100vh;
 		width:100vw;
 		overflow-x: hidden; !important;
-		grid-template-rows: 4vh auto auto 4vh;
-		grid-template-columns: 20vw 60vw 20vw;
-		grid-template-areas: 	"aside nav beside"
-		                        "aside header beside"
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 720px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+@media only screen and (min-width: 900px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		height: 100vh;
+		width:100vw;
+		overflow-x: hidden; !important;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 900px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+@media only screen and (min-width: 1024px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		height: 100vh;
+		width:100vw;
+		overflow-x: hidden; !important;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 1024px auto;
+		grid-template-areas: 	"aside header beside"
 								"aside section beside"
 								"footer footer footer";
 	}
 }
 
 /* Apply the following styles to screens > 1024px */
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1200px) {
 
 	.backlayout{
 		display: grid;
 		height: 100vh;
 		width:100vw;
 		overflow-x: hidden; !important;
-		grid-template-rows: 4vh auto auto 4vh;
-		grid-template-columns: 20vw 60vw 20vw;
-		grid-template-areas: 	"aside nav beside"
-		                        "aside header beside"
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 1200px auto;
+		grid-template-areas: 	"aside header beside"
 								"aside section beside"
 								"footer footer footer";
 	}
 }
+
+
+
+
+
+
+
+

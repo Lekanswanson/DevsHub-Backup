@@ -14,8 +14,9 @@
       <div id="prof" class="flexlist"><a href="/user/profile">Profile</a></div>
       <div id="cv" class="flexlist"><a href="/user/cv">CV</a></div>
       <div class="flexlist active"><a class="active" href="/user/projects">Projects</a></div>
-      <div class="flexlist"><a href="/about">About</a></div>
       <div class="flexlist"><a href="/user/learn">Learn</a></div>
+      <div class="flexlist"><a href="/user/messages">Messages</a></div>
+      <div class="flexlist"><a href="/user/about">About</a></div>
       <div class="flexlist"><a href="/devshub">Logout</a></div>
 
       <form class="stop">
@@ -52,15 +53,57 @@
   </header>
 
   <section>
+    <div class="proj">
+      <button style="width:100%; height:100%; padding:10px 0;" onclick="dropDown();">Add project (Dropdown)</button>
+    </div>
+
+    <div id="dropdownmenu" class="hide">
+      <form action="#" th:action="@{/projects/save/video}" name="subform" method="post" id="addProject" th:object="${project}" enctype="multipart/form-data">
+        <h2 class="exempt" style="border:none;">Add project</h2>
+        <input class="exempt" th:field="*{title}" type="text">
+        <textarea class="exempt" th:field="*{description}" rows="4"></textarea>
+
+        <select class="exempt" onchange="addProgrammingLanguages(this, 'dropId', 'langtxt');">
+          <option value="Select">Select languages *</option>
+          <option value="Java">Java</option>
+          <option value="Javascript">Javascript</option>
+          <option value="Python">Python</option>
+          <option value="C">C</option>
+          <option value="C#">C#</option>
+        </select>
+        <div class="exempt" id="dropId" style="max-width:80%; border:none; height:auto; display:flex; flex-direction:row; gap:5px; flex-wrap:wrap;">
+
+        </div>
+        <input id="langtxt" type="hidden" th:field="*{language}">
+
+        <select class="exempt" onchange="addProgrammingLanguages(this, 'toolId', 'techtxt');">
+          <option value="Select">Select Technologies *</option>
+          <option value="Github">Github</option>
+          <option value="Docker">Docker</option>
+          <option value="Agile">Agile</option>
+          <option value="REST">Rest</option>
+        </select>
+        <div class="exempt" id="toolId" style="max-width:80%; border:none; height:auto; display:flex; flex-direction:row; gap:5px; flex-wrap:wrap;">
+
+        </div>
+        <input id="techtxt" type="hidden" th:field="*{technology}">
+
+        <input class="exempt" type="hidden" th:field="*{videoName}" id="setVidName">
+        <input class="exempt" type="file" id="vidName" accept="video/mp4" name="file" onchange="setNameVar(this);">
+        <button class="exempt" type="button" onclick="submitForm();">Save project</button>
+      </form>
+    </div>
+
     <div style="z-index:0; width:60vw; height:420px; display:flex; flex-direction:row; margin:4em 0 0 0;">
-      <div style="width:400px; height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
-        <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;">Add project</h2>
-        <form class="project" style="display:flex; flex-direction:row;" id="addvid" th:action="@{/projects/save/video}" method="post" enctype="multipart/form-data">
-          <input type="file" accept="video/mp4" name="file" style="width:100%;">
-          <button type="submit" name="upload">Upload</button>
-        </form>
-        <textarea class="project" rows="5"></textarea>
-        <div class="project" style="height:150px;">Tools</div>
+      <div th:object="${myproject}" style="width:400px; height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+        <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;" th:text="*{title != ''}? *{title} : 'Project Title'">Project Title</h2>
+        <h4 class="project" style="height:50px;" th:text="*{description != ''}? *{description} : 'Project Description'"> Project Description</h4>
+        <div class="project" style="height: 100px;">
+          <label th:text="*{language != ''}? *{language} : 'Programming languages used'">Programming Languages used</label>
+        </div>
+        <div class="project" style="height:100px;">
+          <label th:text="*{technology != ''}? *{technology} : 'Technologies'">Technologies used</label>
+        </div>
       </div>
 
       <div style="width:800px; height:400px; height:auto; padding:10px 0; background-color:black; border-radius:10px; border:1px solid #d9d9d9;">

@@ -58,6 +58,27 @@ function closeEducationForm() {
   }
 }
 
+function openEditInfoForm() {
+  document.getElementById("backlayout").classList.add("blur")
+  var element = document.getElementById("editinfo");
+  element.classList.add("displayForms");
+
+  var elems = document.getElementsByClassName("btn");
+  for(var i = 0; i < elems.length; i++) {
+    elems[i].disabled = true;
+  }
+}
+function closeEditInfoForm() {
+  document.getElementById("backlayout").classList.remove("blur")
+  var element = document.getElementById("editinfo");
+  element.classList.remove("displayForms");
+
+  var elems = document.getElementsByClassName("btn");
+  for(var i = 0; i < elems.length; i++) {
+    elems[i].disabled = false;
+  }
+}
+
 
 function openExperienceForm() {
   document.getElementById("backlayout").classList.add("blur")
@@ -189,15 +210,88 @@ function showcolors(){
     }
 }
 
-
-function changeBackGroundColor(color)
+function setColor(color)
 {
-    document.getElementById('testcolor').style.backgroundColor=color;
+    document.getElementById('setc').value=color;
+    document.getElementById('colorpanel').submit();
 }
-//function saveVideo() {
-//    var form = document.getElementById('addvid');
-//    form.submit();
-//}
 
 
+function submitForm()
+{
+    document.getElementById("setVidName").value=name
+    document.getElementById('addProject').submit();
+}
 
+let name = "";
+function setNameVar(val)
+{
+    name = val.value.split("\\")[2];
+    alert(name)
+}
+
+function addProgrammingLanguages(menu, ident, txtfield)
+{
+    var selected = menu.value;
+
+    var newDiv = document.createElement("DIV");
+    newDiv.id = selected;
+
+    var label = document.createElement("LABEL");
+    label.style.marginRight = "10px"
+
+    var h5 = document.createElement("H5");
+    var text = document.createTextNode(selected);
+
+    h5.appendChild(text);
+    label.appendChild(h5);
+
+    var button = document.createElement("BUTTON");
+    button.type = "button"
+    button.id=selected+"_1";
+
+    button.onclick = function() {
+        removeMenu(this.id, ident);
+        document.getElementById(txtfield).value = document.getElementById(txtfield).value.replace(this.id.split("_")[0]+"_",'');
+     };
+
+    var buttonText = document.createTextNode("X");
+
+    button.appendChild(buttonText);
+
+    newDiv.appendChild(label);
+    newDiv.appendChild(button);
+
+    newDiv.classList.add("dropSelect");
+
+    // add the newly created element and its content into the DOM
+    const currentDiv = document.getElementById(ident);
+    currentDiv.appendChild(newDiv);
+
+    document.getElementById(txtfield).value += selected+'_';
+    menu.selectedIndex=0;
+}
+
+function removeMenu(id, ident)
+{
+    var divItem = document.getElementById(id.split("_")[0]);
+    const div = document.getElementById(ident);
+
+    div.removeChild(divItem);
+}
+
+function dropDown()
+{
+    var element = document.getElementById('dropdownmenu');
+
+    if(element.classList.contains('hide'))
+    {
+        element.classList.remove("hide");
+        element.classList.add("projdrop");
+    }
+    else
+    {
+        element.classList.remove("projdrop");
+        element.classList.add("hide");
+    }
+}

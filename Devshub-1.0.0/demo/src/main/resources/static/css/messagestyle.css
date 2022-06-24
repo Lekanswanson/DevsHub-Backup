@@ -1,0 +1,173 @@
+*{
+	border: 0;
+	margin: 0;
+	box-sizing: border-box;
+	#font-family: Arial, Helvetica, sans-serif;
+}
+
+header{
+	background-color: whitesmoke;
+	font-family: Arial, Helvetica, sans-serif;
+	grid-area: header;
+}
+section{
+	background-color: whitesmoke;
+	font-family: Arial, Helvetica, sans-serif;
+	grid-area: section;
+}
+aside{
+	background-color: green;
+	font-family: Arial, Helvetica, sans-serif;
+	grid-area: aside;
+}
+beside{
+	background-color: green;
+	font-family: Arial, Helvetica, sans-serif;
+	grid-area: beside;
+}
+footer{
+	background-color: white;
+	grid-area: footer;
+}
+
+
+.flexlist{
+    padding: 1em 0em;
+    background-color: black;
+}
+.flexlist:hover{
+	border-top: 5px solid green;
+}
+.flexlist a, a:link{
+	text-decoration: none;
+	border: none;
+	padding: 0em 1em;
+}
+.flexlist a:hover{
+    color:whitesmoke;
+	padding: 1em 2em;
+}
+.active{
+    padding: 0.6875em 0em;
+    border-top: 5px solid yellow;
+    color:gray;
+}
+.active:hover{
+    padding: 1em 0em;
+    color:white;
+}
+.stop{
+    padding: 1em 0em;
+    background-color: black;
+}
+
+
+.message{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    #align-items:flex-end;
+    background:blue;
+    width:100%;
+    height:800px;
+    position:relative;
+    margin-top: 4em;
+}
+
+
+
+footer{
+	text-align: center;
+}
+footer p{
+	margin: 0 0 0 0;
+}
+
+
+
+
+
+/* Show section before nav on mobile */
+.backlayout
+{
+	display: grid;
+	height:100vh;
+	width:100vw;
+	grid-template-areas: 	"header"
+				            "aside"
+				            "beside"
+				            "section"
+				            "footer";
+}
+
+
+/* Apply the following styles to screens > 720px */
+
+@media only screen and (min-width: 720px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 720px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+@media only screen and (min-width: 900px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 900px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+@media only screen and (min-width: 1024px)
+{
+
+	.backlayout
+	{
+		display: grid;
+		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 1024px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+
+/* Apply the following styles to screens > 1024px */
+@media only screen and (min-width: 1200px) {
+
+	.backlayout{
+		display: grid;
+		overflow-x: hidden; !important;
+		height:100vh;
+		width:100vw;
+		grid-template-rows: auto auto 4vh;
+		grid-template-columns: auto 1200px auto;
+		grid-template-areas: 	"aside header beside"
+								"aside section beside"
+								"footer footer footer";
+	}
+}
+

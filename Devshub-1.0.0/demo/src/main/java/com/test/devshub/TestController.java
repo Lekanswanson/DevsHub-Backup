@@ -39,6 +39,11 @@ public class TestController
     @Autowired
     private Experience experience;
 
+    private String path ="../images/";
+
+    @Autowired
+    private Project project;
+
 
     private final String UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\images\\";
     private final String VID_UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\videos\\";
@@ -57,6 +62,10 @@ public class TestController
         member.setFirstName(m.getFirstName());
         member.setLastName(m.getLastName());
         member.setLocation(m.getLocation());
+        member.setImage(path+"person.png");
+        member.setVideo("");
+        member.setColor("#cad07c");
+
         model.addAttribute("member", member);
         return "redirect:/home/"+member.getFirstName();
     }
@@ -111,6 +120,13 @@ public class TestController
         return "redirect:/home/"+member.getFirstName();
     }
 
+    @RequestMapping(method = RequestMethod.POST, path = "/saveProject")
+    public String addProject(@ModelAttribute Project project, Model model)
+    {
+        System.out.println(project);
+        return "redirect:/user/projects";
+    }
+
 
     @RequestMapping(method = RequestMethod.POST, path = "/saveExperience")
     public String saveExperience(@ModelAttribute Experience experience, Model model)
@@ -124,6 +140,7 @@ public class TestController
     @RequestMapping(method=RequestMethod.GET, path="/home/{user}")
     public String home(Model model)
     {
+        model.addAttribute("color", member.getColor());
         model.addAttribute("member", member);
         model.addAttribute("myed", education);
         model.addAttribute("experience", experience);
@@ -174,6 +191,7 @@ public class TestController
     public String returnProfile(Model model)
     {
         model.addAttribute("article", MemberDB.articles.get(0));
+        model.addAttribute("article1", MemberDB.articles.get(1));
         model.addAttribute("member", member);
         return "profile";
     }
@@ -181,12 +199,14 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path = "/user/projects")
     public String returnProjects(Model model)
     {
+        model.addAttribute("project", new Project());
+        model.addAttribute("myproject", MemberDB.projects.get(0));
         model.addAttribute("member", member);
         return "projects";
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/user/save/image")
-    public String uploadFileCv(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) throws InterruptedException {
+    public String uploadFileCv(@RequestParam("file") MultipartFile file) throws InterruptedException {
 
         // check if file is empty
         if (file.isEmpty()) {
@@ -205,15 +225,13 @@ public class TestController
         }
         String path ="../images/"+fileName;
 
-        // return success response
-        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
         member.setImage(path);
 
         return "redirect:/home/"+member.getFirstName();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/profile/save/image")
-    public String uploadFileProfile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) throws InterruptedException {
+    public String uploadFileProfile(@RequestParam("file") MultipartFile file) throws InterruptedException {
 
         // check if file is empty
         if (file.isEmpty()) {
@@ -233,14 +251,18 @@ public class TestController
         }
         String path ="../images/"+fileName;
 
-        // return success response
-        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
         member.setImage(path);
         return "redirect:/user/profile";
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/projects/save/video")
-    public String uploadVideo(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) throws InterruptedException {
+    public String uploadVideo(@RequestParam("file") MultipartFile file, @ModelAttribute Project project) throws InterruptedException {
+        MemberDB.projects.get(0).setTitle(project.getTitle());
+        MemberDB.projects.get(0).setDescription(project.getDescription());
+        MemberDB.projects.get(0).setLanguage(project.getLanguage());
+        MemberDB.projects.get(0).setTechnology(project.getTechnology());
+        MemberDB.projects.get(0).setVideoName(project.getVideoName());
+
         // check if file is empty
         if (file.isEmpty()) {
             System.out.println("No file");
@@ -269,6 +291,7 @@ public class TestController
         System.out.println(file.getSize() + " <---[]---> " + part);
 
         member.setVideo(part);
+
         return "redirect:/user/projects";
     }
 
@@ -279,10 +302,46 @@ public class TestController
         return "educations";
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/about")
+    @RequestMapping(method = RequestMethod.GET, path = "/user/about")
     public String getAboutPage(Model model)
     {
         model.addAttribute("member", member);
         return "about";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/user/learn")
+    public String getLearnPage(Model model)
+    {
+        model.addAttribute("member", member);
+        return "learn";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/user/messages")
+    public String getMessages(Model model)
+    {
+        model.addAttribute("member", member);
+        return "messages";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/article/addlike")
+    public String likeArticle(Model model)
+    {
+        /**
+            if(article.get(articleId).getLikes().contains(memberId)
+            {
+                memberHasAlreadyLikedArticle;
+            }
+
+         **/
+
+        MemberDB.articles.get(0).setLikes(MemberDB.articles.get(0).getLikes() + 1);
+        return "redirect:/user/profile";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/user/setcolor")
+    public String changeBackground(Model model, Member member)
+    {
+        this.member.setColor(member.getColor());
+        return "redirect:/home/"+member.getFirstName();
     }
 }

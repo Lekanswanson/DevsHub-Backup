@@ -17,6 +17,8 @@ public class MemberDB
     static List<Member> members = new ArrayList<Member>();
     static ArrayList<Articles> articles = new ArrayList<>();
 
+    static ArrayList<Project> projects = new ArrayList<>();
+
     static int memberCount=0;
     static int ID=0;
 
@@ -41,12 +43,18 @@ public class MemberDB
         admin.setLocation("null");
         admin.setImage(path+"person.png");
         admin.setVideo("");
+        admin.setColor("#cad07c");
 
         members.add(admin);
         members.add(user1);
         members.add(user2);
 
-        articles.add(new Articles(title, description, url));
+        articles.add(new Articles(title, description, url,0));
+        articles.add(new Articles("Docker", "Docker is an open source platform for building, deploying, and managing containerized applications." +
+                "Learn about containers, how they compare to VMs, and why Docker is so widely adopted and used.",
+                "https://www.ibm.com/cloud/learn/docker", 0));
+
+        projects.add(new Project("", "", "", "", ""));
     }
 
     public static List<Member> getMembers()

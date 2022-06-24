@@ -12,13 +12,16 @@ public class Articles
     private String description;
     private String link;
 
+    private int likes;
+
     public Articles(){}
 
-    public Articles(String title, String description, String link)
+    public Articles(String title, String description, String link, int likes)
     {
         this.title=title;
         this.description=description;
         this.link=link;
+        this.likes=likes;
     }
 
     public String getTitle() {
@@ -43,5 +46,13 @@ public class Articles
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }
