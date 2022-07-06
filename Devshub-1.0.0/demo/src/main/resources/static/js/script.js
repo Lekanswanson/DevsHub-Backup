@@ -2,7 +2,7 @@ window.addEventListener("load", switchSize)
 function switchSize()
 {
    var image = document.getElementById('userimg')
-   if(image.src!=="http://localhost:8080/images/person.png")
+   if(image.src!=="http://"+window.location.host+"/images/person.png")
    {
         image.classList.remove("default");
         image.classList.add("replace");
