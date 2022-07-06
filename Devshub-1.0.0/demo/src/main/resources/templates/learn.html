@@ -4,13 +4,13 @@
 <head>
     <title>DevsHub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/aboutstyle.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{/css/learnstyle.css}" type="text/css" rel="stylesheet"/>
 </head>
 
 <body>
 <div class="backlayout" id="backlayout">
     <header>
-        <div style="z-index:1; position:fixed; width:100vw; background-color: black; margin-top:0em; border: 1px solid #d9d9d9; display:flex; flex-direction:row; justify-content: center;">
+        <div style="z-index:1; position:fixed; width:1200px; background-color: black; margin-top:0em; border: 1px solid #d9d9d9; display:flex; flex-direction:row; justify-content: center;">
             <div id="prof" class="flexlist"><a href="/user/profile">Profile</a></div>
             <div id="cv" class="flexlist"><a href="/user/cv">CV</a></div>
             <div class="flexlist"><a href="/user/projects">Projects</a></div>
@@ -27,15 +27,39 @@
     </header>
 
     <section>
-        <div style="display:flex; justify-content:center;align-items:center; width:100vw: height:400px;">
-            <p>Codility/Hackerank Integration</p>
+        <div style="width:100%; height:100%; background:blue; display:flex; flex-direction:row; align-items:center; justify-content:space-evenly;">
+            <div style="width:400px; height:500px; border:1px solid black; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <div>
+                    <h2>Preparing for an interview?</h2>
+                    <br>
+                    <h4>Here are some of the top interview questions.</h4>
+                    <h4>Have a look at these resources.</h4>
+                </div>
+            </div>
+
+            <div style="width:400px; height:500px; border:1px solid black; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <div>
+                    <h1>Practise your coding skills</h1>
+                    <br>
+                    <h3>Codility</h3>
+                    <h3>HackerRank</h3>
+                    <h3>Neetcode</h3>
+                </div>
+            </div>
         </div>
     </section>
 
+    <aside>
+    </aside>
+
+    <beside>
+
+    </beside>
+
     <footer>
-        <div style="display:flex; flex-direction:row; justify-content:center; align-items: center; height:100%;">
-            <p style="margin:0;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
-            <p style="margin:0;"><a href="">Terms and conditions</a>
+        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
+            <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
+            <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
             <p><a href="">Privacy policy</a>
         </div>
     </footer>

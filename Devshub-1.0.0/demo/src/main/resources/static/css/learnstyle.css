@@ -31,8 +31,8 @@ footer{
 }
 
 
-a:link {
-	text-decoration: none;
+a:link{
+    text-decoration:none;
 }
 
 .flexlist{
@@ -66,53 +66,7 @@ a:link {
 }
 
 
-.showMemberName{
-    width:100%;
-    height:700px;
-    overflow-x:auto;
-}
 
-.buttdiv{
-    border:1px solid black;
-}
-.buttclass{
-    width:100%;
-    height:100px;
-}
-
-.message{
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    align-items:center;
-    #align-items:flex-end;
-    background:white;
-    border: 1px solid black;
-    width:100%;
-    height:800px;
-    position:relative;
-    margin-top: 4em;
-}
-
-.hide{
-    display:none;
-}
-.show{
-    width:100%;
-    min-height:200px;
-    height:auto;
-    background:green;
-}
-
-.flow{
-    display:flex;
-    flex-direction:column;
-}
-
-
-input{
-    border: 1px solid black;
-}
 
 
 footer{

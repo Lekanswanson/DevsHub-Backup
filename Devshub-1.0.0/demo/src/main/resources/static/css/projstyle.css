@@ -85,8 +85,9 @@ footer{
 }
 
 
-
-
+a:link {
+	text-decoration: none;
+}
 .flexlist{
     padding: 1em 0em;
     background-color: black;
@@ -94,16 +95,15 @@ footer{
 .flexlist:hover{
 	border-top: 5px solid green;
 }
-.flexlist a, a:link{
+.flexlist a{
 	text-decoration: none;
 	border: none;
-	padding: 0em 1em;
+	padding: 1em 1em;
 }
 .flexlist a:hover{
     color:whitesmoke;
 	padding: 1em 2em;
 }
-
 .active{
     padding: 0.6875em 0em;
     border-top: 5px solid yellow;
@@ -283,7 +283,7 @@ footer p{
 		height: 100vh;
 		width:100vw;
 		overflow-x: hidden; !important;
-		grid-template-rows: auto auto 4vh;
+		grid-template-rows: 4vh auto 4vh;
 		grid-template-columns: 20vw 60vw 20vw;
 		grid-template-areas: 	"aside header beside"
 								"aside section beside"

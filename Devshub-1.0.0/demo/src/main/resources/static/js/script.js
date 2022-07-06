@@ -160,7 +160,7 @@ function editEducationForm(education) {
 
     alert(education);
     var element = document.getElementById(education);
-    element.classList.add("educationbox");
+    element.classList.add("displayForms");
 }
 
 function editExperienceForm(experience) {
@@ -174,12 +174,12 @@ function editExperienceForm(experience) {
     document.getElementById(myArray[5]+'-'+myArray[0]).value = myArray[5]
 
     var element = document.getElementById(experience);
-    element.classList.add("educationbox");
+    element.classList.add("displayForms");
 }
 
 function closeEditForm(id) {
     var element = document.getElementById(id);
-    element.classList.remove("educationbox");
+    element.classList.remove("displayForms");
 }
 
 function userAction() {
@@ -227,7 +227,6 @@ let name = "";
 function setNameVar(val)
 {
     name = val.value.split("\\")[2];
-    alert(name)
 }
 
 function addProgrammingLanguages(menu, ident, txtfield)

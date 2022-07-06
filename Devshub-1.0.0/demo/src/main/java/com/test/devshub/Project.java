@@ -11,17 +11,17 @@ public class Project
     private String description;
     private String language;
     private String technology;
-    private String videoName;
+    private String video;
 
     public Project(){}
 
-    public Project(String title, String description, String language, String technology, String videoName)
+    public Project(String title, String description, String language, String technology, String video)
     {
         this.title=title;
         this.description=description;
         this.language=language;
         this.technology=technology;
-        this.videoName=videoName;
+        this.video=video;
     }
 
     public String getTitle() {
@@ -56,17 +56,17 @@ public class Project
         this.technology = technology;
     }
 
-    public String getVideoName() {
-        return videoName;
+    public String getVideo() {
+        return video;
     }
 
-    public void setVideoName(String videoPath) {
-        this.videoName = videoPath;
+    public void setVideo(String video) {
+        this.video = video;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s %s %s %s %s", title, description, language, technology, videoName);
+        return String.format("%s %s %s %s %s", title, description, language, technology, video);
     }
 }

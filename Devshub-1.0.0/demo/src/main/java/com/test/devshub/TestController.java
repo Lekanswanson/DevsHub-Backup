@@ -1,29 +1,19 @@
 package com.test.devshub;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.annotation.ApplicationScope;
-import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
+import java.util.*;
 
 
 @Controller
@@ -38,16 +28,20 @@ public class TestController
     private Education education;
     @Autowired
     private Experience experience;
+    @Autowired
+    private SimpleSender sender;
+    @Autowired
+    private Message message;
+
+    private ArrayList<Message> messages;
 
     private String path ="../images/";
-
-    @Autowired
-    private Project project;
-
+    private String videoPath ="../videos/";
 
     private final String UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\images\\";
     private final String VID_UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\videos\\";
     private final String CLASS_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\target\\classes\\static\\videos\\";
+
 
     @RequestMapping(method = RequestMethod.GET, path="/devshub")
     public String foo(Model model)
@@ -63,7 +57,6 @@ public class TestController
         member.setLastName(m.getLastName());
         member.setLocation(m.getLocation());
         member.setImage(path+"person.png");
-        member.setVideo("");
         member.setColor("#cad07c");
 
         model.addAttribute("member", member);
@@ -119,14 +112,6 @@ public class TestController
         model.addAttribute("education", new Education());
         return "redirect:/home/"+member.getFirstName();
     }
-
-    @RequestMapping(method = RequestMethod.POST, path = "/saveProject")
-    public String addProject(@ModelAttribute Project project, Model model)
-    {
-        System.out.println(project);
-        return "redirect:/user/projects";
-    }
-
 
     @RequestMapping(method = RequestMethod.POST, path = "/saveExperience")
     public String saveExperience(@ModelAttribute Experience experience, Model model)
@@ -190,8 +175,7 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path = "/user/profile")
     public String returnProfile(Model model)
     {
-        model.addAttribute("article", MemberDB.articles.get(0));
-        model.addAttribute("article1", MemberDB.articles.get(1));
+        model.addAttribute("articles", MemberDB.articles);
         model.addAttribute("member", member);
         return "profile";
     }
@@ -200,7 +184,7 @@ public class TestController
     public String returnProjects(Model model)
     {
         model.addAttribute("project", new Project());
-        model.addAttribute("myproject", MemberDB.projects.get(0));
+        model.addAttribute("myprojects", member.getProjects());
         model.addAttribute("member", member);
         return "projects";
     }
@@ -224,7 +208,6 @@ public class TestController
             e.printStackTrace();
         }
         String path ="../images/"+fileName;
-
         member.setImage(path);
 
         return "redirect:/home/"+member.getFirstName();
@@ -256,28 +239,31 @@ public class TestController
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/projects/save/video")
-    public String uploadVideo(@RequestParam("file") MultipartFile file, @ModelAttribute Project project) throws InterruptedException {
-        MemberDB.projects.get(0).setTitle(project.getTitle());
-        MemberDB.projects.get(0).setDescription(project.getDescription());
-        MemberDB.projects.get(0).setLanguage(project.getLanguage());
-        MemberDB.projects.get(0).setTechnology(project.getTechnology());
-        MemberDB.projects.get(0).setVideoName(project.getVideoName());
+    public String uploadVideo(@RequestParam("file") MultipartFile file, @ModelAttribute Project project) throws InterruptedException
+    {
+        System.out.println(project);
 
-        // check if file is empty
+        if(!project.getVideo().isEmpty()) {
+            project.setVideo(videoPath+project.getVideo());
+            System.out.println(project.getVideo());
+            member.addProject(project);
+        }
+        else {
+            member.addProject(project);
+        }
+
         if (file.isEmpty()) {
-            System.out.println("No file");
             return "redirect:/user/projects";
         }
-        // normalize the file path
+
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        // save the file on the local file system
         try(InputStream inputStream = file.getInputStream()) {
             Path path = Paths.get(VID_UPLOAD_DIR + fileName);
             Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
 
             File directory = new File(CLASS_DIR);
-            if (! directory.exists()) {
+            if (!directory.exists()) {
                 directory.mkdir();
                 System.out.println("Making Dir");
             }
@@ -287,11 +273,6 @@ public class TestController
         catch (IOException e) {
             e.printStackTrace();
         }
-        String part="../videos/"+fileName;
-        System.out.println(file.getSize() + " <---[]---> " + part);
-
-        member.setVideo(part);
-
         return "redirect:/user/projects";
     }
 
@@ -316,24 +297,17 @@ public class TestController
         return "learn";
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/user/messages")
-    public String getMessages(Model model)
-    {
-        model.addAttribute("member", member);
-        return "messages";
-    }
-
     @RequestMapping(method = RequestMethod.POST, path = "/article/addlike")
     public String likeArticle(Model model)
     {
         /**
             if(article.get(articleId).getLikes().contains(memberId)
-            {
                 memberHasAlreadyLikedArticle;
-            }
+                removeLike;
+            else
+                addLike;
 
          **/
-
         MemberDB.articles.get(0).setLikes(MemberDB.articles.get(0).getLikes() + 1);
         return "redirect:/user/profile";
     }
@@ -342,6 +316,117 @@ public class TestController
     public String changeBackground(Model model, Member member)
     {
         this.member.setColor(member.getColor());
-        return "redirect:/home/"+member.getFirstName();
+        return "redirect:/home/"+this.member.getFirstName();
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, path = "/user/messages")
+    public String getMessagesView(Model model)
+    {
+        MemberDB.sender="null";
+        model.addAttribute("member", member);
+        model.addAttribute("senderName", member.getEmail());
+
+        Map<String, ArrayList<Message>> m = member.getMessages();
+        ArrayList<String> allusers = new ArrayList<>();
+        ArrayList<Message> msgs = null;
+        String defaultUser = null;
+
+        for(String key : m.keySet())
+        {
+            allusers.add(key);
+        }
+
+        try
+        {
+            defaultUser = allusers.get(0);
+            msgs = m.get(defaultUser);
+            allusers.remove(0);
+        }
+        catch (Exception indexNotFoundException)
+        {
+            System.out.println(indexNotFoundException.getMessage());
+        }
+
+        model.addAttribute("user", defaultUser);
+        model.addAttribute("userMsg", msgs);
+        model.addAttribute("allusers", allusers);
+        model.addAttribute("map", m);
+        model.addAttribute("newMessage", new Message());
+        model.addAttribute("message", message);
+        model.addAttribute("showclass", MemberDB.message.getShowClass());
+        model.addAttribute("hideclass", MemberDB.message.getHideClass());
+        model.addAttribute("messages", messages);
+
+        return "messages";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/user/sendMessage")
+    public String sendMessage(Model model, @ModelAttribute Message message)
+    {
+        sender.sendSimpleMessage(message);
+        return "redirect:/user/messages";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/user/createMessage")
+    @ResponseBody
+    public String createMessage(Model model, @RequestParam("sender") String sender,@RequestParam("receiver") String receiver,@RequestParam("message") String message)
+    {
+        Message m = new Message(sender,receiver,message,"show","hide");
+        MemberDB.sender=sender;
+        sendMessage(model, m);
+        return  m.toString();
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, path = "/user/changeClass")
+    public String changeClass(Model model, @ModelAttribute Message message)
+    {
+        messages = member.getMessages().get(message.getReceiver());
+        System.out.println(message.getReceiver());
+        messages.forEach(a -> System.out.println(a));
+
+        if(this.message.getShowClass().equals("show"))
+        {
+            MemberDB.message.setShowClass("hide");
+            MemberDB.message.setHideClass("show");
+        }
+        return "redirect:/user/messages";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/receiver/inbox")
+    @ResponseBody
+    public String getReceiverInbox(Model model)
+    {
+        String message=null;
+        if(!MemberDB.sender.equals("null") && !member.equals(MemberDB.sender))
+        {
+            int currentSize=0;
+            int oldSize=0;
+
+            try{
+                currentSize = member.getMessages().get(MemberDB.sender).size();
+                oldSize = member.getMessages().get(MemberDB.sender).get(currentSize-1).getSize();
+            }
+            catch (Exception e)
+            {
+                return e.getMessage();
+            }
+
+            if(currentSize > oldSize)
+            {
+                member.getMessages().get(MemberDB.sender).get(currentSize-1).setSize(currentSize);
+                message = member.getMessages().get(MemberDB.sender).get(currentSize-1).toString();
+            }
+        }
+        return message;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/user/email")
+    @ResponseBody
+    public String getSenderEmail(Model model)
+    {
+        return member.getEmail();
     }
 }
+

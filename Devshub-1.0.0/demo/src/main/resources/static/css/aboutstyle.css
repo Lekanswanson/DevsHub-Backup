@@ -91,10 +91,10 @@ footer{
 .flexlist:hover{
 	border-top: 5px solid green;
 }
-.flexlist a, a:link{
+.flexlist a{
 	text-decoration: none;
 	border: none;
-	padding: 0em 1em;
+	padding: 1em 1em;
 }
 .flexlist a:hover{
     color:whitesmoke;
@@ -106,12 +106,16 @@ footer{
     color:gray;
 }
 .active:hover{
-    padding: 1em 1em;
+    padding: 1em 0em;
     color:white;
 }
 .stop{
     padding: 1em 0em;
     background-color: black;
+}
+
+a:link {
+	text-decoration: none;
 }
 
 

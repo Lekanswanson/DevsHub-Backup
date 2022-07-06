@@ -80,7 +80,9 @@ footer{
   color: #FFF;
 }
 
-
+a:link {
+	text-decoration: none;
+}
 
 
 
@@ -91,10 +93,9 @@ footer{
 .flexlist:hover{
 	border-top: 5px solid green;
 }
-.flexlist a, a:link{
-	text-decoration: none;
+.flexlist a{
 	border: none;
-	padding: 0em 1em;
+	padding: 1em 1em;
 }
 .flexlist a:hover{
     color:whitesmoke;
@@ -106,7 +107,7 @@ footer{
     color:gray;
 }
 .active:hover{
-    padding: 1em 1em;
+    padding: 1em 0em;
     color:white;
 }
 
@@ -209,63 +210,6 @@ footer{
 }
 
 
-.bcenter {
-  background: #FF7A59;
-  width: 200px;
-  height: 80px;
-  border-radius: 50%;
-  #display: flex;
-  align-items: center;
-  text-align: center;
-  margin-top: 2em;
-  margin-left: 3em;
-}
-
-
-.bplayer {
-  margin-top: 2em;
-  margin-left: -3em;
-  width: 480px;
-  height: 80px;
-  border-radius: 40px;
-  background-image: radial-gradient(circle at 38px 40px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40px, blue 40px);
-  color: #FFF;
-}
-
-#facebook-icon {
-      background: blue;
-      text-indent: -999em;
-      width: 100px;
-      height: 110px;
-      box-sizing: content-box;
-      border-radius: 5px;
-      position: relative;
-      overflow: hidden;
-      border: 15px solid blue;
-      border-bottom: 0;
-}
-#facebook-icon:before {
-      content: "/20";
-      position: absolute;
-      background: blue;
-      width: 40px;
-      height: 90px;
-      bottom: -30px;
-      right: -37px;
-      border: 20px solid #eee;
-      border-radius: 25px;
-      box-sizing: content-box;
-}
-#facebook-icon:after {
-      content: "/20";
-      position: absolute;
-      width: 55px;
-      top: 50px;
-      height: 20px;
-      background: #eee;
-      right: 5px;
-      box-sizing: content-box;
-}
 
 
 .navb{
