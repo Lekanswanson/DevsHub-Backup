@@ -11,10 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @Component
-public class SimpleSender {
-
+public class SimpleSender
+{
 	@Autowired
 	private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private SQL database;
 
     public SimpleSender(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
@@ -26,6 +29,7 @@ public class SimpleSender {
         Member sender;
 
         sender = MemberDB.getMember(message.getSender());
+
         if(sender.getMessages().containsKey(message.getReceiver()))
         {
             inbox = sender.getMessages().get(message.getReceiver());
@@ -43,6 +47,8 @@ public class SimpleSender {
         try {
         	Thread.sleep(500);
         }
-        catch (Exception ex) {}
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

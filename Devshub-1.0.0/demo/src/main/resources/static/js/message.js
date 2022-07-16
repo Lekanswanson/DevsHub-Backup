@@ -18,6 +18,7 @@ function showMessageDiv(user){
             alert(name.trim() + "<----->" + user)
             try
             {
+                document.getElementById("rcvname").value = user;
                 document.getElementById(user).classList.remove("hide");
                 document.getElementById(user).classList.add("show");
             }
@@ -73,6 +74,7 @@ function postform()
         },
         success: function(data)
         {
+            document.getElementById("dmsg").value = "";
             if(data)
             {
                 var exists = 'false';
@@ -283,6 +285,9 @@ function addMessage(id, data)
 
     const currentDiv = document.getElementById(id);
     currentDiv.appendChild(newDiv);
+
+    const currView = document.getElementById("currView");
+    currView.scrollTop = currView.scrollHeight;
 }
 
 function getUser(receiver) {

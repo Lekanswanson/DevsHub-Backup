@@ -1,5 +1,6 @@
 package com.test.devshub;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,8 @@ public class SimpleReceiver
 	@Value("${filename}")
 	private String filename;
 
-	ArrayList<Message> inbox = new ArrayList<>();
+	@Autowired
+	private SQL database;
 
 	@JmsListener(destination="destination", containerFactory="myFactory")
 	public void receiveSimpleMessage(Message message)

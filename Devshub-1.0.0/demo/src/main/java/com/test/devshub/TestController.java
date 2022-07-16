@@ -33,6 +33,9 @@ public class TestController
     @Autowired
     private Message message;
 
+    @Autowired
+    private SQL database;
+
     private ArrayList<Message> messages;
 
     private String path ="../images/";
@@ -46,6 +49,7 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path="/devshub")
     public String foo(Model model)
     {
+        member=null;
         model.addAttribute("memberEmail", new MemberEmail());
         return "foo";
     }
@@ -59,6 +63,8 @@ public class TestController
         member.setImage(path+"person.png");
         member.setColor("#cad07c");
 
+        database.addMember(member);
+
         model.addAttribute("member", member);
         return "redirect:/home/"+member.getFirstName();
     }
@@ -67,9 +73,15 @@ public class TestController
     public String saveMessage(@ModelAttribute Member m, Model model)
     {
         if(m.getMessage().isEmpty())
-           member.setMessage(null);
+        {
+            member.setMessage("null");
+            database.setMessage(member, null);
+        }
         else
+        {
             member.setMessage(m.getMessage());
+            database.setMessage(member, m.getMessage());
+        }
         model.addAttribute("member", member);
         return "redirect:/home/"+member.getFirstName();
     }
@@ -91,14 +103,14 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path = "/next")
     public String next(@ModelAttribute MemberEmail memberEmail, Model model)
     {
-        if(MemberDB.existAlready(memberEmail))
+        if(database.existAlready(memberEmail))
         {
             System.out.println(memberEmail.getEmail() + " already exists! Sign in instead;");
             return "redirect:/newaccount";
         }
         else
         {
-            member = MemberDB.getMember(memberEmail.getEmail());
+            member = new Member(memberEmail, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap());
             model.addAttribute("member", member);
             return "nextpage";
         }
@@ -108,6 +120,8 @@ public class TestController
     public String saveEducationInformation(@ModelAttribute Education edu, Model model)
     {
         member.setEducation(edu);
+        database.saveEducation(member, edu);
+
         model.addAttribute("member", member);
         model.addAttribute("education", new Education());
         return "redirect:/home/"+member.getFirstName();
@@ -117,6 +131,8 @@ public class TestController
     public String saveExperience(@ModelAttribute Experience experience, Model model)
     {
         member.setExperiences(experience);
+        database.saveExperience(member, experience);
+
         model.addAttribute("member", member);
         model.addAttribute("experience", new Experience());
         return "redirect:/home/"+member.getFirstName();
@@ -136,9 +152,9 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path = "/profile")
     public String signIn(@ModelAttribute MemberEmail memberEmail, Model model)
     {
-        if(MemberDB.validate(memberEmail))
+        if(database.validateEmail(memberEmail))
         {
-            member = MemberDB.getMember(memberEmail.getEmail());
+            member = database.getMember(memberEmail);
             model.addAttribute("member", member);
             return "redirect:/home/"+member.getFirstName();
         }
@@ -373,9 +389,11 @@ public class TestController
     public String createMessage(Model model, @RequestParam("sender") String sender,@RequestParam("receiver") String receiver,@RequestParam("message") String message)
     {
         Message m = new Message(sender,receiver,message,"show","hide");
+        database.addMessageToInbox(m);
+
         MemberDB.sender=sender;
         sendMessage(model, m);
-        return  m.toString();
+        return m.toString();
     }
 
 
@@ -429,4 +447,3 @@ public class TestController
         return member.getEmail();
     }
 }
-

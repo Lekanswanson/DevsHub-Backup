@@ -30,6 +30,7 @@ public class MemberDB
 
     static String sender ="null";
 
+
     static
     {
         Member admin = new Member(new MemberEmail("admin", ""), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap());
@@ -62,6 +63,8 @@ public class MemberDB
         user3.setLocation("London UK");
         user3.setImage(path+"person.png");
         user3.setColor("#cad07c");
+
+
 
         members.add(admin);
         members.add(user1);

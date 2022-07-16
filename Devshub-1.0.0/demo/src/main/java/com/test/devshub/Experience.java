@@ -16,10 +16,10 @@ public class Experience
 
     public Experience(){}
 
-    public Experience(String companyName, String jobTtitle, int yearStarted, int yearEnded, String location)
+    public Experience(String companyName, String jobTitle, int yearStarted, int yearEnded, String location)
     {
         this.companyName=companyName;
-        this.jobTitle=jobTtitle;
+        this.jobTitle=jobTitle;
         this.yearStarted=yearStarted;
         this.yearEnded=yearEnded;
         this.location=location;

@@ -60,8 +60,6 @@ public class Member
 
     public void setExperiences(Experience experience)
     {
-        MemberDB.expID++;
-        experience.setId(MemberDB.expID);
         this.experiences.add(experience);
     }
     public ArrayList<Experience> getExperiences()
@@ -71,8 +69,6 @@ public class Member
 
     public void setEducation(Education education)
     {
-        MemberDB.ID++;
-        education.setId(MemberDB.ID);
         this.education.add(education);
     }
     public ArrayList<Education> getEducation()
@@ -156,19 +152,8 @@ public class Member
     }
 
 
-    public void addMessagesToInbox(String name, ArrayList<Message> message)
-    {
-        /**
-
-         if(map.containsMessageFrom(member)
-         appendMessageToList;
-         else
-         createNewMap;
-
-         **/
+    public void addMessagesToInbox(String name, ArrayList<Message> message) {
         messages.put(name, message);
-        //System.out.println(messages.entrySet());
-        System.out.println("Added");
     }
 
     public Map<String, ArrayList<Message>> getMessages() {

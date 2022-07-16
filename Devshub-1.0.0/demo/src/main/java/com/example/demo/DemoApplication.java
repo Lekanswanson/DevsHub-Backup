@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.test.devshub.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -28,11 +29,15 @@ public class DemoApplication
 	{
 		ApplicationContext ctx = SpringApplication.run(DemoApplication.class, args);
 
-		System.out.println("\n----Books--------\n");
-		for(int i=0; i<ctx.getBean(Book.class).getBooksdb().size(); i++)
-		{
-			System.out.println(ctx.getBean(Book.class).getBooksdb().get(i).toString());
-		}
+//		System.out.println("\n----Books--------\n");
+//		for(int i=0; i<ctx.getBean(Book.class).getBooksdb().size(); i++)
+//		{
+//			System.out.println(ctx.getBean(Book.class).getBooksdb().get(i).toString());
+//		}
+
+		ctx.getBean(SQL.class).initDBConnection();
+//		ctx.getBean(SQL.class).selectAllFromDetails();
+//		ctx.getBean(SQL.class).selectBetween40And50();
 	}
 
 	@Bean

@@ -2,10 +2,13 @@ window.addEventListener("load", switchSize)
 function switchSize()
 {
    var image = document.getElementById('userimg')
-   if(image.src!=="http://"+window.location.host+"/images/person.png")
+   if(image!==null)
    {
-        image.classList.remove("default");
-        image.classList.add("replace");
+      if(image.src!=="http://"+window.location.host+"/images/person.png")
+      {
+           image.classList.remove("default");
+           image.classList.add("replace");
+      }
    }
 }
 
