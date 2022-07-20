@@ -15,7 +15,7 @@ function showMessageDiv(user){
 
         if(name.trim() === user)
         {
-            alert(name.trim() + "<----->" + user)
+            //alert(name.trim() + "<----->" + user)
             try
             {
                 document.getElementById("rcvname").value = user;
@@ -103,7 +103,7 @@ function postform()
                         {
                             if(name.trim() !== "")
                             {
-                                alert(name);
+                                //alert(name);
                                 document.getElementById(name.trim()).classList.remove("show");
                                 document.getElementById(name.trim()).classList.add("hide");
                             }
@@ -141,6 +141,8 @@ function postform()
             {
                 if(data && document.getElementById("sndname").value.trim() !== data.split(",")[1].split(":")[1].trim())
                 {
+                    document.getElementById("notifications").classList.add("unread");
+
                     var exists = 'false';
                     const currentDiv = document.getElementById("memName");
                     const children = currentDiv.childNodes;

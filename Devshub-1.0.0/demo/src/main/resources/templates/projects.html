@@ -4,6 +4,7 @@
   <title>DevsHub</title>
   <link th:href="@{/css/projstyle.css}" type="text/css" rel="stylesheet"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script th:src="@{/jquery/jquery-3.6.0.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
 
@@ -17,7 +18,7 @@
       <div class="flexlist"><a href="/user/learn">Learn</a></div>
       <div class="flexlist"><a href="/user/messages">Messages</a></div>
       <div class="flexlist"><a href="/user/about">About</a></div>
-      <div class="flexlist"><a href="/devshub">Logout</a></div>
+      <div class="flexlist"><a href="/logout">Logout</a></div>
 
       <form class="stop">
         <input type="text" name="search">
@@ -58,7 +59,7 @@
     </div>
 
     <div id="dropdownmenu" class="hide">
-      <form action="#" th:action="@{/projects/save/video}" name="subform" method="post" id="addProject" th:object="${project}" enctype="multipart/form-data">
+      <form action="#" th:action="@{/projects/save/project}" name="subform" method="post" id="addProject" th:object="${project}" enctype="multipart/form-data">
         <h2 class="exempt" style="border:none;">Add project</h2>
         <input class="exempt" th:field="*{title}" type="text">
         <textarea class="exempt" th:field="*{description}" rows="4"></textarea>
@@ -115,11 +116,25 @@
         <div style="width:400px; height:400px; height:auto; padding:10px 0; display:flex; flex-direction:column; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
           <h2 class="project" style="border:none; border-bottom:1px solid black; border-radius:0px;" th:text="*{project.title != ''}? *{project.title} : 'Project Title'">Project Title</h2>
           <h4 class="project" style="height:50px;" th:text="*{project.description != ''}? *{project.description} : 'Project Description'"> Project Description</h4>
-          <div class="project" style="height: 100px;">
-            <label th:text="*{project.language != ''}? *{project.language} : 'Programming languages used'">Programming Languages used</label>
+
+          <div th:if="${project.language==''}" class="project" style="height: 100px;">
+            <label>Programming Languages used</label>
           </div>
-          <div class="project" style="height:100px;">
-            <label th:text="*{project.technology != ''}? *{project.technology} : 'Technologies'">Technologies used</label>
+          <div th:if="${project.language != ''}" class="project" style="height: 100px;">
+            <label>Languages</label>
+            <ul>
+              <li  th:each="language : ${project.getLanguages()}" th:text="*{language}">Programming Languages used</li>
+            </ul>
+          </div>
+
+          <div th:if="${project.technology != ''}" class="project" style="height:100px;">
+            <label>Technologies</label>
+            <ul>
+              <li th:each="technology : ${project.technologies}" th:text="*{technology}">Technologies used</li>
+            </ul>
+          </div>
+          <div th:if="${project.technology == ''}" class="project" style="height:100px;">
+            <label>Technologies used</label>
           </div>
         </div>
 

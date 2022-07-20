@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.test.devshub.Member;
+import com.test.devshub.OnlineUsers;
 import com.test.devshub.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +21,7 @@ import org.springframework.jms.support.converter.MessageType;
 
 import javax.jms.ConnectionFactory;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 @SpringBootApplication
@@ -36,8 +39,6 @@ public class DemoApplication
 //		}
 
 		ctx.getBean(SQL.class).initDBConnection();
-//		ctx.getBean(SQL.class).selectAllFromDetails();
-//		ctx.getBean(SQL.class).selectBetween40And50();
 	}
 
 	@Bean

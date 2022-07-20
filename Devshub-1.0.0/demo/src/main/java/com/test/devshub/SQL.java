@@ -1,6 +1,5 @@
 package com.test.devshub;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -38,35 +37,19 @@ public class SQL
         return successful;
     }
 
-    public void selectAllFromDetails()
+    public boolean closeConnection()
     {
-        try
-        {
-            ResultSet rs=statement.executeQuery("select * from users;");
-            while(rs.next())
-                System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+        boolean successful=false;
+        try {
+            connection.close();
+            statement.close();
+            successful=true;
         }
-        catch (Exception e)
+        catch (SQLException exception)
         {
-            System.out.println(e.getMessage());
+            System.out.println(exception.getMessage());
         }
-    }
-
-    public void selectBetween40And50()
-    {
-        ResultSet rs;
-        String cmd = "SELECT * from logindetails;";
-        try
-        {
-            rs = statement.executeQuery(cmd);
-            while (rs.next())
-            {
-                System.out.println(rs.getString("email"));
-                System.out.println(rs.getString("passcode"));
-            }
-            //connection.close();
-        }
-        catch(Exception e1){e1.printStackTrace();}
+        return successful;
     }
 
     boolean validateEmail(MemberEmail memberEmail)
@@ -160,8 +143,42 @@ public class SQL
             System.out.println(exception.getMessage());
         }
 
-        //Create message object from database
-        //Check if member is
+        command = String.format("select * from projects where email = '%s';", member.getEmail());
+        try {
+            ResultSet resultSet = statement.executeQuery(command);
+            Project project = new Project();
+
+            while (resultSet.next())
+            {
+                project.setTitle(resultSet.getString("title"));
+                project.setDescription(resultSet.getString("details"));
+                project.setLanguage(resultSet.getString("lang"));
+                project.setTechnology(resultSet.getString("technology"));
+                project.setVideo(resultSet.getString("video"));
+
+                String[] p = project.getLanguage().split("_");
+                if(p.length > 0)
+                {
+                    for(String i : p)
+                    {
+                        project.setLanguages(i.trim());
+                    }
+                }
+                String[] t = project.getTechnology().split("_");
+                if(t.length > 0)
+                {
+                    for(String i : t)
+                    {
+                        project.setTechnologies(i.trim());
+                    }
+                }
+                member.addProject(project);
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
 
         command = String.format("select * from messages;");
         try {
@@ -170,12 +187,15 @@ public class SQL
             {
                 ArrayList<Message> inbox;
 
+                int id=rs.getInt("id");
                 String sender = rs.getString("sender");
                 String receiver = rs.getString("receiver");
                 String message = rs.getString("message");
+                int size = rs.getInt("size");
 
                 Message m = new Message(sender, receiver, message, "show", "hide");
-                System.out.println(m);
+                m.setSize(size);
+                m.setId(id);
 
                 if(member.getEmail().equals(sender))
                 {
@@ -211,7 +231,6 @@ public class SQL
         {
             System.out.println(exception.getMessage());
         }
-        MemberDB.addMember(member);
         return member;
     }
 
@@ -248,7 +267,7 @@ public class SQL
 
     boolean existAlready(MemberEmail email) {
         boolean exists=false;
-        String command = String.format("select email from logindetails where email='%s';" + email.getEmail());
+        String command = String.format("select email from logindetails where email='%s';", email.getEmail());
         try
         {
             ResultSet rs = statement.executeQuery(command);
@@ -287,9 +306,16 @@ public class SQL
         boolean successful=false;
         try
         {
-            String command = String.format("update users set message = '%s' where email = '%s';", message, member.getEmail());
+            String command;
+            if(message==null)
+            {
+                command = String.format("update users set message=null where email = '%s';", member.getEmail());
+            }
+            else
+            {
+                command = String.format("update users set message = '%s' where email = '%s';", message, member.getEmail());
+            }
             statement.executeUpdate(command);
-
             successful=true;
         }
         catch (SQLException exception)
@@ -299,10 +325,10 @@ public class SQL
         return successful;
     }
 
-    public boolean addMessageToInbox(Message message)
+    boolean addMessageToInbox(Message message)
     {
         boolean successful=false;
-        String command = String.format("INSERT INTO messages VALUES ('%s', '%s', '%s', '%s');", message.getDate(), message.getSender(), message.getReceiver(), message.getMessage());
+        String command = String.format("INSERT INTO messages VALUES (null, '%s', '%s', '%s', '%s', 0);", message.getDate(), message.getSender(), message.getReceiver(), message.getMessage());
         try
         {
             statement.executeUpdate(command);
@@ -314,6 +340,164 @@ public class SQL
         }
         return  successful;
     }
+    boolean setSize(int size, int id)
+    {
+        boolean successful=false;
+        String command = String.format("update messages set size=%d where id=%d;", size, id);
+        try
+        {
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return  successful;
+    }
+
+    int getMessagesSize()
+    {
+        int size=0;
+        String command = "select * from messages;";
+        try{
+            ResultSet rs = statement.executeQuery(command);
+
+            while (rs.next())
+            {
+                size++;
+            }
+        }
+        catch (Exception exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return size;
+    }
+    ArrayList<Articles> getArticles()
+    {
+        Articles article;
+        ArrayList<Articles> articles;
+
+        articles = new ArrayList<>();
+        try{
+            String command = "select * from articles;";
+            ResultSet resultSet = statement.executeQuery(command);
+
+            while(resultSet.next())
+            {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("details");
+                String url = resultSet.getString("url");
+                int likes = resultSet.getInt("likes");
+
+                article = new Articles(id, title, description, url, likes);
+                articles.add(article);
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return articles;
+    }
+
+
+    public boolean removeArticleLike(int id) {
+        boolean successful=false;
+
+        String command = String.format("update articles set likes=likes-1 where id=%d;", id);
+        try
+        {
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+
+    public boolean removeMemberLike(Member member, int id) {
+        boolean successful=false;
+        String command = String.format("delete from memberlikes where email='%s' and articleId=%d;", member.getEmail(), id);
+        try
+        {
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+
+
+    boolean addArticleLike(int id)
+    {
+        boolean successful = false;
+        String command = String.format("update articles set likes=likes+1 where id=%d;", id);
+
+        try{
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+    boolean addMemberLike(Member member, int id)
+    {
+        boolean successful = false;
+        String command = String.format("insert into memberlikes values ('%s', '%d');", member.getEmail(), id);
+        try{
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+
+    boolean memberHasLikedArticles(Member member, int id)
+    {
+        boolean successful=false;
+        String command = String.format("select * from memberlikes where email = '%s' and articleId=%d;", member.getEmail(), id);
+
+        try {
+            ResultSet rs = statement.executeQuery(command);
+            if(rs.next())
+                successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+
+    boolean addNewProject(Project project, Member member){
+        boolean successful=false;
+        String command = String.format("insert into projects values ('%s', '%s', '%s', '%s', '%s', '%s');",
+                project.getTitle(), project.getDescription(), project.getLanguage(), project.getTechnology(), project.getVideo(), member.getEmail());
+        try {
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+
 
     public boolean updateMember()
     {

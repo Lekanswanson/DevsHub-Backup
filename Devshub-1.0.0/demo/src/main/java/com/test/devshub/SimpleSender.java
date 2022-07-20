@@ -19,6 +19,9 @@ public class SimpleSender
     @Autowired
     private SQL database;
 
+    @Autowired
+    private OnlineUsers onlineUsers;
+
     public SimpleSender(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
@@ -28,8 +31,7 @@ public class SimpleSender
         ArrayList<Message> inbox;
         Member sender;
 
-        sender = MemberDB.getMember(message.getSender());
-
+        sender = onlineUsers.getMember(message.getSender());
         if(sender.getMessages().containsKey(message.getReceiver()))
         {
             inbox = sender.getMessages().get(message.getReceiver());

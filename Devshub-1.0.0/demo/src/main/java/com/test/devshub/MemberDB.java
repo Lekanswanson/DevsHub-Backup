@@ -1,11 +1,13 @@
 package com.test.devshub;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.inject.Singleton;
 import javax.validation.constraints.Email;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -21,15 +23,7 @@ public class MemberDB
 
     static ArrayList<Message> inbox = new ArrayList<>();
     static Message message;
-    static int ID=0;
-    static int expID=0;
     static String path ="../images/";
-    static String title="What is Maven: Here's What You Need to Know";
-    static String description="Interactive maven tutorial";
-    static String url = "https://www.simplilearn.com/tutorials/maven-tutorial/what-is-maven";
-
-    static String sender ="null";
-
 
     static
     {
@@ -64,89 +58,87 @@ public class MemberDB
         user3.setImage(path+"person.png");
         user3.setColor("#cad07c");
 
-
-
         members.add(admin);
         members.add(user1);
         members.add(user2);
         members.add(user3);
 
-        articles.add(new Articles(title, description, url,0));
-        articles.add(new Articles("Docker", "Docker is an open source platform for building, deploying, and managing containerized applications." +
-                "Learn about containers, how they compare to VMs, and why Docker is so widely adopted and used.",
-                "https://www.ibm.com/cloud/learn/docker", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
-        articles.add(new Articles("What is Jenkins? The CI server explained",
-                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
-                        " for almost any combination of languages and source code repositories",
-                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(1, title, description, url,0));
+//        articles.add(new Articles(2,"Docker", "Docker is an open source platform for building, deploying, and managing containerized applications." +
+//                "Learn about containers, how they compare to VMs, and why Docker is so widely adopted and used.",
+//                "https://www.ibm.com/cloud/learn/docker",0));
+//        articles.add(new Articles(3,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(4,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(5,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(6,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(7,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(8,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(9,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(10,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(11,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(12,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(13,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(14,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(15,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(16,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(17,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(18,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(19,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
+//        articles.add(new Articles(20,"What is Jenkins? The CI server explained",
+//                "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment" +
+//                        " for almost any combination of languages and source code repositories",
+//                "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0));
     }
 
     public static List<Member> getMembers()
@@ -159,19 +151,7 @@ public class MemberDB
         members.add(member);
     }
 
-    public static Member getMember(String email)
-    {
-        Member member=null;
-        for(Member m : members)
-        {
-            if(m.getEmail().equals(email))
-                member=m;
-        }
-        return member;
-    }
-
-    public static void deleteMember(Member mem)
-    {
+    public static void removeMember(Member mem) {
         Member deleteMember=null;
         for(Member member : members)
         {
@@ -182,6 +162,17 @@ public class MemberDB
             }
         }
         members.remove(deleteMember);
+    }
+
+    public static Member getMember(String email)
+    {
+        Member member=null;
+        for(Member m : members)
+        {
+            if(m.getEmail().equals(email))
+                member=m;
+        }
+        return member;
     }
 
     public static void updateMember(Member member)

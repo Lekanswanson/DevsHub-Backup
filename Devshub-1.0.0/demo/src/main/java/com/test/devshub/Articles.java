@@ -8,16 +8,16 @@ import org.springframework.web.context.annotation.RequestScope;
 @RequestScope
 public class Articles
 {
+    private int id;
     private String title;
     private String description;
     private String link;
-
     private int likes;
-
     public Articles(){}
 
-    public Articles(String title, String description, String link, int likes)
+    public Articles(int id, String title, String description, String link, int likes)
     {
+        this.id=id;
         this.title=title;
         this.description=description;
         this.link=link;
@@ -54,5 +54,13 @@ public class Articles
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

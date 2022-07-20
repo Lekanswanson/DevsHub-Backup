@@ -1,4 +1,5 @@
 window.addEventListener("load", switchSize)
+
 function switchSize()
 {
    var image = document.getElementById('userimg')
@@ -297,3 +298,23 @@ function dropDown()
         element.classList.add("hide");
     }
 }
+
+(function pollReceiver() {
+    setTimeout(function() {
+        $.ajax({
+            url: "http://"+window.location.host+"/receiver/inbox",
+            type: "GET",
+            success: function(data)
+            {
+                if(data !== "")
+                {
+                    alert(data);
+                    document.getElementById("notifcv").style = "background:red";
+                }
+            },
+            dataType: "text",
+            complete: pollReceiver,
+            timeout: 2000
+        })
+    }, 5000);
+})();

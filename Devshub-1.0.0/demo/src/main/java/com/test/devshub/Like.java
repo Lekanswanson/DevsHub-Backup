@@ -2,8 +2,8 @@ package com.test.devshub;
 
 public class Like
 {
-    String memberName;
-    int likes;
+    private String memberName;
+    private int likes;
 
     public Like()
     {

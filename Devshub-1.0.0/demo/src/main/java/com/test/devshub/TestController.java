@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,11 +33,12 @@ public class TestController
     private SimpleSender sender;
     @Autowired
     private Message message;
-
     @Autowired
     private SQL database;
-
+    @Autowired
+    private OnlineUsers onlineUsers;
     private ArrayList<Message> messages;
+    private ArrayList<Articles> articles;
 
     private String path ="../images/";
     private String videoPath ="../videos/";
@@ -49,9 +51,15 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path="/devshub")
     public String foo(Model model)
     {
-        member=null;
         model.addAttribute("memberEmail", new MemberEmail());
         return "foo";
+    }
+    @RequestMapping(method = RequestMethod.GET, path="/logout")
+    public String logout(Model model)
+    {
+        onlineUsers.removeMember(member);
+        member=null;
+        return "redirect:/devshub";
     }
 
     @RequestMapping(method = RequestMethod.POST, path="/register")
@@ -64,6 +72,7 @@ public class TestController
         member.setColor("#cad07c");
 
         database.addMember(member);
+        onlineUsers.addMember(member);
 
         model.addAttribute("member", member);
         return "redirect:/home/"+member.getFirstName();
@@ -74,7 +83,7 @@ public class TestController
     {
         if(m.getMessage().isEmpty())
         {
-            member.setMessage("null");
+            member.setMessage(null);
             database.setMessage(member, null);
         }
         else
@@ -155,6 +164,7 @@ public class TestController
         if(database.validateEmail(memberEmail))
         {
             member = database.getMember(memberEmail);
+            onlineUsers.addMember(member);
             model.addAttribute("member", member);
             return "redirect:/home/"+member.getFirstName();
         }
@@ -186,14 +196,6 @@ public class TestController
         System.out.println(experience);
         model.addAttribute("member", member);
         return "redirect:/home/"+member.getFirstName();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/user/profile")
-    public String returnProfile(Model model)
-    {
-        model.addAttribute("articles", MemberDB.articles);
-        model.addAttribute("member", member);
-        return "profile";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/user/projects")
@@ -254,24 +256,37 @@ public class TestController
         return "redirect:/user/profile";
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/projects/save/video")
-    public String uploadVideo(@RequestParam("file") MultipartFile file, @ModelAttribute Project project) throws InterruptedException
+    @RequestMapping(method = RequestMethod.POST, path = "/projects/save/project")
+    public String addNewProject(@RequestParam("file") MultipartFile file, @ModelAttribute Project project) throws InterruptedException
     {
         System.out.println(project);
 
         if(!project.getVideo().isEmpty()) {
             project.setVideo(videoPath+project.getVideo());
-            System.out.println(project.getVideo());
-            member.addProject(project);
         }
-        else {
-            member.addProject(project);
+
+        String[] p = project.getLanguage().split("_");
+        if(p.length > 0)
+        {
+            for(String i : p)
+            {
+                project.setLanguages(i.trim());
+            }
         }
+        String[] t = project.getTechnology().split("_");
+        if(t.length > 0)
+        {
+            for(String i : t)
+            {
+                project.setTechnologies(i.trim());
+            }
+        }
+        member.addProject(project);
+        database.addNewProject(project, member);
 
         if (file.isEmpty()) {
             return "redirect:/user/projects";
         }
-
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try(InputStream inputStream = file.getInputStream()) {
@@ -313,33 +328,51 @@ public class TestController
         return "learn";
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/article/addlike")
-    public String likeArticle(Model model)
-    {
-        /**
-            if(article.get(articleId).getLikes().contains(memberId)
-                memberHasAlreadyLikedArticle;
-                removeLike;
-            else
-                addLike;
 
-         **/
-        MemberDB.articles.get(0).setLikes(MemberDB.articles.get(0).getLikes() + 1);
+    @RequestMapping(method = RequestMethod.GET, path = "/user/profile")
+    public String returnProfile(Model model)
+    {
+        articles = database.getArticles();
+
+        model.addAttribute("articles", articles);
+        model.addAttribute("member", member);
+        return "profile";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/article/addlike")
+    public String likeArticle(Model model, @RequestParam("id") int id)
+    {
+        for(Articles a : articles)
+        {
+            if(a.getId()==id)
+                a.setLikes(a.getLikes()+1);
+        }
+
+        if(database.memberHasLikedArticles(member, id))
+        {
+            System.out.println("Removing");
+            database.removeArticleLike(id);
+            database.removeMemberLike(member, id);
+        }
+        else
+        {
+            System.out.println("Adding");
+            database.addArticleLike(id);
+            database.addMemberLike(member, id);
+        }
         return "redirect:/user/profile";
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/user/setcolor")
-    public String changeBackground(Model model, Member member)
+    public String changeBackground(Model model, @ModelAttribute Member member)
     {
         this.member.setColor(member.getColor());
         return "redirect:/home/"+this.member.getFirstName();
     }
 
-
     @RequestMapping(method = RequestMethod.GET, path = "/user/messages")
     public String getMessagesView(Model model)
     {
-        MemberDB.sender="null";
         model.addAttribute("member", member);
         model.addAttribute("senderName", member.getEmail());
 
@@ -391,11 +424,9 @@ public class TestController
         Message m = new Message(sender,receiver,message,"show","hide");
         database.addMessageToInbox(m);
 
-        MemberDB.sender=sender;
         sendMessage(model, m);
         return m.toString();
     }
-
 
     @RequestMapping(method = RequestMethod.POST, path = "/user/changeClass")
     public String changeClass(Model model, @ModelAttribute Message message)
@@ -417,25 +448,39 @@ public class TestController
     public String getReceiverInbox(Model model)
     {
         String message=null;
-        if(!MemberDB.sender.equals("null") && !member.equals(MemberDB.sender))
+        try
         {
-            int currentSize=0;
-            int oldSize=0;
-
-            try{
-                currentSize = member.getMessages().get(MemberDB.sender).size();
-                oldSize = member.getMessages().get(MemberDB.sender).get(currentSize-1).getSize();
-            }
-            catch (Exception e)
+            for(String name : member.getMessages().keySet())
             {
-                return e.getMessage();
-            }
+                int currentSize=0;
+                int oldSize=0;
 
-            if(currentSize > oldSize)
-            {
-                member.getMessages().get(MemberDB.sender).get(currentSize-1).setSize(currentSize);
-                message = member.getMessages().get(MemberDB.sender).get(currentSize-1).toString();
+                try{
+                    currentSize = member.getMessages().get(name).size();
+                    oldSize = member.getMessages().get(name).get(currentSize-1).getSize();
+
+                    System.out.printf("Current size is: %d and old size is: %d \n", currentSize, oldSize);
+
+                }
+                catch (Exception e)
+                {
+                    System.out.println(e.getMessage());
+                }
+
+                if(currentSize > oldSize)
+                {
+                    member.getMessages().get(name).get(currentSize-1).setSize(currentSize);
+                    member.getMessages().get(name).get(currentSize-1).setId(database.getMessagesSize());
+
+                    message = member.getMessages().get(name).get(currentSize-1).toString();
+                    database.setSize(currentSize, database.getMessagesSize());
+                    break;
+                }
             }
+        }
+        catch (Exception exception)
+        {
+            System.out.println(exception.getMessage());
         }
         return message;
     }

@@ -4,6 +4,7 @@
     <title>DevsHub</title>
     <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script th:src="@{/jquery/jquery-3.6.0.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
 
@@ -239,9 +240,9 @@
             <div id="cv" class="flexlist active"><a class="active" href="/user/cv">CV</a></div>
             <div class="flexlist"><a href="/user/projects">Projects</a></div>
             <div class="flexlist"><a href="/user/learn">Learn</a></div>
-            <div class="flexlist"><a href="/user/messages">Messages</a></div>
+            <div id="notifcv" class="flexlist"><a href="/user/messages">Messages</a></div>
             <div class="flexlist"><a href="/user/about">About</a></div>
-            <div class="flexlist"><a href="/devshub">Logout</a></div>
+            <div class="flexlist"><a href="/logout">Logout</a></div>
         </div>
 
         <div style="display:flex; flex-direction:row;">
@@ -270,11 +271,11 @@
             <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; width:60%;">
                 <div style="width: 100%; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
                     <h2  style="border-bottom:1px solid black; width:90%; margin:0 5%;">Personal Information</h2><br>
-                    <div th:if="${member.message=='null'}" style="width:90%; margin:0 5%;">
+                    <div th:if="${member.message==null}" style="width:90%; margin:0 5%;">
                         <h4>Give possible employers a quick summary of yourself.</h4><br>
                         <p>This can help potential employers determine if you might be a good candidate.</p>
                     </div>
-                    <div th:if="${member.message!='null'}" style="width:90%; margin:0 5%;">
+                    <div th:if="${member.message!=null}" style="width:90%; margin:0 5%;">
                         <p th:object="${member}" th:text="*{message}">Message</p>
                     </div><br>
                     <button style="margin-left:5%; padding: 1em 1em;" class="btn" type="button" value="submit" onclick="openForm()">Add personal statement</button>

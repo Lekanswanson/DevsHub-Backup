@@ -21,13 +21,16 @@ public class SimpleReceiver
 	@Autowired
 	private SQL database;
 
+	@Autowired
+	private OnlineUsers onlineUsers;
+
 	@JmsListener(destination="destination", containerFactory="myFactory")
 	public void receiveSimpleMessage(Message message)
 	{
 		Member receiver;
 		try {
 			ArrayList<Message> inbox;
-			receiver = MemberDB.getMember(message.getReceiver());
+			receiver = onlineUsers.getMember(message.getReceiver());
 
 			System.out.println("Receiving: "+message);
 			if(receiver.getMessages().containsKey(message.getSender()))

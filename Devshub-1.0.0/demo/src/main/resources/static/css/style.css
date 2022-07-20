@@ -85,6 +85,9 @@ a:link {
 }
 
 
+.unread{
+    background-color: red;
+}
 
 .flexlist{
     padding: 1em 0em;

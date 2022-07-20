@@ -94,6 +94,10 @@ a:link {
     margin-top: 4em;
 }
 
+.unread{
+    background: red;
+}
+
 .hide{
     display:none;
 }

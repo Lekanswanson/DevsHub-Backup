@@ -3,6 +3,8 @@ package com.test.devshub;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import java.util.ArrayList;
+
 @Component
 @RequestScope
 public class Project
@@ -10,11 +12,13 @@ public class Project
     private String title;
     private String description;
     private String language;
+
+    private ArrayList<String> languages = new ArrayList<>();
     private String technology;
+
+    private ArrayList<String> technologies = new ArrayList<>();
     private String video;
-
     public Project(){}
-
     public Project(String title, String description, String language, String technology, String video)
     {
         this.title=title;
@@ -62,6 +66,20 @@ public class Project
 
     public void setVideo(String video) {
         this.video = video;
+    }
+
+    public ArrayList<String> getLanguages() {
+        return languages;
+    }
+    public void setLanguages(String languages) {
+        this.languages.add(languages);
+    }
+
+    public ArrayList<String> getTechnologies() {
+        return technologies;
+    }
+    public void setTechnologies(String technologies) {
+        this.technologies.add(technologies);
     }
 
     @Override

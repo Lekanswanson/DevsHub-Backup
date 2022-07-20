@@ -10,6 +10,7 @@ import java.util.Date;
 @RequestScope
 public class Message
 {
+    private int id;
     private int size=0;
     private String sender;
     private String receiver;
@@ -83,6 +84,14 @@ public class Message
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
