@@ -5,245 +5,329 @@
 	#font-family: Arial, Helvetica, sans-serif;
 }
 
-header{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: header;
-}
-section{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: section;
-}
-aside{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: aside;
-}
-beside{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: beside;
-}
-footer{
-	background-color: white;
-	grid-area: footer;
-}
+
+    header{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: header;
+    }
+    section{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: section;
+    }
+    aside{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: aside;
+    }
+    beside{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: beside;
+    }
+    footer{
+    	background-color: white;
+    	grid-area: footer;
+    }
+
+    .contain{
+        margin-top:0;
+        border: 1px solid #d9d9d9;
+        text-align: center;
+        position:relative;
+        width:100%;
+    }
+    .headerDiv{
+        width: 100%;
+        margin: auto;
+    }
+    .leftInfo{
+        width: 100px;
+        height:100%;
+        background-color:black;
+        border-top-left-radius:20px;
+        display:flex;
+        flex-direction:column;
+        justify-content:space-evenly;
+    }
+    .rightInfo{
+        float:right;
+        border-top-right-radius:20px;
+    }
+
+    .profileEditButton{
+        background:black;
+        position:absolute;
+        left:0;
+        top:0;
+        display:flex;
+        flex-direction:column;
+        height:25px;
+        opacity:0.5
+    }
+    .bgColorEdit{
+        background:inherit;
+        height:50px;
+        width:100px;
+        position:absolute;
+        right:0;
+        top:0;
+        display:flex;
+        flex-direction:row;
+        justify-content:flex-end;
+    }
+    .showColorButton{
+        height: 25px;
+        width:50px;
+        background:#351717;
+        opacity:0.5;
+    }
+
+    .btn:hover{
+    	background-color: red;
+    }
+    .btn{
+        background-color: pink;
+    }
+
+    .formbtn:hover{
+    	background-color: red;
+    }
+    .formbtn{
+        background-color: pink;
+    }
+
+    .blur{
+        filter: blur(4px);
+        -webkit-filter: blur(4px);
+        overflow-y:hidden;
+    }
+
+    .center {
+      background: #e6e6e6;
+      border: 1px solid black;
+      max-width: 150px;
+      width: auto;
+      height: 150px;
+      display:flex;
+      border-radius: 50%;
+      margin: 2em auto 0 auto;
+    }
+    .center:hover {
+        background-color: #e6e5e5;
+    }
+    .default{
+        border-radius: 50%;
+        width:100%;
+        height:100%;
+    }
+    .default:hover{
+        border-radius: 50%;
+        width:150px;
+        height:150px;
+    }
+    .replace{
+        border-radius: 50%;
+        width:100%;
+        height:100%;
+    }
 
 
-.btn:hover{
-	background-color: red;
-}
-.btn{
-    background-color: pink;
-}
+    .test{
+        display:none;
+    }
+    .makebig{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        width:100%;
+    }
 
-.formbtn:hover{
-	background-color: red;
-}
+    .player {
+      margin-top: -2em;
+      width: 100%;
+      height: 150px;
+      border-top-right-radius: 40px;
+      border-top-left-radius: 40px;
+      background-image: radial-gradient(circle at 50% -25px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 80px, black 10px);
+      color: #FFF;
+    }
 
-.formbtn{
-    background-color: pink;
-}
-
-.blur{
-    filter: blur(4px);
-    -webkit-filter: blur(4px);
-    overflow-y:hidden;
-}
-
-.center {
-  background: #e6e6e6;
-  border: 1px solid black;
-  max-width: 200px;
-  width: auto;
-  height: 200px;
-  border-radius: 50%;
-  align-items: center;
-  text-align: center;
-  margin-top: 2em;
-  margin-left: 12.5em;
-}
-.center:hover {
-    background-color: #e6e5e5;
-}
+    a:link {
+    	text-decoration: none;
+    }
 
 
-.player {
-  margin-top: -2em;
-  max-width: 600px;
-  width: auto;
-  height: 200px;
-  border-top-right-radius: 40px;
-  border-top-left-radius: 40px;
-  background-image: radial-gradient(circle at 300px -50px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 110px, black 10px);
-  color: #FFF;
-}
+    .unread{
+        background-color: red;
+    }
 
-a:link {
-	text-decoration: none;
-}
+    .flexlist{
+        padding: 1em 0em;
+        background-color: black;
+        margin:auto;
+    }
+    .flexlist:hover{
+    	border-top: 5px solid green;
+    }
+    .flexlist a{
+    	border: none;
+    	padding: 1em 0em;
+    }
+    .flexlist a:hover{
+        color:whitesmoke;
+    	padding: 1em 2em;
+    }
+    .active{
+        padding-top: 0.6875em;
+        border-top: 5px solid yellow;
+        color:gray;
+    }
+    .active:hover{
+        padding: 1em 0em;
+        color:white;
+    }
 
-
-.unread{
-    background-color: red;
-}
-
-.flexlist{
-    padding: 1em 0em;
-    background-color: black;
-}
-.flexlist:hover{
-	border-top: 5px solid green;
-}
-.flexlist a{
-	border: none;
-	padding: 1em 1em;
-}
-.flexlist a:hover{
-    color:whitesmoke;
-	padding: 1em 2em;
-}
-.active{
-    padding: 0.6875em 0em;
-    border-top: 5px solid yellow;
-    color:gray;
-}
-.active:hover{
-    padding: 1em 0em;
-    color:white;
-}
-
-
-
-.show *{
-    width: 10px;
-    height: 10px;
-    margin: 0 0.2em;
-    background: pink;
-}
-.show{
-    width:auto;
-    height:25px;
-    background-color:yellow;
-    opacity:0.5;
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    align-items: center;
-}
-.hide{
-	display: none;
-}
-
-
-
-
-.displayForms{
-	width: 40%;
-	height: 400px;
-	position:fixed;
-	top:10em;
-	left:30%;
-	border: 1px solid black;
-	box-shadow: 0px 0px 10px #aa9dc8;
-	display: inline-flex;
-	flex-direction: column;
-	background-color: white;
-	z-index: 2;
-}
-
-#eduform input{
-    width:80%;
-    margin: 0 auto;
-    border: 2px solid whitesmoke;
-}
-#expform input{
-    width:80%;
-    margin: 0 auto;
-    border: 2px solid whitesmoke;
-}
-#skillform input{
-    width:80%;
-    margin: 0 auto;
-    border: 2px solid whitesmoke;
-}
-#langForm input{
-    width:80%;
-    margin: 0 auto;
-    border: 2px solid whitesmoke;
-}
-
-#editinfo input{
-    width:80%;
-    margin: 0 auto;
-    border: 2px solid whitesmoke;
-}
-
-#msg{
-    margin-left: 1em;
-}
-
-
-.player label{
-	#border: 1px solid black;
-	flex-grow: 1;
-	display: flex;
-    justify-content: center;
-    align-items: center;
-    color:gray;
-}
-
-.default{
-    border-radius: 50%;
-    width:100px;
-    height:100px;
-    margin: 50px 50px;
-}
-.default:hover{
-    border-radius: 50%;
-    width:150px;
-    height:150px;
-    margin: 25px 25px;
-}
-.replace{
-    border-radius: 50%;
-    width:200px;
-    height:200px;
-}
+    .formTitle{
+        float:left;
+        padding: 0.2em;
+        background-color: white;
+        margin-left: 2em;
+        font-size:100%;
+    }
 
 
 
+    .show *{
+        width: 10px;
+        height: 10px;
+        margin: 0 0.2em;
+        background: pink;
+    }
+    .show{
+        width:auto;
+        height:25px;
+        background-color:yellow;
+        opacity:0.5;
+        display: flex;
+        flex-direction:row;
+        justify-content: center;
+        align-items: center;
+    }
+    .hide{
+    	display: none;
+    }
+    .display{
+        position:fixed;
+        height:auto;
+        border:1px solid black;
+        background:cyan;
+        width:140px;
+    }
+    #showLang a{
+        display:flex;
+        width:100%;
+    }
+    #showLang a:hover{
+        background:yellow;
+    }
 
-.navb{
-    background-color: black;
-    margin-top: 0.5em;
-    border-radius: 10px;
-    border: 1px solid #d9d9d9;
-    display:flex;
-    flex-direction:row;
-    justify-content: center;"
-}
-.sticky {
-    position: fixed;
-	top: 0;
-	width: 100%;
-}
 
-footer{
-	text-align: center;
-}
-footer p{
-	margin: 0 0 0 0;
-}
+    .displayForms{
+    	width: 90vw;
+    	height: 90vh;
+        position:fixed;
+        margin: 5vh 5vw;
+    	border: 1px solid black;
+    	box-shadow: 0px 0px 10px #aa9dc8;
+    	display: inline-flex;
+    	flex-direction: column;
+    	background-color: white;
+    	z-index: 2;
+    }
 
+    #eduform input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+    #expform input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+    #skillform input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+    #langForm input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+
+    #editinfo input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+
+    #msg{
+        margin-left: 1em;
+    }
+
+
+    .player label{
+    	#border: 1px solid black;
+    	flex-grow: 1;
+    	display: flex;
+        justify-content: center;
+        align-items: center;
+        color:gray;
+    }
+
+
+
+    .dropSelect{
+        border:1px solid black;
+        display:flex;
+        flex-direction:row;
+    }
+
+    .navb{
+        background-color: black;
+        margin-top: 0.5em;
+        border-radius: 10px;
+        border: 1px solid #d9d9d9;
+        display:flex;
+        flex-direction:row;
+        justify-content: center;"
+    }
+    .sticky {
+        position: fixed;
+    	top: 0;
+    	width: 100%;
+    }
+
+    footer{
+    	text-align: center;
+    }
+    footer p{
+    	margin: 0 0 0 0;
+    }
 
 /* Show section before nav on mobile */
 .backlayout
 {
 	display: grid;
 	height:100vh;
-	width:100vw;
+	width:100wv;
+    #overflow-x: hidden; !important;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
 	grid-template-areas: 	"header"
 				            "aside"
 				            "section"
@@ -318,6 +402,325 @@ footer p{
 								"aside section beside"
 								"footer footer footer";
 	}
+
+    header{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: header;
+    }
+    section{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: section;
+    }
+    aside{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: aside;
+    }
+    beside{
+    	background-color: whitesmoke;
+    	font-family: Arial, Helvetica, sans-serif;
+    	grid-area: beside;
+    }
+    footer{
+    	background-color: white;
+    	grid-area: footer;
+    }
+
+    .contain{
+        border-radius: 10px;
+        margin-top:0.5em; border: 1px solid #d9d9d9;
+        text-align: center;
+        position:relative;
+    }
+    .headerDiv{
+        width: 600px;
+        margin: auto;
+    }
+    .leftInfo{
+        width: 200px;
+        height:100%;
+        background-color:black;
+        border-top-left-radius:40px;
+        display:flex;
+        flex-direction:column;
+        justify-content:space-evenly;
+    }
+    .rightInfo{
+        float:right;
+        border-top-right-radius:40px;
+    }
+
+    .profileEditButton{
+        background:black;
+        right:0;
+        left:auto;
+        bottom:0;
+        top:auto;
+        display:flex;
+        flex-direction:row;
+        height:25px;
+        opacity:0.5
+    }
+    .bgColorEdit{
+        background:inherit;
+        height:50px;
+        width:100px;
+        position:absolute;
+        right:0;
+        top:0;
+        display:flex;
+        flex-direction:row;
+        justify-content:flex-end;
+    }
+    .showColorButton{
+        height: 25px;
+        width:50px;
+        background:#351717;
+        opacity:0.5;
+    }
+
+    .btn:hover{
+    	background-color: red;
+    }
+    .btn{
+        background-color: pink;
+    }
+
+    .formbtn:hover{
+    	background-color: red;
+    }
+
+    .formbtn{
+        background-color: pink;
+    }
+
+    .blur{
+        filter: blur(4px);
+        -webkit-filter: blur(4px);
+        overflow-y:hidden;
+    }
+
+    .center {
+      background: #e6e6e6;
+      border: 1px solid black;
+      max-width: 200px;
+      width: auto;
+      height: 200px;
+      border-radius: 50%;
+      align-items: center;
+      text-align: center;
+      margin-top: 2em;
+      margin-left: 12.5em;
+    }
+    .center:hover {
+        background-color: #e6e5e5;
+    }
+
+
+    .player {
+      margin-top: -2em;
+      max-width: 600px;
+      width: auto;
+      height: 200px;
+      border-top-right-radius: 40px;
+      border-top-left-radius: 40px;
+      background-image: radial-gradient(circle at 300px -50px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 110px, black 10px);
+      color: #FFF;
+    }
+
+    a:link {
+    	text-decoration: none;
+    }
+
+
+    .unread{
+        background-color: red;
+    }
+
+    .flexlist{
+        padding: 1em 0em;
+        background-color: black;
+        margin:0;
+    }
+    .flexlist:hover{
+    	border-top: 5px solid green;
+    }
+    .flexlist a{
+    	border: none;
+    	padding: 1em 1em;
+    }
+    .flexlist a:hover{
+        color:whitesmoke;
+    	padding: 1em 2em;
+    }
+    .active{
+        padding: 0.6875em 0em;
+        border-top: 5px solid yellow;
+        color:gray;
+    }
+    .active:hover{
+        padding: 1em 0em;
+        color:white;
+    }
+
+
+
+    .show *{
+        width: 10px;
+        height: 10px;
+        margin: 0 0.2em;
+        background: pink;
+    }
+    .show{
+        width:auto;
+        height:25px;
+        background-color:yellow;
+        opacity:0.5;
+        display: flex;
+        flex-direction:row;
+        justify-content: center;
+        align-items: center;
+    }
+    .hide{
+    	display: none;
+    }
+    .display{
+        position:fixed;
+        height:auto;
+        border:1px solid black;
+        background:cyan;
+        width:140px;
+    }
+
+.dropSelect{
+    border:1px solid black;
+    display:flex;
+    flex-direction:row;
+}
+
+    #showLang a{
+        display:flex;
+        width:100%;
+    }
+    #showLang a:hover{
+        background:yellow;
+    }
+
+
+    .displayForms{
+    	width: 50%;
+    	min-height: 500px;
+    	height:auto;
+    	position:fixed;
+    	top:10em;
+    	margin: 0 25% 0 25%;
+    	border: 1px solid black;
+    	box-shadow: 0px 0px 10px #aa9dc8;
+    	display: inline-flex;
+    	flex-direction: column;
+    	background-color: white;
+    	z-index: 2;
+    }
+
+    #eduform input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+    #expform input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+    #skillform input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+    #langForm input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+
+    #editinfo input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
+
+    #msg{
+        margin-left: 1em;
+    }
+
+    .test{
+        display:block;
+    }
+    .makebig{
+        width:60%;
+    }
+
+    .formTitle{
+        font-size:120%;
+    }
+
+
+    .player label{
+    	#border: 1px solid black;
+    	flex-grow: 1;
+    	display: flex;
+        justify-content: center;
+        align-items: center;
+        color:gray;
+    }
+
+    .default{
+        border-radius: 50%;
+        width:100px;
+        height:100px;
+        margin: 50px 50px;
+    }
+    .default:hover{
+        border-radius: 50%;
+        width:150px;
+        height:150px;
+        margin: 25px 25px;
+    }
+    .replace{
+        border-radius: 50%;
+        width:200px;
+        height:200px;
+    }
+
+    .dropSelect{
+        border:1px solid black;
+        display:flex;
+        flex-direction:row;
+    }
+
+    .navb{
+        background-color: black;
+        margin-top: 0.5em;
+        border-radius: 10px;
+        border: 1px solid #d9d9d9;
+        display:flex;
+        flex-direction:row;
+        justify-content: center;"
+    }
+    .sticky {
+        position: fixed;
+    	top: 0;
+    	width: 100%;
+    }
+
+    footer{
+    	text-align: center;
+    }
+    footer p{
+    	margin: 0 0 0 0;
+    }
 }
 
 

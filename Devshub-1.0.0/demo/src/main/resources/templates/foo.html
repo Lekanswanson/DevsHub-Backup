@@ -1,82 +1,83 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>DevsHub</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/foostyle.css}" type="text/css" rel="stylesheet"/>
-    <script th:src="@{/jquery/jquery-3.6.0.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/script.js}"></script>
-</head>
+    <head>
+        <title>DevsHub</title>
+        <meta name="viewport" content="width=device-width, height=device.height, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link th:href="@{/css/foostyle.css}" type="text/css" rel="stylesheet"/>
+        <script th:src="@{/jquery/jquery-3.6.0.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/script.js}"></script>
+        <script type="text/javascript" th:src="@{/js/response.js}"></script>
+    </head>
 
-<body>
-<div class="backlayout">
-    <leftheader>
-        <a href="/devshub" class="flexit">
-            <h2 class="left">Just4Devs</h2>
-            <h2 class="right">Hub</h2>
-        </a>
-    </leftheader>
-    <rightheader>
-        <div class="list">
-            <ul>
-                <li><a href="index.html" class="set">Home</a></li>
-                <li><a href="home.html" class="set">About</a></li>
-                <li><a href="" class="set">Contributors</a></li>
-                <li><a href="" class="set">Careers</a></li>
-                <li class="disable" style="border:none; padding:0.2em 0; border-left:3px solid black;"><a style="color:whitesmoke;">.</a></li>
-                <li><a href="" class="set">Members</a></li>
-            </ul>
+    <body>
+        <div class="backlayout">
+            <leftheader>
+                <div class="list" id="myList">
+                    <a href="index.html">Home</a>
+                    <a href="home.html">About</a>
+                    <a href="">Contributors</a>
+                    <a href="">Careers</a>
+                    <div class="disable"><a style="border:none; padding:0.2em 0; border-left:3px solid black; color:whitesmoke;">.</a></div>
+                    <a href="/members">Members</a></li>
+                    <a href="#" class="icon" id="barIcon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
+                </div>
+            </leftheader>
+            <rightheader>
+                <a href="/devshub" class="flexit">
+                    <h2 class="left">Just4Devs</h2>
+                    <h2 class="right">Hub</h2>
+                </a>
+            </rightheader>
+
+            <section>
+                <form action="#" th:object="${memberEmail}" th:action="@{/profile}" method="post" id="details" name="form">
+                    <div class="expand">
+                        <h2 style="font-family: Snell Roundhand, cursive">Member Login</h2>
+                    </div>
+
+                    <div th:object="${memberEmail} "class="expand">
+                        <input type="text" th:field="*{email}" placeholder="Enter username or email" id="userName">
+                    </div>
+
+                    <div th:object="${memberEmail} "class="expand">
+                        <input type="password" th:field="*{password}" placeholder="Password" id="userPass">
+                    </div>
+
+                    <div class="expand">
+                        <button type="submit" class="sub">Sign In</button>
+                    </div>
+
+                    <div class="strike expand">
+                        <span>or</span>
+                    </div>
+
+                    <div class="expand">
+                        <h1><a href="passwordreset">Forgotten password?</a></h1>
+                    </div>
+
+                    <div class="expand">
+                        <button class="sub padded" type="submit" formaction="newaccount">Create Account</button>
+                    </div>
+                </form>
+            </section>
+
+            <aside>
+                <div class="block">
+                    <img src="../static/images/devlang.png" class="imgsize" th:src="@{images/devlang.png}"/>
+                    <div class="motto">
+                        <h2>Finding talented developers for your company has never been easier.</h2>
+                    </div>
+                </div>
+            </aside>
+
+            <footer>
+                <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
+                    <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
+                    <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
+                    <p><a href="">Privacy policy</a>
+                </div>
+            </footer>
         </div>
-    </rightheader>
-
-    <section>
-        <form action="#" th:object="${memberEmail}" th:action="@{/profile}" method="post" id="details" name="form">
-            <div class="expand">
-                <h2>Member Login</h2>
-            </div>
-
-            <div th:object="${memberEmail} "class="expand">
-                <input type="text" th:field="*{email}" placeholder="Enter username or email" id="userName">
-            </div>
-
-            <div th:object="${memberEmail} "class="expand">
-                <input type="password" th:field="*{password}" placeholder="Password" id="userPass">
-            </div>
-
-            <div class="expand">
-                <button type="submit" class="sub">Sign In</button>
-            </div>
-
-            <div class="strike expand">
-                <span>or</span>
-            </div>
-
-            <div class="expand">
-                <h1><a href="passwordreset">Forgotten password?</a></h1>
-            </div>
-
-            <div class="expand">
-                <button class="sub padded" type="submit" formaction="newaccount">Create Account</button>
-            </div>
-        </form>
-    </section>
-
-    <aside>
-        <div class="block">
-            <img src="../static/images/devlang.png" min-width="200px" max-width="400px" width="auto" height="400px" th:src="@{images/devlang.png}"/>
-            <div class="motto">
-                <h2>Finding talented developers for your company has never been easier.</h2>
-            </div>
-        </div>
-    </aside>
-
-    <footer>
-        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
-            <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
-            <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
-            <p><a href="">Privacy policy</a>
-        </div>
-    </footer>
-</div>
-</body>
+    </body>
 </html>

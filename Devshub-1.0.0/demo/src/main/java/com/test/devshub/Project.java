@@ -2,7 +2,6 @@ package com.test.devshub;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
-
 import java.util.ArrayList;
 
 @Component
@@ -12,10 +11,8 @@ public class Project
     private String title;
     private String description;
     private String language;
-
     private ArrayList<String> languages = new ArrayList<>();
     private String technology;
-
     private ArrayList<String> technologies = new ArrayList<>();
     private String video;
     public Project(){}

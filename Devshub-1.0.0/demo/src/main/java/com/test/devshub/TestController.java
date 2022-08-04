@@ -156,6 +156,7 @@ public class TestController
         model.addAttribute("experience", experience);
         model.addAttribute("newExperience", new Experience());
         model.addAttribute("education", new Education());
+        model.addAttribute("pl", new ProgrammingLanguages());
         return "home";
     }
     @RequestMapping(method = RequestMethod.POST, path = "/profile")
@@ -227,6 +228,7 @@ public class TestController
         }
         String path ="../images/"+fileName;
         member.setImage(path);
+        database.setImagePath(fileName, member);
 
         return "redirect:/home/"+member.getFirstName();
     }
@@ -259,8 +261,6 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path = "/projects/save/project")
     public String addNewProject(@RequestParam("file") MultipartFile file, @ModelAttribute Project project) throws InterruptedException
     {
-        System.out.println(project);
-
         if(!project.getVideo().isEmpty()) {
             project.setVideo(videoPath+project.getVideo());
         }
@@ -321,6 +321,31 @@ public class TestController
         return "about";
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/members")
+    public String getMembersList(Model model)
+    {
+        ArrayList<Member> members = database.getMembers();
+        int exp=0;
+        ProgrammingLanguages pl=null;
+        for(Member m : members)
+        {
+            for(ProgrammingLanguages p : m.getLanguages())
+            {
+                if(Integer.parseInt(p.getYearsExperience()) > exp)
+                {
+                    exp = Integer.parseInt(p.getYearsExperience());
+                    pl=p;
+                }
+            }
+            System.out.println(m.getEmail() + "<-->" + pl);
+            pl=null;
+            exp=0;
+        }
+        model.addAttribute("allMembers", members);
+        return "members";
+    }
+
+
     @RequestMapping(method = RequestMethod.GET, path = "/user/learn")
     public String getLearnPage(Model model)
     {
@@ -336,6 +361,7 @@ public class TestController
 
         model.addAttribute("articles", articles);
         model.addAttribute("member", member);
+        model.addAttribute("color", member.getColor());
         return "profile";
     }
 
@@ -369,6 +395,12 @@ public class TestController
         this.member.setColor(member.getColor());
         return "redirect:/home/"+this.member.getFirstName();
     }
+    @RequestMapping(method = RequestMethod.POST, path = "/user/setcolor/profile")
+    public String changeBackgroundProfile(Model model, @ModelAttribute Member member)
+    {
+        this.member.setColor(member.getColor());
+        return "redirect:/user/profile";
+    }
 
     @RequestMapping(method = RequestMethod.GET, path = "/user/messages")
     public String getMessagesView(Model model)
@@ -397,6 +429,7 @@ public class TestController
             System.out.println(indexNotFoundException.getMessage());
         }
 
+        model.addAttribute("mems", database.getMembers());
         model.addAttribute("user", defaultUser);
         model.addAttribute("userMsg", msgs);
         model.addAttribute("allusers", allusers);
@@ -406,7 +439,6 @@ public class TestController
         model.addAttribute("showclass", MemberDB.message.getShowClass());
         model.addAttribute("hideclass", MemberDB.message.getHideClass());
         model.addAttribute("messages", messages);
-
         return "messages";
     }
 
@@ -423,9 +455,29 @@ public class TestController
     {
         Message m = new Message(sender,receiver,message,"show","hide");
         database.addMessageToInbox(m);
-
         sendMessage(model, m);
         return m.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/list/members")
+    @ResponseBody
+    public String getUsersMatching(Model model, @RequestParam("email") String email)
+    {
+        if(email.trim().isEmpty())
+            return null;
+        String emails = database.getMembersMatching(email);
+        return emails;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/list/languages")
+    @ResponseBody
+    public String getLanguageMatching(Model model, @RequestParam("language") String language)
+    {
+        System.out.println(language);
+        if(language.trim().isEmpty())
+            return null;
+        String languageMatching = database.getLanguageMatching(language);
+        return languageMatching;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/user/changeClass")
@@ -460,7 +512,6 @@ public class TestController
                     oldSize = member.getMessages().get(name).get(currentSize-1).getSize();
 
                     System.out.printf("Current size is: %d and old size is: %d \n", currentSize, oldSize);
-
                 }
                 catch (Exception e)
                 {
@@ -483,6 +534,28 @@ public class TestController
             System.out.println(exception.getMessage());
         }
         return message;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/add/languages")
+    public String addLanguages(@ModelAttribute ProgrammingLanguages languages)
+    {
+        System.out.println(languages);
+        ArrayList<ProgrammingLanguages> langArray = new ArrayList<>();
+
+        String[] lang = languages.getLanguage().split("_");
+        String[] exp = languages.getYearsExperience().split("_");
+
+        int length=lang.length;
+
+        for(int i=0; i<length; i++)
+        {
+            ProgrammingLanguages pl = new ProgrammingLanguages(lang[i], exp[i]);
+            langArray.add(pl);
+        }
+        member.setProgrammingLanguages(langArray);
+        database.addProgrammingLanguages(member, languages);
+
+        return "redirect:/home/"+member.getFirstName();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/user/email")

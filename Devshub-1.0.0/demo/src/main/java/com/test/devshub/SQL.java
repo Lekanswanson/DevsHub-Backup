@@ -19,7 +19,6 @@ public class SQL
     private String path;
     private String userName;
     private String passWord;
-
     public boolean initDBConnection()
     {
         boolean successful=false;
@@ -74,6 +73,153 @@ public class SQL
         }
         return memberExists;
     }
+
+    public void addMemberInformation(ArrayList<Member> members)
+    {
+        for(Member member : members)
+        {
+            String command = String.format("select * from education where email = '%s';", member.getEmail());
+            try {
+                ResultSet resultSet = statement.executeQuery(command);
+                Education education = new Education();
+
+                while (resultSet.next())
+                {
+                    education.setId(resultSet.getInt("id"));
+                    education.setUniversityLocation(resultSet.getString("universityLocation"));
+                    education.setYearStarted(resultSet.getInt("yearStarted"));
+                    education.setYearEnded(resultSet.getInt("yearEnded"));
+                    education.setCourseStudied(resultSet.getString("courseStudied"));
+                    education.setDegreeLevel(resultSet.getString("degreeLevel"));
+                    education.setResultsAchieved(resultSet.getString("resultsAchieved"));
+
+                    member.setEducation(education);
+                }
+
+            }catch (SQLException exception)
+            {
+                System.out.println(exception.getMessage());
+            }
+
+            command = String.format("select * from experience where email = '%s';", member.getEmail());
+            try {
+                ResultSet resultSet = statement.executeQuery(command);
+                Experience experience = new Experience();
+
+                while (resultSet.next())
+                {
+                    experience.setId(resultSet.getInt("id"));
+                    experience.setCompanyName(resultSet.getString("companyName"));
+                    experience.setJobTitle(resultSet.getString("jobTitle"));
+                    experience.setYearStarted(resultSet.getInt("yearStarted"));
+                    experience.setYearEnded(resultSet.getInt("yearEnded"));
+                    experience.setLocation(resultSet.getString("location"));
+
+                    member.setExperiences(experience);
+                }
+            }
+            catch (SQLException exception)
+            {
+                System.out.println(exception.getMessage());
+            }
+
+            command = String.format("select * from memberLanguages where email = '%s';", member.getEmail());
+            try {
+                ResultSet resultSet = statement.executeQuery(command);
+                ArrayList<ProgrammingLanguages> langArray = new ArrayList<>();
+                if (resultSet.next())
+                {
+                    ProgrammingLanguages languages = new ProgrammingLanguages(resultSet.getString("languageName"), resultSet.getString("yearsExperience"));
+
+                    String[] lang = languages.getLanguage().split("_");
+                    String[] exp = languages.getYearsExperience().split("_");
+
+                    int length=lang.length;
+                    for(int i=0; i<length; i++)
+                    {
+                        ProgrammingLanguages pl = new ProgrammingLanguages(lang[i], exp[i]);
+                        langArray.add(pl);
+                    }
+                    member.setProgrammingLanguages(langArray);
+                }
+            }
+            catch (SQLException exception)
+            {
+                System.out.println(exception.getMessage());
+            }
+
+            command = String.format("select * from projects where email = '%s';", member.getEmail());
+            try {
+                ResultSet resultSet = statement.executeQuery(command);
+                Project project = new Project();
+
+                while (resultSet.next())
+                {
+                    project.setTitle(resultSet.getString("title"));
+                    project.setDescription(resultSet.getString("details"));
+                    project.setLanguage(resultSet.getString("lang"));
+                    project.setTechnology(resultSet.getString("technology"));
+                    project.setVideo(resultSet.getString("video"));
+
+                    String[] p = project.getLanguage().split("_");
+                    if(p.length > 0)
+                    {
+                        for(String i : p)
+                        {
+                            project.setLanguages(i.trim());
+                        }
+                    }
+                    String[] t = project.getTechnology().split("_");
+                    if(t.length > 0)
+                    {
+                        for(String i : t)
+                        {
+                            project.setTechnologies(i.trim());
+                        }
+                    }
+                    member.addProject(project);
+                }
+            }
+            catch (SQLException exception)
+            {
+                System.out.println(exception.getMessage());
+            }
+        }
+    }
+    ArrayList<Member> getMembers()
+    {
+        ArrayList<Member> members = new ArrayList<>();
+        String path = "../images/";
+
+        String command = "select * from users;";
+
+        Member member;
+        try
+        {
+            ResultSet resultSet = statement.executeQuery(command);
+            while(resultSet.next())
+            {
+                member=new Member(new MemberEmail(), new ArrayList<>(), new ArrayList(), new ArrayList(), new HashMap<>());
+
+                member.setFirstName(resultSet.getString("firstName"));
+                member.setLastName(resultSet.getString("lastName"));
+                member.setLocation(resultSet.getString("location"));
+                member.setMessage((resultSet.getString("message")));
+                member.setImage(path+resultSet.getString("image"));
+                member.setColor(resultSet.getString("color"));
+                member.setEmail(resultSet.getString("email"));
+
+                members.add(member);
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        addMemberInformation(members);
+        return members;
+    }
+
 
     Member getMember(MemberEmail memberEmail)
     {
@@ -136,6 +282,31 @@ public class SQL
                 experience.setLocation(resultSet.getString("location"));
 
                 member.setExperiences(experience);
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+
+        command = String.format("select * from memberLanguages where email = '%s';", member.getEmail());
+        try {
+            ResultSet resultSet = statement.executeQuery(command);
+            ArrayList<ProgrammingLanguages> langArray = new ArrayList<>();
+            if (resultSet.next())
+            {
+                ProgrammingLanguages languages = new ProgrammingLanguages(resultSet.getString("languageName"), resultSet.getString("yearsExperience"));
+
+                String[] lang = languages.getLanguage().split("_");
+                String[] exp = languages.getYearsExperience().split("_");
+
+                int length=lang.length;
+                for(int i=0; i<length; i++)
+                {
+                    ProgrammingLanguages pl = new ProgrammingLanguages(lang[i], exp[i]);
+                    langArray.add(pl);
+                }
+                member.setProgrammingLanguages(langArray);
             }
         }
         catch (SQLException exception)
@@ -232,6 +403,21 @@ public class SQL
             System.out.println(exception.getMessage());
         }
         return member;
+    }
+
+    public boolean setImagePath(String fileName, Member member) {
+        boolean successful=false;
+        String command = String.format("update users set image='%s' where email = '%s';", fileName, member.getEmail());
+        try
+        {
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
     }
 
     boolean saveEducation(Member member, Education education) {
@@ -487,6 +673,59 @@ public class SQL
         boolean successful=false;
         String command = String.format("insert into projects values ('%s', '%s', '%s', '%s', '%s', '%s');",
                 project.getTitle(), project.getDescription(), project.getLanguage(), project.getTechnology(), project.getVideo(), member.getEmail());
+        try {
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+
+    public String getMembersMatching(String email)
+    {
+        String command = String.format("select email from users where email like '%%%s%%' ;", email);
+        StringBuilder emails=new StringBuilder();
+        try {
+            ResultSet resultSet = statement.executeQuery(command);
+            while (resultSet.next())
+            {
+                emails.append(resultSet.getString("email")+"_");
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        System.out.println(emails.toString());
+        return emails.toString();
+    }
+
+    public String getLanguageMatching(String language)
+    {
+        String command = String.format("select languageName from languages where languageName like '%%%s%%';", language);
+        StringBuilder languageNames=new StringBuilder();
+        try {
+            ResultSet resultSet = statement.executeQuery(command);
+            while (resultSet.next())
+            {
+                languageNames.append(resultSet.getString("languageName")+"_");
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        System.out.println(languageNames.toString());
+        return languageNames.toString();
+    }
+
+    public boolean addProgrammingLanguages(Member member, ProgrammingLanguages languages)
+    {
+        boolean successful=false;
+        String command = String.format("INSERT INTO memberLanguages VALUES (null, '%s', '%s', '%S');", languages.getLanguage(), languages.getYearsExperience(), member.getEmail());
         try {
             statement.executeUpdate(command);
             successful=true;

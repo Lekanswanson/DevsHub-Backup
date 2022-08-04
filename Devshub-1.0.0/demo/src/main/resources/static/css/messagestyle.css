@@ -5,6 +5,10 @@
 	#font-family: Arial, Helvetica, sans-serif;
 }
 
+body{
+    background:white;
+    height:auto;
+}
 header{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
@@ -15,29 +19,115 @@ section{
 	font-family: Arial, Helvetica, sans-serif;
 	grid-area: section;
 }
-aside{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: aside;
-}
-beside{
-	background-color: whitesmoke;
-	font-family: Arial, Helvetica, sans-serif;
-	grid-area: beside;
-}
 footer{
 	background-color: white;
 	grid-area: footer;
 }
 
 
+.headerDiv{
+    z-index:1;
+    position:fixed;
+    width:100%;
+    background-color: black;
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+}
+.message{
+    display:flex;
+    border: 1px solid black;
+    width:100%;
+    position:relative;
+    height:92%;
+    margin-top:3.2em;
+}
+
+.memberNameDiv{
+    width:100%;
+    border: 1px solid black;
+    display:flex;
+    flex-direction:column;
+    height:80vh;
+}
+.inboxDiv{
+    height:auto;
+    width:100%;
+    border-bottom: 1px solid black;
+}
+.searchDiv{
+    height:auto;
+    width:100%;
+    border-bottom: 1px solid black;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+.memberMessageDiv{
+    width:100%;
+    border: 1px solid black;
+    display:none;
+    height:auto;
+}
+.messageDivShow{
+    display:block;
+}
+
+.messageDiv{
+    height:auto;
+    width:100%;
+    border-bottom: 1px solid black;
+}
+
+
+.messages{
+    width:100%;
+}
+.inputDiv{
+    border-bottom:1px solid black;
+    display:flex;
+    flex-direction:row;
+}
+.messageInput{
+    width:100%;
+}
+.loadMessage{
+    height:65vh;
+    font-size:small;
+    position:relative;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+.textDiv{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    height:auto;
+}
+.textDiv:focus-within {
+    background:cyan;
+}
+textarea{
+    overflow-y:auto;
+    overflow-x:hidden;
+    height:100%;
+}
+
+
+
+.msgimg{
+    width:50px;
+}
+
+
 a:link {
 	text-decoration: none;
 }
-
 .flexlist{
     padding: 1em 0em;
     background-color: black;
+    margin:auto;
 }
 .flexlist:hover{
 	border-top: 5px solid green;
@@ -45,14 +135,14 @@ a:link {
 .flexlist a{
 	text-decoration: none;
 	border: none;
-	padding: 1em 1em;
+	padding: 1em 0em;
 }
 .flexlist a:hover{
     color:whitesmoke;
 	padding: 1em 2em;
 }
 .active{
-    padding: 0.6875em 0em;
+    padding-top: 0.6875em;
     border-top: 5px solid yellow;
     color:gray;
 }
@@ -63,13 +153,17 @@ a:link {
 .stop{
     padding: 1em 0em;
     background-color: black;
+    display:none;
 }
-
+.inputSize{
+    width:60%;
+}
 
 .showMemberName{
     width:100%;
-    height:700px;
+    height:auto;
     overflow-x:auto;
+    font-size:small;
 }
 
 .buttdiv{
@@ -77,21 +171,8 @@ a:link {
 }
 .buttclass{
     width:100%;
-    height:100px;
-}
-
-.message{
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    align-items:center;
-    #align-items:flex-end;
-    background:white;
-    border: 1px solid black;
-    width:100%;
-    height:800px;
-    position:relative;
-    margin-top: 4em;
+    min-height:90px;
+    height:auto;
 }
 
 .unread{
@@ -106,13 +187,63 @@ a:link {
     height:auto;
 }
 
-
-.flow{
-    display:flex;
-    flex-direction:column;
+.display{
+    display:block;
+    z-index:1;
+    position:fixed;
     border:1px solid black;
-    margin-bottom:5px;
+    background:cyan;
+    height:auto;
+    min-width:120px;
+    width:auto;
 }
+
+#showNames a{
+    display:flex;
+    width:100%;
+}
+#showNames a:hover{
+    background:yellow;
+}
+
+    .flow{
+        display:flex;
+        flex-direction:column;
+        border:1px solid black;
+        margin-bottom:5px;
+        background: #6b8ee1;
+        width:100%;
+    }
+
+    .flowright{
+        align-items:flex-end;
+        justify-content:flex-end;
+        background: #d5dff6;
+        order:1;
+    }
+
+    .imgflow{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+    }
+    .imgright{
+        align-items:center;
+        justify-content:center;
+        order:2;
+    }
+    .imgstyle{
+        max-width:50px;
+        width:auto;
+        height:auto;
+        border-radius: 50%;
+        background:cyan;
+    }
+
+    .msgflow{
+        display:flex;
+    }
 
 
 input{
@@ -122,6 +253,7 @@ input{
 
 footer{
 	text-align: center;
+	position:relative;
 }
 footer p{
 	margin: 0 0 0 0;
@@ -135,11 +267,10 @@ footer p{
 .backlayout
 {
 	display: grid;
-	height:100vh;
 	width:100vw;
+	grid-template-rows: auto;
+    overflow-x: hidden; !important;
 	grid-template-areas: 	"header"
-				            "aside"
-				            "beside"
 				            "section"
 				            "footer";
 }
@@ -212,5 +343,230 @@ footer p{
 								"aside section beside"
 								"footer footer footer";
 	}
+
+    .headerDiv{
+        z-index:1;
+        position:fixed;
+        width:1200px;
+        background-color: black;
+        margin-top:0em;
+        border: 1px solid #d9d9d9;
+        display:flex;
+        flex-direction:row;
+        justify-content: center;
+    }
+	.memberNameDiv{
+        width:30%;
+        height:100%;
+        border: 1px solid black;
+        display:flex;
+        flex-direction:column;
+    }
+    .inboxDiv{
+        height:50px;
+        width:100%;
+        border-bottom: 1px solid black;
+    }
+    .searchDiv{
+        height:50px;
+        width:100%;
+        border-bottom: 1px solid black;
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+        justify-content:center;
+    }
+    .memberMessageDiv{
+        width:50%;
+        height:100%;
+        border: 1px solid black;
+        display:block;
+    }
+    .messageDiv{
+        height:50px;
+        width:100%;
+        border-bottom: 1px solid black;
+    }
+    .messages{
+        max-height:740px;
+        height:100%;
+        width:100%;
+        background:cyan;
+    }
+    .inputDiv{
+        position:relative;
+        border-bottom:1px solid black;
+        display:flex;
+        flex-direction:row;
+    }
+    .messageInput{
+        width:120px;
+    }
+    .loadMessage{
+        height:70vh;
+        background:white;
+        font-size:medium;
+        overflow-x:hidden;
+        overflow-y:auto;
+    }
+    .textDiv{
+        max-height:4em;
+        display:flex;
+        justify-content:center;
+        align-items:flex-end;
+        border-top: 1px solid black;
+    }
+
+
+
+    a:link {
+    	text-decoration: none;
+    }
+
+    .flexlist{
+        padding: 1em 0em;
+        background-color: black;
+        margin:0;
+    }
+    .flexlist:hover{
+    	border-top: 5px solid green;
+    }
+    .flexlist a{
+    	text-decoration: none;
+    	border: none;
+    	padding: 1em 1em;
+    }
+    .flexlist a:hover{
+        color:whitesmoke;
+    	padding: 1em 2em;
+    }
+    .active{
+        padding: 0.6875em 0em;
+        border-top: 5px solid yellow;
+        color:gray;
+    }
+    .active:hover{
+        padding: 1em 0em;
+        color:white;
+    }
+    .stop{
+        padding: 1em 0em;
+        background-color: black;
+        display:block;
+    }
+    .inputSize{
+        width:auto;
+    }
+
+
+    .showMemberName{
+        width:100%;
+        height:700px;
+        overflow-y:auto;
+    }
+
+    .buttdiv{
+        border:1px solid black;
+    }
+    .buttclass{
+        width:100%;
+        height:100px;
+    }
+
+    .message{
+        display:flex;
+        flex-direction:row;
+        justify-content:center;
+        align-items:center;
+        #align-items:flex-end;
+        background:white;
+        border: 1px solid black;
+        width:100%;
+        height:800px;
+        position:relative;
+        margin-top: 4em;
+    }
+
+    .unread{
+        background: red;
+    }
+
+    .hide{
+        display:none;
+    }
+    .show{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .display{
+        display:block;
+        z-index:1;
+        border:1px solid black;
+        background:cyan;
+        width:auto;
+        height:auto;
+    }
+
+    #showNames a{
+        display:flex;
+        width:100%;
+    }
+    #showNames a:hover{
+        background:yellow;
+    }
+
+    .flow{
+        display:flex;
+        flex-direction:column;
+        border:1px solid black;
+        margin-bottom:5px;
+        background: #6b8ee1;
+    }
+
+    .flowright{
+        align-items:flex-end;
+        justify-content:flex-end;
+        background: #d5dff6;
+        order:1;
+    }
+
+    .imgflow{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+    }
+    .imgright{
+        align-items:center;
+        justify-content:center;
+        order:2;
+    }
+    .imgstyle{
+        max-width:50px;
+        width:auto;
+        height:auto;
+        border-radius: 50%;
+        background:cyan;
+    }
+
+    .msgflow{
+        display:flex;
+    }
+
+
+
+    input{
+        border: 1px solid black;
+    }
+
+
+    footer{
+    	text-align: center;
+    }
+    footer p{
+    	margin: 0 0 0 0;
+    }
 }
 

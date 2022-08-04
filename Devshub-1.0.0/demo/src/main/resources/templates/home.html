@@ -1,9 +1,9 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevsHub</title>
     <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script th:src="@{/jquery/jquery-3.6.0.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
@@ -11,7 +11,7 @@
 <body>
 <form action="#" th:object="${member}" th:action="@{/saveMessage}" method="post" class="hide" id="myText" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Edit Personal Information</h3>
+        <h3 class="formTitle">Edit Personal Information</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeForm()">Exit</button>
     </div>
     <br>
@@ -27,7 +27,7 @@
 
 <form action="#" th:object="${education}" th:action="@{/saveEducation}" method="post" class="hide" id="eduform" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add education information</h3>
+        <h3 class="formTitle">Add education information</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeEducationForm();">Exit</button>
     </div>
     <br>
@@ -51,7 +51,7 @@
 </form>
 <form action="#" th:if="${!member.education.isEmpty()}" th:each="education : ${member.getEducation()}" th:action="@{/editEducation}" method="post" th:id="${education}" class="hide editforms" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add education information</h3>
+        <h3 class="formTitle">Add education information</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${education}" onclick="closeEditForm(this.getAttribute('data-longDescription'));">Exit</button>
     </div>
     <br>
@@ -78,7 +78,7 @@
 
 <form action="#" th:object="${newExperience}" th:action="@{/saveExperience}" method="post" class="hide" id="expform" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add Previous Experience</h3>
+        <h3 class="formTitle">Add Previous Experience</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeExperienceForm();">Exit</button>
     </div>
     <br>
@@ -100,7 +100,7 @@
 </form>
 <form action="#" th:if="${!member.experiences.isEmpty()}" th:each="experience : ${member.getExperiences()}" th:action="@{/editExperience}" method="post" th:id="${experience}" class="hide editforms" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add experience information</h3>
+        <h3 class="formTitle">Add experience information</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeEditForm(this.getAttribute('data-longDescription'));">Exit</button>
     </div>
     <br>
@@ -122,10 +122,41 @@
     <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
 </form>
 
+<form action="#" th:action="@{/add/languages}" th:object="${pl}" method="post" class="hide" id="langForm" style="border-radius: 10px;">
+    <div style="background-color: white; border-radius: 10px;">
+        <h3 class="formTitle">Add Languages</h3>
+        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeLanguageForm(this.getAttribute('data-longDescription'));">Exit</button>
+    </div>
+    <br>
+    <h6 style="width: 80%; margin:0 auto;">* Indicates required</h6>
+    <br>
+    <p style="width: 80%; margin:0 auto;">Enter details</p>
+    <br>
+    <div style="display:flex; flex-direction:row; width: 100%; margin:1em auto; align-items:center; justify-content:center;">
+        <div>
+            <div autocomplete="off">
+                <input autocomplete="off" style="width:140px;" type="search" name="search" id="plang">
+            </div>
+            <div id="showLang" class="hide">
+
+            </div>
+        </div>
+        <div>
+            <input id="expYear" style="width:140px;" type="search" placeholder="Years experience">
+        </div>
+    </div>
+    <button class="formbtn" type="button" onclick="addLanguage('plang', 'expYear', 'addLanguage')" style="float:right; padding:0.25em; width:100px; margin: 0 auto; border-radius:50px;">Add</button>
+    <div style="width:80%; height:auto; margin:1em auto; display:flex; flex-direction:row; gap:5px; flex-wrap:wrap;" id="addLanguage">
+
+    </div>
+    <input id="langtext" type="text" th:field="*{language}">
+    <input id="langyear" type="text" th:field="*{yearsExperience}">
+    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+</form>
 
 <form action="#" th:action="@{/addSkills}" method="post" class="hide" id="skillform" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add skills</h3>
+        <h3 class="formTitle">Add skills</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeSkillsForm(this.getAttribute('data-longDescription'));">Exit</button>
     </div>
     <br>
@@ -138,28 +169,9 @@
     <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
 </form>
 
-<form action="#" th:action="@{/addLanguages}" method="post" class="hide" id="langForm" style="border-radius: 10px;">
-    <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Add Languages</h3>
-        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeLanguageForm(this.getAttribute('data-longDescription'));">Exit</button>
-    </div>
-    <br>
-    <h6 style="width: 80%; margin:0 auto;">* Indicates required</h6>
-    <br>
-    <p style="width: 80%; margin:0 auto;">Enter details</p>
-    <br>
-    <div style="display:flex; flex-direction:row; width: 80%; margin:0 auto; align-items:center; justify-content:center;">
-        <input type="text" placeholder="Language">
-        <input type="text" placeholder="Years experience">
-    </div>
-    <br>
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
-</form>
-
-
 <form action="#" method="post" class="hide" id="editinfo" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
-        <h3 style="float:left; padding: 0.2em; background-color: white; margin-left: 2em;">Edit Information</h3>
+        <h3 class="formTitle">Edit Information</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeEditInfoForm();">Exit</button>
     </div>
     <br>
@@ -184,8 +196,8 @@
 
 <div class="backlayout" id="backlayout">
     <header>
-        <div id="testcolor" class="contain" th:style="|background: ${color}; border-radius: 10px; margin-top:0.5em; border: 1px solid #d9d9d9; text-align: center; position:relative;|">
-            <div style="width: 600px; margin: auto;">
+        <div id="testcolor" class="contain" th:style="|background: ${color};|">
+            <div class="headerDiv">
                 <div class="center">
                     <form id="svimg" th:action="@{/user/save/image}" method="post" enctype="multipart/form-data">
                         <label>
@@ -195,14 +207,14 @@
                     </form>
                 </div>
                 <div class="player">
-                    <div style="width: 200px; height:100%; float:right; background-color:black; border-top-right-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+                    <div class="leftInfo rightInfo">
                         <label>Position</label>
                         <label>Years Experience</label>
                         <label>Blank</label>
                         <label>Blank</label>
                     </div>
 
-                    <div th:object="${member}" style="width: 200px; height:100%; background-color:black; border-top-left-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+                    <div th:object="${member}" class="leftInfo">
                         <label th:text="*{firstName}">First Name</label>
                         <label th:text="*{lastName}">Last Name</label>
                         <label th:text="*{getEmail}">Email</label>
@@ -210,11 +222,11 @@
                     </div>
                 </div>
 
-                <div style="background:black; position:absolute; right:0; bottom:0; display:flex; flex-direction:column; height:25px; opacity:0.5">
+                <div class="profileEditButton">
                     <button style="width:100%; height:100%;" type="button" onclick="openEditInfoForm()">Edit profile</button>
                 </div>
 
-                <div style="background:inherit; height:50px; width:100px; position:absolute; right:0; top:0; display:flex; flex-direction:row; justify-content:flex-end;">
+                <div class="bgColorEdit">
                     <div class="show" id="emptypanel">
                     </div>
 
@@ -226,8 +238,8 @@
                         <button type="button" onclick="setColor('purple');" style="background:purple;"></button>
                     </form>
 
-                    <div style="height: 25px; width:50px; background:#351717; opacity:0.5;">
-                        <button style="width:100%; height:100%;" type="button" onclick="showcolors()">Color</button>
+                    <div class="showColorButton">
+                        <button style="width:100%; height:100%;" type="button" onclick="showcolors('colorpanel', 'emptypanel')">Color</button>
                     </div>
                 </div>
             </div>
@@ -246,7 +258,7 @@
         </div>
 
         <div style="display:flex; flex-direction:row;">
-            <div>
+            <div class="test">
                 <div style="min-width: 250px; min-height: 250px; height:auto; padding: 10px 0; margin: 1em 1em 0 0; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
                     <h4>External Websites</h4><br>
                     <h5>Add links to external websites</h5>
@@ -268,7 +280,7 @@
                 </div>
             </div>
 
-            <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; width:60%;">
+            <div class="makebig">
                 <div style="width: 100%; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
                     <h2  style="border-bottom:1px solid black; width:90%; margin:0 5%;">Personal Information</h2><br>
                     <div th:if="${member.message==null}" style="width:90%; margin:0 5%;">
@@ -301,7 +313,7 @@
                     <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openEducationForm();">Education Info</button>
                 </div>
 
-                <div style="width: 100%;; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+                <div style="width: 100%; min-height:150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
                     <h2  style="border-bottom:1px solid black; width:90%; margin:0 5%;">Previous Experience</h2><br>
                     <div th:if="${member.experiences.isEmpty()}" style="width:90%; margin:0 5%;">
                         <h4>Add details about your previous experience.</h4><br>
@@ -324,6 +336,22 @@
                 </div>
 
                 <div style="width: 100%; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+                    <h2 style="border-bottom:1px solid black; width:90%; margin:0 5%;">Programming Languages - Frontend</h2><br>
+                    <div th:if="${member.languages.isEmpty()}" style="width:90%; margin:0 5%;">
+                        <h4>Known programming languages.</h4><br>
+                        <p>Include known programming languages and how many years experience.</p>
+                    </div><br>
+                    <div th:if="${!member.languages.isEmpty()}" style="width:90%; margin:0 5%;">
+                        <button type="button" style="color:white; background-color: black; margin-bottom:0.2em;">Edit</button><br>
+                        <div th:each="l : ${member.getLanguages()}" style="border: 1px dashed black; margin-bottom:0.2em;">
+                            <label th:text="*{l.language}">universityLocation</label><br>
+                            <label th:text="*{l.yearsExperience}">yearStarted</label><br>
+                        </div>
+                    </div><br>
+                    <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openLanguageForm()">Add programming languages</button>
+                </div>
+
+                <div style="width: 100%; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; margin-bottom:1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
                     <h2  style="border-bottom:1px solid black; width:90%; margin:0 5%;">Job Related Skills</h2><br>
                     <div style="width:90%; margin:0 5%;">
                         <h4>Add job related skills.</h4><br>
@@ -331,18 +359,9 @@
                     </div><br>
                     <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openSkillsForm()">Add skills</button>
                 </div>
-
-                <div style="width: 100%; min-height: 150px; height:auto; padding: 10px 0; margin-top: 1em; margin-bottom:1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
-                    <h2 style="border-bottom:1px solid black; width:90%; margin:0 5%;">Programming Languages - Frontend</h2><br>
-                    <div style="width:90%; margin:0 5%;">
-                        <h4>Known programming languages.</h4><br>
-                        <p>Include known programming languages and how many years experience.</p>
-                    </div><br>
-                    <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openLanguageForm()">Add programming languages</button>
-                </div>
             </div>
 
-            <div>
+            <div class="test">
                 <div style="min-width: 250px; min-height: 250px; height:auto; padding: 10px 0; margin: 1em 0 0 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
                     <h4>Content</h4>
                 </div>

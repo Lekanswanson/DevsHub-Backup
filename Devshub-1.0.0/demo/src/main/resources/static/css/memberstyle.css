@@ -33,42 +33,120 @@ footer{
 .headerDiv{
     z-index:1;
     position:fixed;
-    width:100%;
+    width:100vw;
     background-color: black;
-    margin-top:0em;
     display:flex;
     flex-direction:row;
     justify-content: center;
 }
-.sectionDiv{
-    width:100%;
-    height:88%;
-    margin-top:3.2em;
+.labelDiv{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:auto;
+    margin-top: 3.2em;
+    #border:1px solid black;
+}
+.innerLabelDiv{
+    height:50px;
+    #border:1px solid black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.labelFont{
+    font-size:1em;
+}
+.searchDiv{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:auto;
+    border:1px solid black;
+}
+.innerSearchDiv{
+    height:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    #border:1px solid black;
+}
+.searchBox{
+    height:80px;
+    #border:1px solid black;
     display:flex;
     flex-direction:row;
-    text-align:center
+    justify-content:center;
+    align-items:center;
 }
-.codeDiv{
-    width:50%;
-    height:100%;
-    border:1px solid black;
+.membersDiv{
     display:flex;
     flex-direction:column;
-    align-items:center;
-    justify-content:center;
-}
-.interviewDiv{
-    width:50%;
-    height:100%;
+    min-height:500px;
+    height:auto;
     border:1px solid black;
+    #background:magenta;
+}
+.memberStyle{
+    height:auto;
     display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+    flex-wrap:wrap;
+    #justify-content:space-evenly;
+    margin: 0.5em 0;
+    border:2px solid black;
+    #background:cyan;
+}
+.imageDiv{
+    background:blue;
+    max-width:100px;
+    max-height:100px;
+}
+.imageStyle{
+    border:1px solid black;
+    #max-height: 100px;
+    height:100%;
+    width:100%;
+}
+.nameDiv{
+    max-height:100px;
+    border:1px solid black;
+}
+.nameStyle{
+    height:auto;
+    #margin: 20px 0px 20px 5px;
+}
+.educationDiv{
+    max-height:100px;
+    border:1px solid black;
+}
+.empty{
+    height:auto;
 }
 
-a:link{
-    text-decoration:none;
+.educationStyle{
+    max-height:100px;
+    height:auto;
+    #margin: 5px; 0px 5px 5px;
+}
+.experienceDiv{
+    max-height:100px;
+    border:1px solid black;
+}
+.experienceStyle{
+    height:auto;
+    #margin: 5px; 0px 5px 5px;
+}
+.languageDIv{
+    height: auto;
+    border:1px solid black;
+}
+
+
+
+
+
+a:link {
+	text-decoration: none;
 }
 
 .flexlist{
@@ -103,12 +181,12 @@ a:link{
     display:none;
 }
 
+
 footer{
 	text-align: center;
-	font-size:small;
 }
 footer p{
-	margin: 2em 0 0 0;
+	margin: 0 0 0 0;
 }
 
 
@@ -119,9 +197,11 @@ footer p{
 .backlayout
 {
 	display: grid;
+	height:100vh;
 	width:100vw;
-	grid-template-rows: auto 60vh auto;
 	grid-template-areas: 	"header"
+				            "aside"
+				            "beside"
 				            "section"
 				            "footer";
 }
@@ -131,7 +211,6 @@ footer p{
 
 @media only screen and (min-width: 720px)
 {
-
 	.backlayout
 	{
 		display: grid;
@@ -148,7 +227,6 @@ footer p{
 
 @media only screen and (min-width: 900px)
 {
-
 	.backlayout
 	{
 		display: grid;
@@ -174,7 +252,7 @@ footer p{
 		width:100vw;
 		grid-template-rows: 4vh auto 4vh;
 		grid-template-columns: auto 1024px auto;
-		grid-template-areas: 	"aside header beside"
+		grid-template-areas: 	"header header header"
 								"aside section beside"
 								"footer footer footer";
 	}
@@ -182,7 +260,6 @@ footer p{
 
 /* Apply the following styles to screens > 1024px */
 @media only screen and (min-width: 1200px) {
-
 	.backlayout{
 		display: grid;
 		overflow-x: hidden; !important;
@@ -190,7 +267,7 @@ footer p{
 		width:100vw;
 		grid-template-rows: 4vh auto 4vh;
 		grid-template-columns: auto 1200px auto;
-		grid-template-areas: 	"aside header beside"
+		grid-template-areas: 	"header header header"
 								"aside section beside"
 								"footer footer footer";
 	}
@@ -198,7 +275,7 @@ footer p{
 	.headerDiv{
         z-index:1;
         position:fixed;
-        width:1200px;
+        width:100vw;
         background-color: black;
         margin-top:0em;
         border: 1px solid #d9d9d9;
@@ -206,35 +283,112 @@ footer p{
         flex-direction:row;
         justify-content: center;
     }
-    .sectionDiv{
-        width:100%;
-        height:90%;
+    .labelDiv{
         display:flex;
-        flex-direction:row;
+        justify-content:center;
         align-items:center;
-        justify-content:space-evenly;
+        height:100px;
+        margin-top: 2vh;
+        border:1px solid black;
     }
-    .codeDiv{
-        width:400px;
-        height:500px;
+    .innerLabelDiv{
+        height:50px;
+        width:600px;
         border:1px solid black;
         display:flex;
-        flex-direction:column;
-        align-items:center;
         justify-content:center;
+        align-items:center;
     }
-    .interviewDiv{
+    .labelFont{
+        font-size:30px;
+    }
+    .searchDiv{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:200px;
+        border:1px solid black;
+    }
+    .innerSearchDiv{
+        height:100px;
+        width:600px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border:1px solid black;
+    }
+    .searchBox{
         width:400px;
-        height:500px;
-        border: 1px solid black;
+        height:80px;
+        border:1px solid black;
+        display:flex;
+        flex-direction:row;
+        justify-content:center;
+        align-items:center;
+    }
+    .membersDiv{
         display:flex;
         flex-direction:column;
-        align-items:center;
         justify-content:center;
+        align-items:center;
+        min-height:500px;
+        height:auto;
+        border:1px solid black;
+    }
+    .memberStyle{
+        width:1200px;
+        height:200px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        margin-bottom:1em;
+        border:1px solid black;
+    }
+    .imageDiv{
+        width: 100px;
+        height: 100px;
+    }
+    .imageStyle{
+        border:1px solid black;
+        width: 100px;
+        height: 100px;
+    }
+    .nameDiv{
+        width: 150px;
+        height: 100px;
+        border:1px solid black;
+    }
+    .nameStyle{
+        height:60px;
+        margin: 20px 0px 20px 5px;
+    }
+    .educationDiv{
+        width: 200px;
+        height: 100px;
+        border:1px solid black;
+    }
+    .educationStyle{
+        height:90px;
+        margin: 5px; 0px 5px 5px;
+    }
+    .experienceDiv{
+        width: 200px;
+        height: 100px;
+        border:1px solid black;
+    }
+    .experienceStyle{
+        height:90px;
+        margin: 5px; 0px 5px 5px;
+    }
+    .languageDIv{
+        width: 100px;
+        height: 100px;
+        border:1px solid black;
     }
 
-    a:link{
-        text-decoration:none;
+
+    a:link {
+    	text-decoration: none;
     }
 
     .flexlist{
@@ -269,9 +423,9 @@ footer p{
         display:block;
     }
 
+
     footer{
     	text-align: center;
-    	font-size:medium;
     }
     footer p{
     	margin: 0 0 0 0;

@@ -1,44 +1,36 @@
-var sticky;
-var navbar;
-var defaultOffset;
+$(function(){
+    var textarea = document.getElementById("dcomments");
+    var limit = 400;
+    var savecount=0;
 
-window.onscroll = function()
-{
-	myFunction()
-}
+    textarea.oninput = function()
+    {
+        var message="";
+        var count=textarea.value.length;
 
-window.addEventListener("load", getOffset)
-window.addEventListener("fullscreenchange", getOffset)
+        count = count - savecount;
+        if(count === 36)
+        {
+            textarea.style.height = "";
+            textarea.style.height = Math.min(textarea.scrollHeight+30, limit) + "px";
+            console.log("dang")
+        }
+        else if(count===51)
+        {
+            message += textarea.value;
+            savecount = savecount + count;
+        }
 
-function getOffset()
-{
-	var nav = document.getElementById("navbar");
-  	var stick = nav.offsetTop;
-
-	if(window.pageYOffset == 0)
-	{
-		defaultOffset = stick;
-	}
-	  
-	if(stick == 0)
-	{
-		sticky = defaultOffset;
-	}
-	else
-	{
-		sticky = stick;
-	}
-}
-
-function myFunction() 
-{
-
-  	if (window.pageYOffset >= sticky) 
-  	{
-  		nav.classList.add("sticky")
-  	} 
-  	else
-  	{
-    	nav.classList.remove("sticky")
-  	}
-}
+        if(textarea.value.length < savecount)
+        {
+            savecount=savecount-51;
+            textarea.style.height = "";
+            textarea.style.height = Math.min(textarea.scrollHeight+30, limit) + "px";
+        }
+        if(textarea.value.length===0)
+        {
+            textarea.style.height = "";
+            textarea.style.height = Math.min(textarea.scrollHeight+2, limit) + "px";
+        }
+    };
+});

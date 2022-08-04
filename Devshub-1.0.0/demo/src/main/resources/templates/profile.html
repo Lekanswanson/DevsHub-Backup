@@ -4,13 +4,14 @@
     <title>DevsHub</title>
     <link th:href="@{/css/profstyle.css}" type="text/css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script th:src="@{/jquery/jquery-3.6.0.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/profile.js}"></script>
     <script type="text/javascript" th:src="@{/js/sticky.js}"></script>
 </head>
 
 <body>
-    <div style="display:flex; flex-direction:column;">
-        <div style="position:fixed; z-index:2; width:100vw; background-color:black; border: 1px solid #d9d9d9; display:flex; flex-direction:row; justify-content:center; 	font-family: Arial, Helvetica, sans-serif;">
+    <div style="display:flex; flex-direction:column; overflow-x:hidden; !important;">
+        <div class="navClass">
             <div id="prof" class="flexlist active"><a class="active"  href="/user/profile">Profile</a></div>
             <div id="cv" class="flexlist"><a href="/user/cv">CV</a></div>
             <div class="flexlist"><a href="/user/projects">Projects</a></div>
@@ -27,8 +28,8 @@
 
         <div class="backlayout" id="backlayout">
             <header>
-                <div id="profcolor" class="contain" style="border-radius:10px; border: 1px solid #d9d9d9; margin-top:4em; text-align: center; background-color: #dfb9de; position:relative;">
-                    <div style="width: 600px; margin: auto;">
+                <div id="profcolor" class="contain" th:style="|background: ${color};|">
+                    <div class="headerDiv">
                         <div class="center">
                             <form id="vim" th:action="@{/profile/save/image}" method="post" enctype="multipart/form-data">
                                 <label>
@@ -38,14 +39,14 @@
                             </form>
                         </div>
                         <div class="player">
-                            <div style="width: 200px; height:100%; float:right; background-color:black; border-top-right-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+                            <div class="leftInfo rightInfo">
                                 <label>Position</label>
                                 <label>Years Experience</label>
                                 <label>Blank</label>
                                 <label>Blank</label>
                             </div>
 
-                            <div th:object="${member}" style="width: 200px; height:100%; background-color:black; border-top-left-radius:40px; display:flex; flex-direction:column; justify-content:space-evenly;">
+                            <div th:object="${member}" class="leftInfo">
                                 <label th:text="*{firstName}">First Name</label>
                                 <label th:text="*{lastName}">Last Name</label>
                                 <label th:text="*{getEmail}">Email</label>
@@ -54,33 +55,33 @@
                         </div>
                     </div>
 
-                    <div style="background:black; position:absolute; right:0; bottom:0; display:flex; flex-direction:column; height:25px; opacity:0.5">
+                    <div class="profileEditButton">
                         <button style="width:100%; height:100%;" type="button" onclick="">Edit profile</button>
                     </div>
 
-                    <div style="background:inherit; height:50px; width:100px; position:absolute; right:0; top:0; display:flex; flex-direction:row; justify-content:flex-end;">
-                        <div class="show" id="emptypan">
-
+                    <div class="bgColorEdit">
+                        <div class="show" id="emptypanelprof">
                         </div>
 
-                        <div class="hide" id="colorpan">
-                            <button type="button" onclick="changeBackGroundColour('#cad07c');" style="background:#cad07c;"></button>
-                            <button type="button" onclick="changeBackGroundColour('red');" style="background:red;"></button>
-                            <button type="button" onclick="changeBackGroundColour('cyan');" style="background:cyan;"></button>
-                            <button type="button" onclick="changeBackGroundColour('purple');" style="background:purple;"></button>
-                        </div>
+                        <form action="#" th:action="@{/user/setcolor/profile}" th:object="${member}" method="post" class="hide" id="colorpanelprof">
+                            <input type="hidden" th:field="*{color}" id="setcp">
+                            <button type="button" onclick="setColor('#cad07c');" style="background:#cad07c;"></button>
+                            <button type="button" onclick="setColor('red');" style="background:red;"></button>
+                            <button type="button" onclick="setColor('cyan');" style="background:cyan;"></button>
+                            <button type="button" onclick="setColor('purple');" style="background:purple;"></button>
+                        </form>
 
-                        <div style="height: 25px; width:50px; background:#351717; opacity:0.5;">
-                            <button style="width:100%; height:100%;" type="button" onclick="showcolorsProfile()">Color</button>
+                        <div class="showColorButton">
+                            <button style="width:100%; height:100%;" type="button" onclick="showcolors('colorpanelprof', 'emptypanelprof')">Color</button>
                         </div>
                     </div>
                 </div>
             </header>
 
             <section>
-                <div style="display:flex; flex-direction:row;">
+                <div class="sectionDiv">
                     <div>
-                        <div style="width:250px; height:300px; padding: 10px 0; margin: 1em 1em 0 0; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+                        <div class="toolsMenu">
                             <h3>Top 5 Industry Tools</h3><br>
                             <ul>
                                 <li><a href="">Github</a></li>
@@ -90,7 +91,7 @@
                                 <li><a href="">Maven</a></li>
                             </ul>
                         </div>
-                        <div id="navbar" class="" style="width:250px; height:300px; padding: 10px 0; margin: 1em 1em 0 0;  background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+                        <div id="navbar" class="challengesMenu">
                             <h3>Daily Challenges</h3><br>
                             <h5>Improve your coding skills by trying these challenges</h5><br>
                             <ul>
@@ -101,47 +102,68 @@
                         </div>
                     </div>
 
-                    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; margin-top: 1em; background-color: whitesmoke; border-radius:10px; width:700px;">
-                        <div th:if="${!articles.isEmpty()}" th:each="article : ${articles}"  style="width:100%; min-height:200px; margin-bottom:0.5em; height:auto; background-color:white; border-radius:10px; border:1px solid #d9d9d9;">
-                            <div style="border-bottom: 1px solid  #d9d9d9; margin-bottom:0.5em; height: 2em; border-top-left-radius:10px; border-top-right-radius:10px;">
+                    <div class="newsFeed">
+                        <div th:if="${!articles.isEmpty()}" th:each="article : ${articles}" class="articles">
+                            <div class="titleDiv">
                                 <h3 th:text="*{article.title}">Dynamic content title/Articles</h3>
                             </div>
 
-                            <div style="margin-bottom:0.5em; height: 1.5em;">
+                            <div class="description">
                                 <h6 th:text="*{article.description}">Dynamic content description link</h6>
                             </div>
 
-                            <div style="height:4em;">
+                            <div class="articleLink">
                                 <a th:text="*{article.link}" th:href="@{${article.link}}">Content area/Image. Clickable link</a>
                             </div>
 
-                            <div style="border-bottom:1px solid #d9d9d9; height:6em; background:pink;">
-                                <h2>Comment Section</h2>
-                                <div>
-                                    <input type="text" name="comments">
-                                    <button>Post</button>
-                                </div>
-                                <label><h5>User comments</h5></label>
-                            </div>
 
-                            <div style="display:flex;">
+                            <div style="display:flex; height:auto;">
                                 <form class="react" action="#" th:action="@{/article/addlike}" method="post">
                                     <label style="margin-right:2px;" th:if="${article.likes != 0}" th:text="*{article.likes}">0</label>
-                                    <button type="submit">Helpful?</button>
+                                    <button type="submit">Like</button>
                                     <input type="hidden" th:name="id" th:value="${article.id}">
                                 </form>
                                 <div class="react">
-                                    <button>Rate</button>
+                                    <button type="button" th:data-longDescription="${article.id}"  onclick="showCommentsDiv(this.getAttribute('data-longDescription'))">Comment</button>
                                 </div>
-                                <div class="react" style="border:none;">
+                                <div class="react">
                                     <button>Share</button>
                                 </div>
                             </div>
+
+                            <div th:id="|usercomment_${article.id}|" class="hide">
+                                <h2>Comment Section</h2>
+                                <div th:id="${article.id}" class="commentsDiv">
+                                    <img class="commImg" th:src="@{${member.image}}"/>
+                                    <textarea id="dcomments" rows="1" cols="10" name="comments"></textarea>
+                                    <button id="emoji">Emoji</button>
+                                    <button id="post">Post</button>
+                                </div>
+                                <div class="userComments">
+                                    <label><h5>User comments</h5></label>
+
+                                    <div class="commdiv" style="display:flex;">
+                                        <img class="commImg" src="../images/person.png"/>
+                                        <div class="usercomdiv">
+                                            <h4>Tom</h4>
+                                            <label>This is a fantastic article.</label>
+                                        </div>
+                                    </div>
+                                    <div class="commdiv" style="display:flex;">
+                                        <img class="commImg" src="../images/person.png"/>
+                                        <div class="usercomdiv">
+                                            <h4>James</h4>
+                                            <label>Very imformative.</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
                     <div>
-                        <div style="width: 250px; height:300px; 10px 0; margin: 1em 0 0 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+                        <div class="booksMenu">
                             <div>
                                 <h2 style="border-bottom: 1px solid whitesmoke;">Reading Material</h2>
                                 <h4>Books worth reading</h4>
@@ -175,15 +197,15 @@
                                 </li>
                             </ul>
                         </div>
-                        <div style="width:250px; height:300px; padding: 10px 0; margin: 1em 0 0 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
+                        <div class="analytics">
                             <h3>Analytics</h3><br>
-                            <div style="width:150px: height:150px; margin:0 25px; ">
+                            <div class="profileViews">
                                 <h4><a href="">Profile Views</a></h4><br>
                                 <h5><a href="">See who view your profile</a> </h5>
                             </div>
                             <br>
                             <h3>Activity</h3><br>
-                            <div style="width:150px: height:150px; margin:0 25px; ">
+                            <div class="activities">
                                 <h4><a href="">Recent activities</a></h4><br>
                                 <h5><a href="">Accomplishments</a> </h5>
                             </div>

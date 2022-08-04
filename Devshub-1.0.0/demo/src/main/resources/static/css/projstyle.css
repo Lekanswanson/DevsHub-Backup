@@ -34,54 +34,72 @@ footer{
 }
 
 
-.btn:hover{
-	background-color: red;
+.headerDiv{
+    z-index:1;
+    position:fixed;
+    width:100%;
+    background-color: black;
+    margin-top:0em;
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    position:fixed;
 }
-.btn{
-    background-color: pink;
+.emptyProj{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:1em auto 0 auto;;
+    height:50vh;
+    width:100%;
+    border:1px solid black;
 }
-
-.formbtn:hover{
-	background-color: red;
-}
-
-.formbtn{
-    background-color: pink;
-}
-
-.blur{
-    filter: blur(4px);
-    -webkit-filter: blur(4px);
-    overflow-y:hidden;
-}
-
-.center {
-  background: #e6e6e6;
-  border: 1px solid black;
-  max-width: 200px;
-  width: auto;
-  height: 200px;
-  border-radius: 50%;
-  #display: flex;
-  align-items: center;
-  text-align: center;
-  margin-top: 2em;
-  margin-left: 12.5em;
-}
-.center:hover {
-    background-color: gray;
+.projItem{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100%;
 }
 
-
-.player {
-  margin-top: -2em;
-  max-width: 600px;
-  width: auto;
-  height: 200px;
-  border-top-right-radius: 40px;
-  border-top-left-radius: 40px;
-  background-image: radial-gradient(circle at 300px -50px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 110px, black 10px);
-  color: #FFF;
+.mainDiv{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:0em;
+    height:auto;
+}
+.detailDiv{
+    z-index:0;
+    width:100%;
+    height:auto;
+    display:flex;
+    flex-direction:column;
+    margin:1em 0 1em 0;
+}
+.details{
+    width:100%;
+    height:auto;
+    padding:10px 0;
+    display:flex;
+    flex-direction:column;
+    background-color: black;
+    color:white;
+    border-radius: 10px;
+    border:1px solid white;
+}
+.detailsTitle{
+    border:none;
+    border-bottom:1px solid black;
+    border-radius:0px;
+}
+.videoDiv{
+    width:100%;
+    height:auto;
+    padding:10px 0;
+    background-color:black;
+    border-radius:10px;
+    border:1px solid #d9d9d9;
 }
 
 
@@ -91,6 +109,7 @@ a:link {
 .flexlist{
     padding: 1em 0em;
     background-color: black;
+    margin:auto;
 }
 .flexlist:hover{
 	border-top: 5px solid green;
@@ -98,14 +117,14 @@ a:link {
 .flexlist a{
 	text-decoration: none;
 	border: none;
-	padding: 1em 1em;
+	padding: 1em 0em;
 }
 .flexlist a:hover{
     color:whitesmoke;
 	padding: 1em 2em;
 }
 .active{
-    padding: 0.6875em 0em;
+    padding-top: 0.6875em;
     border-top: 5px solid yellow;
     color:gray;
 }
@@ -116,101 +135,51 @@ a:link {
 .stop{
     padding: 1em 0em;
     background-color: black;
+    display:none;
 }
 
-
-
-
-.educationbox{
-	width: 40%;
-	height: 400px;
-	position:absolute;
-	top:10em;
-	left:30%;
-	border: 1px solid black;
-	display: inline-flex;
-	flex-direction: column;
-	background-color: white;
-    z-index: 2;
-}
-
-.editbox{
-	width: 40%;
-	height: 400px;
-	position:absolute;
-	top:10em;
-	left:30%;
-	border: 1px solid black;
-	display: inline-flex;
-	flex-direction: column;
-	background-color: white;
-	z-index: 2;
-}
-
-#eduform input{
-    width:80%;
-    margin: 0 auto;
-    border: 1px solid black;
-}
-
-.editforms input{
-    width:80%;
-    margin: 0 auto;
-    border: 1px solid black;
-}
-
-#msg{
-    margin-left: 1em;
-}
-
-
-.player label{
-	#border: 1px solid black;
-	flex-grow: 1;
-	display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .project{
-    border: 1px solid black;
+    border: 1px solid white;
     width: 80%;
-    margin: 2% 10%;
+    margin: 2% auto;
     border-radius: 5px;
 }
-
-.project button{
-    float:right;
+.project:first-child:hover{
+    background:inherit;
 }
-.project button:hover{
-    background-color: pink;
+.project:hover{
+    background:pink;
 }
 
 .proj{
     z-index:0;
-    width:400px;
+    width:80%;
     height:auto;
     border:1px solid #bec2bc;
     background:white;
-    margin:4em 400px 0 400px;
+    margin:4em auto 0 auto;
+    position:relative;
 }
-
 .proj button{
     background: #59f91f;
 }
 .proj button:hover{
     background: #39c705;
 }
-
 .projdrop{
     z-index:0;
-    width:400px;
+    width:80%;
     height:auto;
     border:1px solid #bec2bc;
     background:white;
-    margin:0em 400px 0 400px;
+    margin: 0em auto 0 auto;
     padding: 10px 0;
 }
+.projdrop button:hover{
+    background-color: pink;
+}
+
 .hide{
     display:none;
 }
@@ -247,8 +216,9 @@ footer p{
 .backlayout
 {
 	display: grid;
-	height: 100vh;
+	height: auto;
 	width:100vw;
+	overflow-x:hidden; !important;
 	grid-template-areas: 	"header"
 				            "aside"
 				            "section"
@@ -289,6 +259,182 @@ footer p{
 								"aside section beside"
 								"footer footer footer";
 	}
+
+    .headerDiv{
+        z-index:1;
+        position:fixed;
+        width:60vw;
+        background-color: black;
+        margin-top:0em;
+        border: 1px solid #d9d9d9;
+        display:flex;
+        flex-direction:row;
+        justify-content: center;
+    }
+    .emptyProj{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        margin-top:1em;
+        height:400px;
+        border:1px solid black;
+    }
+    .projItem{
+        width:60vh;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:100%;
+    }
+
+    .mainDiv{
+        display:flex;
+        flex-direction:column;
+        margin-bottom:1em;
+        height:auto;
+    }
+    .detailDiv{
+        z-index:0;
+        width:60vw;
+        height:420px;
+        display:flex;
+        flex-direction:row;
+        margin:2em 0 0 0;
+    }
+    .details{
+        width:400px;
+        height:400px;
+        height:auto;
+        padding:10px 0;
+        display:flex;
+        flex-direction:column;
+        background-color: black;
+        color:white;
+        border-radius: 10px;
+        border: 1px solid #d9d9d9;
+    }
+    .detailsTitle{
+        border:none;
+        border-bottom:1px solid black;
+        border-radius:0px;
+    }
+    .videoDiv{
+        width:800px;
+        height:400px;
+        height:auto;
+        padding:10px 0;
+        background-color:black;
+        border-radius:10px;
+        border:1px solid #d9d9d9;
+    }
+
+
+    a:link {
+    	text-decoration: none;
+    }
+    .flexlist{
+        padding: 1em 0em;
+        background-color: black;
+        margin:0;
+    }
+    .flexlist:hover{
+    	border-top: 5px solid green;
+    }
+    .flexlist a{
+    	text-decoration: none;
+    	border: none;
+    	padding: 1em 1em;
+    }
+    .flexlist a:hover{
+        color:whitesmoke;
+    	padding: 1em 2em;
+    }
+    .active{
+        padding: 0.6875em 0em;
+        border-top: 5px solid yellow;
+        color:gray;
+    }
+    .active:hover{
+        padding: 1em 0em;
+        color:white;
+    }
+    .stop{
+        padding: 1em 0em;
+        background-color: black;
+        display:block;
+    }
+
+
+    .project{
+        border: 1px solid white;
+        width: 80%;
+        margin: 2% auto;
+        border-radius: 5px;
+    }
+    .project:first-child:hover{
+        background:inherit;
+    }
+    .project:hover{
+        background:pink;
+    }
+
+    .proj{
+        z-index:0;
+        width:400px;
+        height:auto;
+        border:1px solid #bec2bc;
+        background:white;
+        margin:2em auto 0 auto;
+    }
+    .proj button{
+        background: #59f91f;
+    }
+    .proj button:hover{
+        background: #39c705;
+    }
+    .projdrop{
+        z-index:0;
+        width:400px;
+        height:auto;
+        border:1px solid #bec2bc;
+        background:white;
+        margin:0em auto 0 auto;
+        padding: 10px 0;
+    }
+    .projdrop button:hover{
+        background-color: pink;
+    }
+
+    .hide{
+        display:none;
+    }
+
+    #addProject{
+        display:flex;
+        flex-direction:column;
+        height:auto;
+    }
+    .exempt{
+        width: 80%;
+        margin: 0.5em auto;
+        border:1px solid #c5cdec;
+    }
+
+    .dropSelect{
+        border:1px solid black;
+        display:flex;
+        flex-direction:row;
+    }
+
+
+    footer{
+    	text-align: center;
+    }
+    footer p{
+    	margin: 0 0 0 0;
+    }
+
 }
 
 

@@ -5,7 +5,7 @@ function switchSize()
    var image = document.getElementById('userimg')
    if(image!==null)
    {
-      if(image.src!=="http://"+window.location.host+"/images/person.png")
+      if(image.src!=="https://"+window.location.host+"/images/person.png")
       {
            image.classList.remove("default");
            image.classList.add("replace");
@@ -192,9 +192,9 @@ function userAction() {
 }
 
 
-function showcolors(){
-    var colorpanel = document.getElementById('colorpanel');
-    var emptypanel = document.getElementById('emptypanel');
+function showcolors(id, ident){
+    var colorpanel = document.getElementById(id);
+    var emptypanel = document.getElementById(ident);
 
     if(!emptypanel.classList.contains('hide'))
     {
@@ -302,13 +302,12 @@ function dropDown()
 (function pollReceiver() {
     setTimeout(function() {
         $.ajax({
-            url: "http://"+window.location.host+"/receiver/inbox",
+            url: "https://"+window.location.host+"/receiver/inbox",
             type: "GET",
             success: function(data)
             {
                 if(data !== "")
                 {
-                    alert(data);
                     document.getElementById("notifcv").style = "background:red";
                 }
             },
@@ -318,3 +317,100 @@ function dropDown()
         })
     }, 5000);
 })();
+
+function addLanguage(language, yearExp, div)
+{
+    var selected = document.getElementById(language).value;
+    var year = document.getElementById(yearExp).value;
+
+    var newDiv = document.createElement("DIV");
+    newDiv.id = selected;
+
+    var label = document.createElement("LABEL");
+    label.style.marginRight = "10px"
+
+    var h5 = document.createElement("H5");
+    var text = document.createTextNode(selected);
+
+    h5.appendChild(text);
+    label.appendChild(h5);
+
+    var button = document.createElement("BUTTON");
+    button.type = "button"
+    button.id=selected+"_"+year;
+
+    button.onclick = function() {
+        removeMenu(this.id, div);
+        document.getElementById('langtext').value = document.getElementById('langtext').value.replace(this.id.split("_")[0]+"_",'');
+        document.getElementById('langyear').value = document.getElementById('langyear').value.replace(this.id.split("_")[1]+"_",'');
+     };
+
+    var buttonText = document.createTextNode("X");
+
+    button.appendChild(buttonText);
+
+    newDiv.appendChild(label);
+    newDiv.appendChild(button);
+    newDiv.classList.add("dropSelect");
+
+    // add the newly created element and its content into the DOM
+    const currentDiv = document.getElementById(div);
+    currentDiv.appendChild(newDiv);
+
+    document.getElementById('langtext').value += selected+'_';
+    document.getElementById('langyear').value += year+'_';
+}
+
+$(function(){
+    $('#plang').on('input', function() {
+        const nameDiv = document.getElementById("showLang").replaceChildren();
+        $.ajax({
+            url: "https://"+window.location.host+"/list/languages",
+            type: "GET",
+            dataType: "text",
+            data: {
+                "language": document.getElementById("plang").value
+            },
+            success: function(data) {
+                if(data==="")
+                {
+                    const nameDiv = document.getElementById("showLang");
+                    nameDiv.classList.remove("display");
+                    nameDiv.classList.add("hide");
+                }
+                else
+                {
+                    const arr = data.split("_");
+                    for(var i=0; i<5; i++)
+                    {
+                        if(arr[i].length !== 0)
+                        {
+                            createNameDiv(arr[i].trim());
+                        }
+                    }
+                }
+            }
+        });
+    });
+});
+function createNameDiv(name)
+{
+    const nameDiv = document.getElementById("showLang");
+
+    nameDiv.classList.remove("hide");
+    nameDiv.classList.add("display");
+
+    var newDiv = document.createElement("DIV");
+    var userName = document.createElement("A");
+    var text = document.createTextNode(name);
+
+    userName.onclick = function(){
+        document.getElementById("plang").value=name;
+        nameDiv.classList.remove("display");
+        nameDiv.classList.add("hide");
+    }
+
+    userName.appendChild(text);
+    newDiv.appendChild(userName);
+    nameDiv.appendChild(newDiv);
+}

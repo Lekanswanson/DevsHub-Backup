@@ -24,20 +24,18 @@ public class Member
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    //private int memberId;
     @Autowired
     private MemberEmail email;
     @Autowired
-    private ArrayList<Education> education = new ArrayList<>();
+    private ArrayList<Education> education;
     @Autowired
-    private ArrayList<Experience> experiences = new ArrayList<>();
+    private ArrayList<Experience> experiences;
     @Autowired
-    private ArrayList<Project> projects = new ArrayList<>();
+    private ArrayList<Project> projects;
     @Autowired
-    private Map<String, ArrayList<Message>> messages = new HashMap<String, ArrayList<Message>>();
-
-    private ArrayList<Message> inbox = new ArrayList<>();
-
+    private Map<String, ArrayList<Message>> messages;
+    @Autowired
+    private ArrayList<ProgrammingLanguages> languages = new ArrayList<>();
     private String firstName;
     private String lastName;
     private String location;
@@ -151,7 +149,6 @@ public class Member
         projects.add(project);
     }
 
-
     public void addMessagesToInbox(String name, ArrayList<Message> message) {
         messages.put(name, message);
     }
@@ -162,6 +159,16 @@ public class Member
 
     public void setMessages(Map<String, ArrayList<Message>> messages) {
         this.messages = messages;
+    }
+
+    public void setProgrammingLanguages(ArrayList<ProgrammingLanguages> languages)
+    {
+        this.languages=languages;
+    }
+
+    public ArrayList<ProgrammingLanguages> getLanguages()
+    {
+        return languages;
     }
 
     @Override

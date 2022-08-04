@@ -1,9 +1,83 @@
 var currentUserView="";
 
 $(function(){
+    var textarea = document.getElementById("dmsg");
+    var limit = 64;
+
+    textarea.oninput = function() {
+      textarea.style.height = "";
+      textarea.style.height = Math.min(textarea.scrollHeight, limit) + "px";
+    };
+});
+
+$(function(){
+    $('#rcvname').on('input', function() {
+        const nameDiv = document.getElementById("showNames").replaceChildren();
+        $.ajax({
+            url: "https://"+window.location.host+"/list/members",
+            type: "GET",
+            dataType: "text",
+            data: {
+                "email": document.getElementById("rcvname").value
+            },
+            success: function(data) {
+                if(data==="")
+                {
+                    const nameDiv = document.getElementById("showNames");
+                    nameDiv.classList.remove("display");
+                    nameDiv.classList.add("hide");
+                }
+                else
+                {
+                    const arr = data.split("_");
+                    for(var i=0; i<arr.length; i++)
+                    {
+                        if(arr[i].length !== 0)
+                        {
+                            createNameDiv(arr[i].trim());
+                        }
+                    }
+                }
+            }
+        });
+    });
+});
+
+function createNameDiv(name)
+{
+    const nameDiv = document.getElementById("showNames");
+
+    nameDiv.classList.remove("hide");
+    nameDiv.classList.add("display");
+
+    var newDiv = document.createElement("DIV");
+    var userName = document.createElement("A");
+    var text = document.createTextNode(name);
+
+    userName.onclick = function(){
+        document.getElementById("rcvname").value=name;
+        nameDiv.classList.remove("display");
+        nameDiv.classList.add("hide");
+    }
+
+    userName.appendChild(text);
+    newDiv.appendChild(userName);
+    nameDiv.appendChild(newDiv);
+}
+
+
+$(function(){
     getPerson();
 });
 
+
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+    document.getElementById("memberNameView").classList.add("hide");
+  } else {
+    document.getElementById("memberNameView").classList.remove("hide");
+  }
+}
 function showMessageDiv(user){
 
     const currentDiv = document.getElementById("memName");
@@ -21,6 +95,13 @@ function showMessageDiv(user){
                 document.getElementById("rcvname").value = user;
                 document.getElementById(user).classList.remove("hide");
                 document.getElementById(user).classList.add("show");
+
+                document.getElementById("myView").classList.add("messageDivShow");
+
+                var x = window.matchMedia("(max-width: 700px)");
+                myFunction(x);
+
+                //document.getElementById("memberMessageDiv").classList.remove("memberMessageDiv");
             }
             catch(error)
             {
@@ -49,7 +130,7 @@ function getPerson()
 {
     //alert(window.location.host);
     $.ajax({
-        url: "http://"+window.location.host+"/user/email",
+        url: "https://"+window.location.host+"/user/email",
         type: "GET",
         dataType: "text",
         success: function(data) {
@@ -64,7 +145,7 @@ function postform()
     var message = document.getElementById("dmsg").value;
 
     $.ajax({
-        url: "http://"+window.location.host+"/user/createMessage",
+        url: "https://"+window.location.host+"/user/createMessage",
         type: "GET",
         dataType: "text",
         data: {
@@ -84,7 +165,7 @@ function postform()
                 if(children.length <= 1)
                 {
                     createUserDiv(receiver);
-                    newMessage(data.split(",")[2].split(":")[1].trim(), data);
+                    newMessage(data.split(",")[2].split(":")[1].trim(), data, "flow");
                 }
                 else
                 {
@@ -95,7 +176,7 @@ function postform()
                         if(name.trim() === data.split(",")[2].split(":")[1].trim())
                         {
                             exists='true';
-                            addMessage(data.split(",")[2].split(":")[1].trim(), data);
+                            addMessage(data.split(",")[2].split(":")[1].trim(), data, "flow");
                             document.getElementById(name.trim()).classList.add("show");
                             document.getElementById(name.trim()).classList.remove("hide");
                         }
@@ -124,7 +205,7 @@ function postform()
                         }
                         currentUserView=data.split(",")[2].split(":")[1];
                         createUserDiv(data.split(",")[2].split(":")[1]);
-                        newMessage(data.split(",")[2].split(":")[1].trim(), data);
+                        newMessage(data.split(",")[2].split(":")[1].trim(), data, "flow");
                     }
                 }
             }
@@ -132,10 +213,10 @@ function postform()
     });
 }
 
-(function pollReceiver() {
+$(function pollReceiver() {
     setTimeout(function() {
         $.ajax({
-            url: "http://"+window.location.host+"/receiver/inbox",
+            url: "https://"+window.location.host+"/receiver/inbox",
             type: "GET",
             success: function(data)
             {
@@ -150,7 +231,7 @@ function postform()
                     if(children.length <= 1)
                     {
                         createUserDiv(data.split(",")[1].split(":")[1]);
-                        newMessage(data.split(",")[1].split(":")[1].trim(), data);
+                        newMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright");
                     }
                     else
                     {
@@ -161,7 +242,7 @@ function postform()
                             if(name.trim() === data.split(",")[1].split(":")[1].trim())
                             {
                                 exists='true';
-                                addMessage(data.split(",")[1].split(":")[1].trim(), data);
+                                addMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright");
                                 document.getElementById(name.trim()).classList.add("show");
                                 document.getElementById(name.trim()).classList.remove("hide");
                             }
@@ -197,7 +278,7 @@ function postform()
 
                             currentUserView=data.split(",")[1].split(":")[1];
                             createUserDiv(data.split(",")[1].split(":")[1]);
-                            newMessage(data.split(",")[1].split(":")[1].trim(), data);
+                            newMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright");
                         }
                     }
                 }
@@ -207,7 +288,7 @@ function postform()
             timeout: 2000
         })
     }, 5000);
-})();
+});
 
 
 function createUserDiv(name)
@@ -232,8 +313,7 @@ function createUserDiv(name)
     currentDiv.appendChild(newDiv);
 }
 
-
-function newMessage(id, data)
+function newMessage(id, data, val)
 {
     const currentDiv = document.getElementById("currView");
 
@@ -242,13 +322,14 @@ function newMessage(id, data)
     newDiv.id = id;
 
     currentDiv.appendChild(newDiv);
-    addMessage(id, data);
+    addMessage(id, data, val);
 }
 
-function addMessage(id, data)
+function addMessage(id, data, val)
 {
     var newDiv = document.createElement("DIV");
-    newDiv.classList.add("flow");
+    newDiv.classList.add("flow")
+    newDiv.classList.add(val);
 
     var date = document.createElement("LABEL");
     var from = document.createElement("LABEL");

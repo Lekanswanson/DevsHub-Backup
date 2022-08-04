@@ -1,0 +1,113 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>DevsHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/memberstyle.css}" type="text/css" rel="stylesheet"/>
+    <script th:src="@{/jquery/jquery-3.6.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/members.js}"></script>
+  </head>
+
+  <body>
+    <div class="backlayout" id="backlayout">
+      <header>
+        <div class="headerDiv">
+          <div class="flexlist active"><a class="active" href="/members">Members</a></div>
+          <div class="flexlist"><a href="">Saved Members</a></div>
+          <div id="cv" class="flexlist"><a href="">CV</a></div>
+          <div class="flexlist"><a href="">Projects</a></div>
+          <div class="flexlist"><a href="">Messages</a></div>
+          <div class="flexlist"><a href="/devshub">Home</a></div>
+
+          <form class="stop">
+            <input type="text" name="search">
+            <button type="submit">Search</button>
+          </form>
+        </div>
+      </header>
+
+      <section>
+        <div class="labelDiv">
+          <div class="innerLabelDiv">
+              <label class="labelFont">All Members</label>
+          </div>
+        </div>
+        <div class="searchDiv">
+          <div class="innerSearchDiv">
+            <div class="searchBox">
+              <input id='detect' type='search' style="border: 1px solid black;" />
+              <button>Search</button>
+            </div>
+          </div>
+        </div>
+        <div class="membersDiv">
+          <div th:each="member : ${allMembers}" class="memberStyle">
+            <div class="imageDiv">
+              <img class="imageStyle" th:src="@{${member.image}}"/>
+            </div>
+            <div class="nameDiv">
+              <div class="nameStyle">
+                <label th:text="${member.firstName}">First Name</label>
+                <label th:text="${member.lastName}">Last Name</label><br>
+                <label th:text="${member.getEmail()}">Email</label><br>
+                <label th:text="${member.location}">Location</label>
+              </div>
+            </div>
+            <div class="educationDiv">
+              <div class="empty" th:if="${member.education.isEmpty()}">
+                <p>This user has not provided any information.</p>
+              </div>
+              <div th:if="${!member.education.isEmpty()}" >
+                <div th:object="${member.getEducation().get(member.getEducation().size()-1)}" class="educationStyle">
+                  <label th:text="*{universityLocation}">universityLocation</label><br>
+                  <label th:text="|From: *{yearStarted}|">yearStarted</label>
+                  <label th:text="| to: *{yearEnded}|">yearEnded</label><br>
+                  <label th:text="*{courseStudied}">courseStudied</label><br>
+                  <label th:text="*{degreeLevel}">degreeLevel</label><br>
+                  <label th:text="*{resultsAchieved}">resultsAchieved</label>
+                </div>
+              </div><br>
+            </div>
+            <div class="experienceDiv">
+              <div class="empty" th:if="${member.experiences.isEmpty()}">
+                <p>This user has not provided any information.</p>
+              </div>
+              <div th:if="${!member.experiences.isEmpty()}" >
+                <div th:object="${member.getExperiences().get(member.getExperiences().size()-1)}"class="experienceStyle">
+                  <label th:text="*{companyName}">universityLocation</label><br>
+                  <label th:text="|From: *{yearStarted}|">yearStarted</label>
+                  <label th:text="| to: *{yearEnded}|">yearEnded</label><br>
+                  <label th:text="*{jobTitle}">courseStudied</label><br>
+                  <label th:text="*{location}">degreeLevel</label><br>
+                </div>
+              </div><br>
+            </div>
+            <div class="languageDIv">
+              <div th:if="${!member.languages.isEmpty()}" th:each="lang : ${member.getLanguages()}">
+                  <label th:text="${lang.language}">Languages</label>
+              </div>
+              <div class="empty" th:if="${member.languages.isEmpty()}">
+                <p>This user has not provided any information.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside>
+      </aside>
+
+      <beside>
+      </beside>
+
+      <footer>
+        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
+          <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
+          <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
+          <p><a href="">Privacy policy</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

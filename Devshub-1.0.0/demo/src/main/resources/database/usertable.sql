@@ -65,6 +65,12 @@ CREATE TABLE articles(
     likes integer
 );
 
+DROP TABLE IF EXISTS articleComments;
+CREATE TABLE articleComments(
+	id integer auto_increment not null primary key
+);
+
+
 DROP TABLE IF EXISTS memberlikes;
 CREATE TABLE memberlikes(
 	email varchar(30) not null,
@@ -81,6 +87,21 @@ CREATE TABLE projects(
     video varchar(50),
     email varchar(30) not null,
 	foreign key (email) references logindetails (email)
+);
+
+DROP TABLE IF EXISTS languages;
+CREATE TABLE languages(
+	id integer auto_increment not null primary key,
+    languageName varchar(50) not null
+);
+
+DROP TABLE IF EXISTS memberLanguages;
+CREATE TABLE memberLanguages(
+	id integer auto_increment not null primary key,
+    languageName varchar(50) not null,
+    yearsExperience varchar(50) not null,
+	email VARCHAR(20) not null,
+	FOREIGN KEY (email) REFERENCES logindetails (email)
 );
 
 SELECT 'INSERTING DATA INTO DATABASE' as 'INFO';
@@ -115,6 +136,37 @@ INSERT INTO articles VALUES (null, "Docker", "Docker is an open source platform 
 INSERT INTO articles VALUES (null, "What is Jenkins? The CI server explained", "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment for almost any combination of languages and source code repositories", "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0);
 INSERT INTO articles VALUES (null, "What is Jenkins? The CI server explained", "Jenkins offers a simple way to set up a continuous integration and continuous delivery environment for almost any combination of languages and source code repositories", "https://www.infoworld.com/article/3239666/what-is-jenkins-the-ci-server-explained.html", 0);
 
+
+INSERT INTO languages VALUES (null, "HTML");
+INSERT INTO languages VALUES (null, "CSS");
+INSERT INTO languages VALUES (null, "Python");
+INSERT INTO languages VALUES (null, "Java");
+INSERT INTO languages VALUES (null, "JavaScript");
+INSERT INTO languages VALUES (null, "C#");
+INSERT INTO languages VALUES (null, "C++");
+INSERT INTO languages VALUES (null, "Swift");
+INSERT INTO languages VALUES (null, "R");
+INSERT INTO languages VALUES (null, "Bash");
+INSERT INTO languages VALUES (null, "Golang (Go)");
+INSERT INTO languages VALUES (null, "Ruby");
+INSERT INTO languages VALUES (null, "Groovy");
+INSERT INTO languages VALUES (null, "Kotlin");
+INSERT INTO languages VALUES (null, "TypeScript");
+INSERT INTO languages VALUES (null, "PHP");
+INSERT INTO languages VALUES (null, "Rust");
+INSERT INTO languages VALUES (null, "Shell");
+INSERT INTO languages VALUES (null, "Visual Basic .NET");
+INSERT INTO languages VALUES (null, "PowerShell");
+INSERT INTO languages VALUES (null, "Scala");
+INSERT INTO languages VALUES (null, "Perl");
+INSERT INTO languages VALUES (null, "Haskell");
+INSERT INTO languages VALUES (null, "SQL");
+INSERT INTO languages VALUES (null, "MATLAB");
+INSERT INTO languages VALUES (null, "Delphi");
+INSERT INTO languages VALUES (null, "Lua");
+INSERT INTO languages VALUES (null, "MongoDB");
+
+
 select * from logindetails;
 select * from users;
 select * from education;
@@ -123,8 +175,23 @@ select * from messages;
 select * from articles;
 select * from memberlikes;
 select * from projects;
+select * from languages;
+select * from memberLanguages;
+
+#delete from messages where id = 26;
+
+#select * from messages where sender='jack' or sender='joe';
+#update messages set size=16 where id=32;
 
 
+#update users set image="person.png" where email="admin";
+
+#delete from users where email = 'liam@yahoo.com';
+
+#select email from users where email like '%a%';
+#select languageName from languages where languageName like '%j%';
+
+#delete from logindetails where email = 'liam@yahoo.com';
 #insert into messages values (null, null, 'admin', 'joe', 'Hi joe', 0);
 #update messages set size=0 where id=1 and sender='admin' and receiver='joe' and message='Hi joe';
 

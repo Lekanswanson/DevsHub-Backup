@@ -2,7 +2,7 @@ window.addEventListener("load", switchSize)
 function switchSize()
 {
    var image = document.getElementById('userim')
-   if(image.src!=="http://"+window.location.host+"/images/person.png")
+   if(image.src!=="https://"+window.location.host+"/images/person.png")
    {
         image.classList.remove("default");
         image.classList.add("replace");
@@ -13,9 +13,9 @@ function profImage() {
     form.submit();
 }
 
-function showcolorsProfile(){
-    var colorpanel = document.getElementById('colorpan');
-    var emptypanel = document.getElementById('emptypan');
+function showcolors(id, ident){
+    var colorpanel = document.getElementById(id);
+    var emptypanel = document.getElementById(ident);
 
     if(!emptypanel.classList.contains('hide'))
     {
@@ -34,7 +34,29 @@ function showcolorsProfile(){
         colorpanel.classList.add("hide");
     }
 }
+function setColor(color)
+{
+    document.getElementById('setcp').value=color;
+    document.getElementById('colorpanelprof').submit();
+}
+
+
 function changeBackGroundColour(color)
 {
     document.getElementById('profcolor').style.backgroundColor=color;
+}
+
+
+function showCommentsDiv(id)
+{
+    if(document.getElementById("usercomment_"+id).classList.contains("hide"))
+    {
+        document.getElementById("usercomment_"+id).classList.add("comments");
+        document.getElementById("usercomment_"+id).classList.remove("hide");
+    }
+    else
+    {
+        document.getElementById("usercomment_"+id).classList.add("hide");
+        document.getElementById("usercomment_"+id).classList.remove("comments");
+    }
 }
