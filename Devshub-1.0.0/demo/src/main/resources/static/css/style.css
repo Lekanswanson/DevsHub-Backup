@@ -197,6 +197,12 @@
         margin-left: 2em;
         font-size:100%;
     }
+    .closebtn{
+        float:right;
+        padding: 0.2em 0.4em;
+        height:100%;
+        margin-right:2em;
+    }
 
 
 
@@ -236,18 +242,62 @@
 
 
     .displayForms{
-    	width: 90vw;
-    	height: 90vh;
+    	width: 100vw;
+    	height: 100%;
         position:fixed;
-        margin: 5vh 5vw;
-    	border: 1px solid black;
-    	box-shadow: 0px 0px 10px #aa9dc8;
-    	display: inline-flex;
+    	display: flex;
     	flex-direction: column;
     	background-color: white;
+    	border-radius: 0;
     	z-index: 2;
     }
+    .forminfo{
+        display:flex;
+        flex-direction:column;
+        height:90%;
+        width:100%;
+    }
 
+    .forminfo *{
+        height:4em;
+    }
+    .formButtons{
+        padding:0.5em;
+        width:80%;
+        margin: 0 auto;
+    }
+
+
+    .editforms h6{
+        width:80%;
+        margin: 0 auto;
+    }
+    .editforms p{
+        width:80%;
+        margin: 0 auto;
+    }
+    #expform h6{
+        width:80%;
+        margin: 0 auto;
+    }
+    #expform p{
+        width:80%;
+        margin: 0 auto;
+    }
+    #eduform h6{
+        width:80%;
+        margin: 0 auto;
+    }
+    #eduform p{
+        width:80%;
+        margin: 0 auto;
+    }
+
+    .editforms input{
+        width:80%;
+        margin: 0 auto;
+        border: 2px solid whitesmoke;
+    }
     #eduform input{
         width:80%;
         margin: 0 auto;
@@ -615,23 +665,74 @@
     	height:auto;
     	position:fixed;
     	top:10em;
-    	margin: 0 25% 0 25%;
+    	margin: auto 25% auto 25%;
     	border: 1px solid black;
     	box-shadow: 0px 0px 10px #aa9dc8;
     	display: inline-flex;
     	flex-direction: column;
     	background-color: white;
+    	border-radius: 10px
     	z-index: 2;
     }
+    .forminfo{
+        display:flex;
+        flex-direction:column;
+        height:auto;
+        width:100%;
+    }
+    .forminfo *{
+        height:3em;
+    }
 
+    .formButtons{
+        float:right;
+        padding:0.5em;
+        width:100px;
+        margin: 0.2em auto;
+        border-radius:50px;
+    }
+
+
+
+    .editforms h6{
+        width:80%;
+        margin: 0.2em auto;
+    }
+    .editforms p{
+        width:80%;
+        margin: 0.2em auto;
+    }
+    #eduform h6{
+        width:80%;
+        margin: 0.2em auto;
+    }
+    #eduform p{
+        width:80%;
+        margin: 0.2em auto;
+    }
+    #expform h6{
+        width:80%;
+        margin: 0.2em auto;
+    }
+    #expform p{
+        width:80%;
+        margin: 0.2em auto;
+    }
+
+
+    .editforms input{
+        width:80%;
+        margin: 0.2em auto;
+        border: 2px solid whitesmoke;
+    }
     #eduform input{
         width:80%;
-        margin: 0 auto;
+        margin: 0.2em auto;
         border: 2px solid whitesmoke;
     }
     #expform input{
         width:80%;
-        margin: 0 auto;
+        margin: 0.2em auto;
         border: 2px solid whitesmoke;
     }
     #skillform input{

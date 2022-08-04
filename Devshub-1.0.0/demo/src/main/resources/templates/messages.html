@@ -35,10 +35,17 @@
                             <label><h3>Inbox</h3></label>
                         </div>
                         <div class="searchDiv">
-                            <label>
-                                <input class="inputSize" type="search" name="search">
-                                <button>Search</button>
-                            </label>
+                            <div style="display:flex;">
+                                <div>
+                                    <div>
+                                        <input class="inputSize" type="search" name="search" id="namesearch" autocomplete="off">
+                                    </div>
+                                    <div id="showMems" class="hide">
+
+                                    </div>
+                                </div>
+                                <button type="button" onclick="showMessageMobile()">Search</button>
+                            </div>
                         </div>
 
                         <div id="memName" class="showMemberName">
@@ -60,11 +67,11 @@
                             <div class="messages">
                                 <div class="inputDiv">
                                     <div>
-                                        <input class="messageInput" type="search" th:value="${senderName}" th:field="*{sender}" id="sndname">
+                                        <input class="messageInput" type="search" th:value="${senderName}" th:field="*{sender}" id="sndname" disabled>
                                     </div>
                                     <div style="margin-left:5px;">
                                         <div>
-                                            <input class="messageInput" type="search" name="search" th:field="*{receiver}" id="rcvname">
+                                            <input class="messageInput" type="search" name="search" th:field="*{receiver}" id="rcvname" disabled>
                                         </div>
                                         <div id="showNames" class="hide">
 

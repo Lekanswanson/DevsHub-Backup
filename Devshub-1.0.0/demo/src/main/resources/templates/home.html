@@ -25,101 +25,75 @@
 </form>
 
 
-<form action="#" th:object="${education}" th:action="@{/saveEducation}" method="post" class="hide" id="eduform" style="border-radius: 10px;">
+<form action="#" th:object="${education}" th:action="@{/saveEducation}" method="post" class="hide" id="eduform">
     <div style="background-color: white; border-radius: 10px;">
         <h3 class="formTitle">Add education information</h3>
-        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeEducationForm();">Exit</button>
+        <button class="formbtn closebtn" type="button" onclick="closeEducationForm();">Exit</button>
     </div>
-    <br>
-    <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
-    <br>
-    <p style="width: 80%; margin:0 auto;">Enter details</p>
-    <br>
-    <input th:field="*{universityLocation}" type="text" name="place" placeholder="Enter school location">
-    <br>
-    <input th:field="*{yearStarted}" type="text" name="yearstart" placeholder="Years started">
-    <br>
-    <input th:field="*{yearEnded}" type="text" name="yearend" placeholder="Years ended">
-    <br>
-    <input th:field="*{courseStudied}" type="text" name="year" placeholder="Course studied">
-    <br>
-    <input th:field="*{degreeLevel}" type="text" name="degree" placeholder="Degree level">
-    <br>
-    <input th:field="*{resultsAchieved}" type="text" name="degree" placeholder="Results Achieved">
-    <br>
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+    <div class="forminfo">
+        <h6> * Indicates required</h6>
+        <p>Enter details</p>
+        <input th:field="*{universityLocation}" type="text" name="place" placeholder="Enter school location" autocomplete="on">
+        <input th:field="*{yearStarted}" type="text" name="yearstart" placeholder="Years started" autocomplete="on">
+        <input th:field="*{yearEnded}" type="text" name="yearend" placeholder="Years ended" autocomplete="on">
+        <input th:field="*{courseStudied}" type="text" name="year" placeholder="Course studied" autocomplete="on">
+        <input th:field="*{degreeLevel}" type="text" name="degree" placeholder="Degree level" autocomplete="on">
+        <input th:field="*{resultsAchieved}" type="text" name="degree" placeholder="Results Achieved" autocomplete="on">
+        <button class="formbtn formButtons" type="submit" value="submit">Save</button>
+    </div>
 </form>
-<form action="#" th:if="${!member.education.isEmpty()}" th:each="education : ${member.getEducation()}" th:action="@{/editEducation}" method="post" th:id="${education}" class="hide editforms" style="border-radius: 10px;">
+<form action="#" th:if="${!member.education.isEmpty()}" th:each="education : ${member.getEducation()}" th:action="@{/editEducation}" method="post" th:id="${education}" class="hide" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
         <h3 class="formTitle">Add education information</h3>
-        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${education}" onclick="closeEditForm(this.getAttribute('data-longDescription'));">Exit</button>
+        <button class="formbtn closebtn" type="button" th:data-longDescription="${education}" onclick="closeEditForm(this.getAttribute('data-longDescription'));">Exit</button>
     </div>
-    <br>
-    <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
-    <br>
-    <p style="width: 80%; margin:0 auto;">Enter details</p>
-    <input type="hidden" th:field="*{education.id}" th:id="${education.id}">
-    <br>
-    <input type="text" th:field="*{education.universityLocation}" th:id="${education.universityLocation}+'-'+${education.id}">
-    <br>
-    <input type="text" th:field="*{education.yearStarted}" th:id="${education.yearStarted}+'-'+${education.id}">
-    <br>
-    <input type="text" th:field="*{education.yearEnded}" th:id="${education.yearEnded}+'-'+${education.id}">
-    <br>
-    <input type="text" th:field="*{education.courseStudied}" th:id="${education.courseStudied}+'-'+${education.id}">
-    <br>
-    <input type="text" th:field="*{education.degreeLevel}" th:id="${education.degreeLevel}+'-'+${education.id}">
-    <br>
-    <input type="text" th:field="*{education.resultsAchieved}" th:id="${education.resultsAchieved}+'-'+${education.id}">
-    <br>
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+    <div class="forminfo editforms">
+        <h6> * Indicates required</h6>
+        <p >Enter details</p>
+        <input type="hidden" th:field="*{education.id}" th:id="${education.id}">
+        <input type="text" th:field="*{education.universityLocation}" th:id="${education.universityLocation}+'-'+${education.id}">
+        <input type="text" th:field="*{education.yearStarted}" th:id="${education.yearStarted}+'-'+${education.id}">
+        <input type="text" th:field="*{education.yearEnded}" th:id="${education.yearEnded}+'-'+${education.id}">
+        <input type="text" th:field="*{education.courseStudied}" th:id="${education.courseStudied}+'-'+${education.id}">
+        <input type="text" th:field="*{education.degreeLevel}" th:id="${education.degreeLevel}+'-'+${education.id}">
+        <input type="text" th:field="*{education.resultsAchieved}" th:id="${education.resultsAchieved}+'-'+${education.id}">
+        <button class="formbtn formButtons" type="submit" value="submit">Save</button>
+    </div>
 </form>
 
 
 <form action="#" th:object="${newExperience}" th:action="@{/saveExperience}" method="post" class="hide" id="expform" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
         <h3 class="formTitle">Add Previous Experience</h3>
-        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeExperienceForm();">Exit</button>
+        <button class="formbtn closebtn" type="button" onclick="closeExperienceForm();">Exit</button>
     </div>
-    <br>
-    <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
-    <br>
-    <p style="width: 80%; margin:0 auto;">Enter details</p>
-    <br>
-    <input th:field="*{companyName}" type="text" name="company" placeholder="Enter company name">
-    <br>
-    <input th:field="*{jobTitle}" type="text" name="position" placeholder="Enter position">
-    <br>
-    <input th:field="*{yearStarted}" type="text" name="yearstart" placeholder="Years started">
-    <br>
-    <input th:field="*{yearEnded}" type="text" name="yearend" placeholder="Years ended">
-    <br>
-    <input th:field="*{location}" type="text" name="location" placeholder="Enter location of company">
-    <br>
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+    <div class="forminfo">
+        <h6> * Indicates required</h6>
+        <p>Enter details</p>
+        <input th:field="*{companyName}" type="text" name="company" placeholder="Enter company name">
+        <input th:field="*{jobTitle}" type="text" name="position" placeholder="Enter position">
+        <input th:field="*{yearStarted}" type="text" name="yearstart" placeholder="Years started">
+        <input th:field="*{yearEnded}" type="text" name="yearend" placeholder="Years ended">
+        <input th:field="*{location}" type="text" name="location" placeholder="Enter location of company">
+        <button class="formbtn formButtons" type="submit" value="submit">Save</button>
+    </div>
 </form>
-<form action="#" th:if="${!member.experiences.isEmpty()}" th:each="experience : ${member.getExperiences()}" th:action="@{/editExperience}" method="post" th:id="${experience}" class="hide editforms" style="border-radius: 10px;">
+<form action="#" th:if="${!member.experiences.isEmpty()}" th:each="experience : ${member.getExperiences()}" th:action="@{/editExperience}" method="post" th:id="${experience}" class="hide" style="border-radius: 10px;">
     <div style="background-color: white; border-radius: 10px;">
         <h3 class="formTitle">Add experience information</h3>
-        <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeEditForm(this.getAttribute('data-longDescription'));">Exit</button>
+        <button class="formbtn closebtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeEditForm(this.getAttribute('data-longDescription'));">Exit</button>
     </div>
-    <br>
-    <h6 style="width: 80%; margin:0 auto;">* Indicates required</h6>
-    <br>
-    <p style="width: 80%; margin:0 auto;">Enter details</p>
-    <input type="hidden" th:field="*{experience.id}" th:id="${experience.id}">
-    <br>
-    <input type="text" th:field="*{experience.companyName}" th:id="${experience.companyName}+'-'+${experience.id}">
-    <br>
-    <input type="text" th:field="*{experience.jobTitle}" th:id="${experience.jobTitle}+'-'+${experience.id}">
-    <br>
-    <input type="text" th:field="*{experience.yearStarted}" th:id="${experience.yearStarted}+'-'+${experience.id}">
-    <br>
-    <input type="text" th:field="*{experience.yearEnded}" th:id="${experience.yearEnded}+'-'+${experience.id}">
-    <br>
-    <input type="text" th:field="*{experience.location}" th:id="${experience.location}+'-'+${experience.id}">
-    <br>
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+    <div class="forminfo editforms">
+        <h6>* Indicates required</h6>
+        <p>Enter details</p>
+        <input type="hidden" th:field="*{experience.id}" th:id="${experience.id}">
+        <input type="text" th:field="*{experience.companyName}" th:id="${experience.companyName}+'-'+${experience.id}">
+        <input type="text" th:field="*{experience.jobTitle}" th:id="${experience.jobTitle}+'-'+${experience.id}">
+        <input type="text" th:field="*{experience.yearStarted}" th:id="${experience.yearStarted}+'-'+${experience.id}">
+        <input type="text" th:field="*{experience.yearEnded}" th:id="${experience.yearEnded}+'-'+${experience.id}">
+        <input type="text" th:field="*{experience.location}" th:id="${experience.location}+'-'+${experience.id}">
+        <button class="formbtn formButtons" type="submit" value="submit">Save</button>
+    </div>
 </form>
 
 <form action="#" th:action="@{/add/languages}" th:object="${pl}" method="post" class="hide" id="langForm" style="border-radius: 10px;">
@@ -363,7 +337,20 @@
 
             <div class="test">
                 <div style="min-width: 250px; min-height: 250px; height:auto; padding: 10px 0; margin: 1em 0 0 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
-                    <h4>Content</h4>
+                    <h4>Social Links</h4><br>
+                    <h5>Add links to social sites</h5>
+                    <h6>example: facebook</h6>
+                    <div>
+                        <div>
+                            <label>Add link:</label><br>
+                            <input style="border: 1px solid black;" type="url" name="url">
+                        </div><br>
+
+                        <div>
+                            <label>Add link</label><br>
+                            <input style="border: 1px solid black;" type="url" name="url">
+                        </div>
+                    </div>
                 </div>
                 <div style="min-width: 250px; min-height: 300px; height:auto; padding: 10px 0; margin: 1em 0 0 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
                     <h4>Content</h4>

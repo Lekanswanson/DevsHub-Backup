@@ -669,14 +669,17 @@ footer p{
         border:1px solid black;
         margin-left:5%;
     }
+    .commdiv img{
+        margin-top:1em;
+    }
     .userComments{
         display:flex;
         flex-direction:column;
     }
     .usercomdiv{
-        width:90%;
         height:4em;
-        margin:0.2em auto;
+        width:95%;
+        margin:0.5em 0 0.5em 5%;
         background: #cfc9c9;
         border-radius:1em;
 

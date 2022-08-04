@@ -1,5 +1,47 @@
 var currentUserView="";
 
+
+function showMessageMobile()
+{
+    var user = document.getElementById("namesearch").value;
+    document.getElementById("rcvname").value=user;
+    document.getElementById("myView").classList.add("messageDivShow");
+    document.getElementById("memberNameView").classList.add("memberNameHide");
+}
+$(function(){
+    $('#namesearch').on('input', function() {
+        const nameDiv = document.getElementById("showMems").replaceChildren();
+        $.ajax({
+            url: "https://"+window.location.host+"/list/members",
+            type: "GET",
+            dataType: "text",
+            data: {
+                "email": document.getElementById("namesearch").value
+            },
+            success: function(data) {
+                if(data==="")
+                {
+                    const nameDiv = document.getElementById("showMems");
+                    nameDiv.classList.remove("display");
+                    nameDiv.classList.add("hide");
+                }
+                else
+                {
+                    const arr = data.split("_");
+                    for(var i=0; i<arr.length; i++)
+                    {
+                        if(arr[i].length !== 0)
+                        {
+                            createNameDiv(arr[i].trim(), "showMems","namesearch");
+                        }
+                    }
+                }
+            }
+        });
+    });
+});
+
+
 $(function(){
     var textarea = document.getElementById("dmsg");
     var limit = 64;
@@ -34,7 +76,7 @@ $(function(){
                     {
                         if(arr[i].length !== 0)
                         {
-                            createNameDiv(arr[i].trim());
+                            createNameDiv(arr[i].trim(), "showNames", "rcvname");
                         }
                     }
                 }
@@ -43,9 +85,9 @@ $(function(){
     });
 });
 
-function createNameDiv(name)
+function createNameDiv(name, id, tt)
 {
-    const nameDiv = document.getElementById("showNames");
+    const nameDiv = document.getElementById(id);
 
     nameDiv.classList.remove("hide");
     nameDiv.classList.add("display");
@@ -55,7 +97,7 @@ function createNameDiv(name)
     var text = document.createTextNode(name);
 
     userName.onclick = function(){
-        document.getElementById("rcvname").value=name;
+        document.getElementById(tt).value=name;
         nameDiv.classList.remove("display");
         nameDiv.classList.add("hide");
     }

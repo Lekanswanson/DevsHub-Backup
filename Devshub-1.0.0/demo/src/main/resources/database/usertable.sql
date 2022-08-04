@@ -178,28 +178,20 @@ select * from projects;
 select * from languages;
 select * from memberLanguages;
 
-#delete from messages where id = 26;
 
+#delete from messages where id = 26;
 #select * from messages where sender='jack' or sender='joe';
 #update messages set size=16 where id=32;
-
-
 #update users set image="person.png" where email="admin";
-
 #delete from users where email = 'liam@yahoo.com';
-
 #select email from users where email like '%a%';
 #select languageName from languages where languageName like '%j%';
-
 #delete from logindetails where email = 'liam@yahoo.com';
 #insert into messages values (null, null, 'admin', 'joe', 'Hi joe', 0);
 #update messages set size=0 where id=1 and sender='admin' and receiver='joe' and message='Hi joe';
-
 #update articles set likes=likes-1 where id=1;
 #delete from memberlikes where email='admin' and articleId=1;
-
 #update users set message = null where email = 'admin';
-
 #select email from logindetails where email='admin';
 #select * from users where email='joe';
 #select * from logindetails where email="admin";

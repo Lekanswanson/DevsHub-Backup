@@ -50,6 +50,10 @@ footer{
     flex-direction:column;
     height:80vh;
 }
+.memberNameHide{
+    display:none;
+}
+
 .inboxDiv{
     height:auto;
     width:100%;
@@ -156,7 +160,8 @@ a:link {
     display:none;
 }
 .inputSize{
-    width:60%;
+    height:2em;
+    width:100%;
 }
 
 .showMemberName{
@@ -201,10 +206,22 @@ a:link {
 #showNames a{
     display:flex;
     width:100%;
+    height:2em;
+    border:1px solid black;
 }
 #showNames a:hover{
     background:yellow;
 }
+    #showMems a{
+        display:flex;
+        width:100%;
+        height:2em;
+        border:1px solid black;
+    }
+    #showMems a:hover{
+        background:yellow;
+    }
+
 
     .flow{
         display:flex;
@@ -456,6 +473,7 @@ footer p{
     }
     .inputSize{
         width:auto;
+        height:auto;
     }
 
 
@@ -512,8 +530,18 @@ footer p{
     #showNames a{
         display:flex;
         width:100%;
+        border:none;
     }
     #showNames a:hover{
+        background:yellow;
+    }
+
+    #showMems a{
+        display:flex;
+        width:100%;
+        border:none;
+    }
+    #showMems a:hover{
         background:yellow;
     }
 

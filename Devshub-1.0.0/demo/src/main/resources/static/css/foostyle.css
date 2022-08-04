@@ -143,15 +143,16 @@ footer{
 .expand h1{
 	border: none;
 	padding: 0;
-    	display:flex;
-    	text-align: center;
-    	margin: 0 auto;
+    display:flex;
+    text-align: center;
+    margin: 0 auto;
 }
 .expand h2{
 	border: none;
 	text-align: center;
 	font-size: 2em;
     font-family: Arial, Helvetica, sans-serif;
+    color:red;
 }
 
 .sub{
@@ -163,6 +164,12 @@ footer{
     background-color: #124508;
 	#background-color: #7487b4;
 }
+    .expand h1 a{
+        color:black;
+    }
+    .expand h1 a:hover{
+        color:gray;
+    }
 
 
 .padded{
@@ -419,6 +426,12 @@ footer{
     	text-align: center;
     	font-size: 2em;
         font-family: Arial, Helvetica, sans-serif;
+    }
+    .expand h1 a{
+        color:black;
+    }
+    .expand h1 a:hover{
+        color:gray;
     }
 
     .sub{
