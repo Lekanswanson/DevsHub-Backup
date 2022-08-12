@@ -36,12 +36,14 @@
                         <h2 style="font-family: Snell Roundhand, cursive">Member Login</h2>
                     </div>
 
-                    <div th:object="${memberEmail} "class="expand">
+                    <div th:object="${memberEmail} "class="expand" style="position:relative;">
+                        <label class="hide" id="lbltxt">Enter username or email</label>
                         <input type="text" th:field="*{email}" placeholder="Enter username or email" id="userName">
                     </div>
 
-                    <div th:object="${memberEmail} "class="expand">
-                        <input type="password" th:field="*{password}" placeholder="Password" id="userPass">
+                    <div th:object="${memberEmail} "class="expand" style="position:relative;">
+                        <label class="hide" id="passtxt">Enter Password</label>
+                        <input type="password" th:field="*{password}" placeholder="Enter Password" id="userPass">
                     </div>
 
                     <div class="expand">

@@ -5,9 +5,32 @@ function showMessageMobile()
 {
     var user = document.getElementById("namesearch").value;
     document.getElementById("rcvname").value=user;
-    document.getElementById("myView").classList.add("messageDivShow");
-    document.getElementById("memberNameView").classList.add("memberNameHide");
+
+    var x = window.matchMedia("(max-width: 700px)");
+    if(x.matches)
+    {
+        document.getElementById("formmobile").classList.remove("hide");
+
+        document.getElementById("myView").classList.add("messageDivShow");
+        document.getElementById("myView").classList.remove("memberMessageDiv");
+
+        document.getElementById("memberNameView").classList.add("memberNameHide");
+        document.getElementById("memberNameView").classList.remove("memberNameDiv");
+    }
 }
+function hideMessageMobile()
+{
+    document.getElementById("myView").classList.remove("messageDivShow");
+    document.getElementById("myView").classList.add("memberMessageDiv");
+
+    document.getElementById("memberNameView").classList.add("memberNameDiv");
+    document.getElementById("memberNameView").classList.remove("memberNameHide");
+    document.getElementById("memberNameView").classList.remove("hide");
+
+    document.getElementById("formmobile").classList.add("hide");
+}
+
+
 $(function(){
     $('#namesearch').on('input', function() {
         const nameDiv = document.getElementById("showMems").replaceChildren();
@@ -41,7 +64,19 @@ $(function(){
     });
 });
 
+$(function(){
+    document.getElementById("formmobile").classList.add("hide");
+});
 
+$(function(){
+    var textarea = document.getElementById("hmsg");
+    var limit = 64;
+
+    textarea.oninput = function() {
+      textarea.style.height = "";
+      textarea.style.height = Math.min(textarea.scrollHeight, limit) + "px";
+    };
+});
 $(function(){
     var textarea = document.getElementById("dmsg");
     var limit = 64;
@@ -51,6 +86,7 @@ $(function(){
       textarea.style.height = Math.min(textarea.scrollHeight, limit) + "px";
     };
 });
+
 
 $(function(){
     $('#rcvname').on('input', function() {
@@ -116,22 +152,20 @@ $(function(){
 function myFunction(x) {
   if (x.matches) { // If media query matches
     document.getElementById("memberNameView").classList.add("hide");
+    document.getElementById("formmobile").classList.remove("hide");
   } else {
     document.getElementById("memberNameView").classList.remove("hide");
+    document.getElementById("formmobile").classList.add("hide");
   }
 }
 function showMessageDiv(user){
+    const currentDiv = document.getElementsByClassName("buttclass");
 
-    const currentDiv = document.getElementById("memName");
-    const children = currentDiv.childNodes;
-
-    for(var i=0; i<children.length; i++)
+    for(var i=0; i<currentDiv.length; i++)
     {
-        var name = children[i].textContent;
-
+        var name = currentDiv[i].textContent;
         if(name.trim() === user)
         {
-            //alert(name.trim() + "<----->" + user)
             try
             {
                 document.getElementById("rcvname").value = user;
@@ -142,8 +176,6 @@ function showMessageDiv(user){
 
                 var x = window.matchMedia("(max-width: 700px)");
                 myFunction(x);
-
-                //document.getElementById("memberMessageDiv").classList.remove("memberMessageDiv");
             }
             catch(error)
             {
@@ -180,11 +212,22 @@ function getPerson()
         }
     });
 }
+
+function getTextAreaName(x)
+{
+  if (x.matches) { // If media query matches
+    return "hmsg";
+  } else {
+    return "dmsg";
+  }
+}
 function postform()
 {
+    var x = window.matchMedia("(max-width: 700px)");
+
     var sender = document.getElementById("sndname").value;
     var receiver = document.getElementById("rcvname").value;
-    var message = document.getElementById("dmsg").value;
+    var message = document.getElementById(getTextAreaName(x)).value;
 
     $.ajax({
         url: "https://"+window.location.host+"/user/createMessage",
@@ -197,39 +240,36 @@ function postform()
         },
         success: function(data)
         {
-            document.getElementById("dmsg").value = "";
+            document.getElementById(getTextAreaName(x)).style.height = "";
+            document.getElementById(getTextAreaName(x)).value = "";
+
             if(data)
             {
                 var exists = 'false';
-                const currentDiv = document.getElementById("memName");
-                const children = currentDiv.childNodes;
-                
-                if(children.length <= 1)
+                const currentDiv = document.getElementsByClassName("buttclass");
+
+                if(currentDiv.length < 1)
                 {
                     createUserDiv(receiver);
-                    newMessage(data.split(",")[2].split(":")[1].trim(), data, "flow");
+                    newMessage(data.split(",")[2].split(":")[1].trim(), data, "flow", "imgflow");
                 }
                 else
                 {
-                    for(var i=0; i<children.length; i++)
+                    for(var i=0; i<currentDiv.length; i++)
                     {
-                        var name = children[i].textContent;
+                        var name = currentDiv[i].textContent;
 
                         if(name.trim() === data.split(",")[2].split(":")[1].trim())
                         {
                             exists='true';
-                            addMessage(data.split(",")[2].split(":")[1].trim(), data, "flow");
+                            addMessage(data.split(",")[2].split(":")[1].trim(), data, "flow", "imgflow");
                             document.getElementById(name.trim()).classList.add("show");
                             document.getElementById(name.trim()).classList.remove("hide");
                         }
                         else
                         {
-                            if(name.trim() !== "")
-                            {
-                                //alert(name);
-                                document.getElementById(name.trim()).classList.remove("show");
-                                document.getElementById(name.trim()).classList.add("hide");
-                            }
+                            document.getElementById(name.trim()).classList.remove("show");
+                            document.getElementById(name.trim()).classList.add("hide");
                         }
                     }
                 
@@ -245,9 +285,9 @@ function postform()
                         {
                             console.log(error);
                         }
-                        currentUserView=data.split(",")[2].split(":")[1];
-                        createUserDiv(data.split(",")[2].split(":")[1]);
-                        newMessage(data.split(",")[2].split(":")[1].trim(), data, "flow");
+                        currentUserView=data.split(",")[2].split(":")[1].trim();
+                        createUserDiv(currentUserView);
+                        newMessage(data.split(",")[2].split(":")[1].trim(), data, "flow", "imgflow");
                     }
                 }
             }
@@ -267,24 +307,23 @@ $(function pollReceiver() {
                     document.getElementById("notifications").classList.add("unread");
 
                     var exists = 'false';
-                    const currentDiv = document.getElementById("memName");
-                    const children = currentDiv.childNodes;
+                    const currentDiv = document.getElementsByClassName("buttclass");
 
-                    if(children.length <= 1)
+                    if(currentDiv.length < 1)
                     {
                         createUserDiv(data.split(",")[1].split(":")[1]);
-                        newMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright");
+                        newMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright","imgright");
                     }
                     else
                     {
-                        for(var i=0; i<children.length; i++)
+                        for(var i=0; i<currentDiv.length; i++)
                         {
-                            var name = children[i].textContent;
+                            var name = currentDiv[i].textContent;
 
                             if(name.trim() === data.split(",")[1].split(":")[1].trim())
                             {
                                 exists='true';
-                                addMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright");
+                                addMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright","imgright");
                                 document.getElementById(name.trim()).classList.add("show");
                                 document.getElementById(name.trim()).classList.remove("hide");
                             }
@@ -318,9 +357,9 @@ $(function pollReceiver() {
                                 console.log(error);
                             }
 
-                            currentUserView=data.split(",")[1].split(":")[1];
-                            createUserDiv(data.split(",")[1].split(":")[1]);
-                            newMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright");
+                            currentUserView=data.split(",")[1].split(":")[1].trim();
+                            createUserDiv(currentUserView);
+                            newMessage(data.split(",")[1].split(":")[1].trim(), data, "flowright", "imgright");
                         }
                     }
                 }
@@ -342,20 +381,26 @@ function createUserDiv(name)
 
     var uname = document.createElement("BUTTON");
     var buttonText = document.createTextNode(name);
-
     uname.appendChild(buttonText);
     uname.classList.add("buttclass");
     uname.type = "button";
+
+    var deleteMessage = document.createElement("BUTTON");
+    var deleteIcon = document.createTextNode("X");
+    deleteMessage.appendChild(deleteIcon);
+    deleteMessage.classList.add("messgeDelete");
+    deleteMessage.type = "button";
 
     uname.onclick = function(){
         showMessageDiv(name.trim());
     }
 
     newDiv.appendChild(uname);
+    newDiv.appendChild(deleteMessage);
     currentDiv.appendChild(newDiv);
 }
 
-function newMessage(id, data, val)
+function newMessage(id, data, val,imgval)
 {
     const currentDiv = document.getElementById("currView");
 
@@ -364,11 +409,25 @@ function newMessage(id, data, val)
     newDiv.id = id;
 
     currentDiv.appendChild(newDiv);
-    addMessage(id, data, val);
+    addMessage(id, data, val, imgval);
 }
 
-function addMessage(id, data, val)
+function addMessage(id, data, val, imgval)
 {
+     var msgdiv =  document.createElement("DIV");
+     msgdiv.classList.add("msgflow");
+
+
+    var imageDiv = document.createElement("DIV");
+    imageDiv.classList.add("imgflow")
+    imageDiv.classList.add(imgval);
+
+    var image = document.createElement("IMG");
+    image.src="../images/person.png";
+    image.classList.add("imgstyle");
+
+    imageDiv.appendChild(image);
+
     var newDiv = document.createElement("DIV");
     newDiv.classList.add("flow")
     newDiv.classList.add(val);
@@ -403,13 +462,18 @@ function addMessage(id, data, val)
     header4.appendChild(text4);
     message.appendChild(header4)
 
+
     newDiv.appendChild(date);
     newDiv.appendChild(from);
     newDiv.appendChild(to);
     newDiv.appendChild(message);
 
     const currentDiv = document.getElementById(id);
-    currentDiv.appendChild(newDiv);
+
+    msgdiv.appendChild(imageDiv);
+    msgdiv.appendChild(newDiv);
+
+    currentDiv.appendChild(msgdiv);
 
     const currView = document.getElementById("currView");
     currView.scrollTop = currView.scrollHeight;

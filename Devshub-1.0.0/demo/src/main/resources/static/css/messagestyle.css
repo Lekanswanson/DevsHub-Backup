@@ -6,29 +6,36 @@
 }
 
 body{
-    background:white;
-    height:auto;
+    margin:0;
+    height:100%;
 }
 header{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
 	grid-area: header;
+	position:fixed;
+	width:100%;
+    z-index:1;
 }
 section{
 	background-color: whitesmoke;
 	font-family: Arial, Helvetica, sans-serif;
 	grid-area: section;
+    position:relative;
+}
+textmobile{
+	background-color: white;
+	grid-area: textmobile;
+	position:fixed;
 }
 footer{
 	background-color: white;
 	grid-area: footer;
+	display:none;
 }
 
 
 .headerDiv{
-    z-index:1;
-    position:fixed;
-    width:100%;
     background-color: black;
     display:flex;
     flex-direction:row;
@@ -36,19 +43,18 @@ footer{
 }
 .message{
     display:flex;
-    border: 1px solid black;
+    flex-direction:column;
     width:100%;
-    position:relative;
-    height:92%;
-    margin-top:3.2em;
+    height:auto;
+    overflow-y:auto;
 }
 
 .memberNameDiv{
-    width:100%;
-    border: 1px solid black;
     display:flex;
     flex-direction:column;
-    height:80vh;
+    height:auto;
+    width:100%;
+    border: 1px solid black;
 }
 .memberNameHide{
     display:none;
@@ -68,23 +74,28 @@ footer{
     align-items:center;
     justify-content:center;
 }
-.memberMessageDiv{
-    width:100%;
-    border: 1px solid black;
-    display:none;
-    height:auto;
-}
-.messageDivShow{
-    display:block;
+
+.backBtnMobile{
+    float:right;
+    height:100%;
+    background:black;
+    color:white;
+    font-size:100%;
 }
 
+.memberMessageDiv{
+    display:none;
+}
+.messageDivShow{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
 .messageDiv{
     height:auto;
     width:100%;
     border-bottom: 1px solid black;
 }
-
-
 .messages{
     width:100%;
 }
@@ -97,25 +108,33 @@ footer{
     width:100%;
 }
 .loadMessage{
-    height:65vh;
     font-size:small;
     position:relative;
     overflow-y:auto;
-    overflow-x:hidden;
-}
-.textDiv{
-    display:flex;
-    justify-content:center;
-    align-items:flex-end;
     height:auto;
 }
-.textDiv:focus-within {
-    background:cyan;
+
+
+.textDiv{
+    display:none;
 }
+
 textarea{
     overflow-y:auto;
     overflow-x:hidden;
     height:100%;
+    width:80%;
+}
+
+.formobile{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	display:flex;
+	justify-content:center;
+    align-items:flex-start;
+    height:auto;
+    background:white;
 }
 
 
@@ -166,13 +185,27 @@ a:link {
 
 .showMemberName{
     width:100%;
-    height:auto;
+    height:100%;
     overflow-x:auto;
     font-size:small;
 }
 
+
+.messgeDelete{
+    position:absolute;
+    top:0;
+    right:0;
+    background:red;
+    padding: 5px 10px;
+}
+.messgeDelete:hover{
+    background:pink;
+}
+
+
 .buttdiv{
     border:1px solid black;
+    position:relative;
 }
 .buttclass{
     width:100%;
@@ -268,28 +301,17 @@ input{
 }
 
 
-footer{
-	text-align: center;
-	position:relative;
-}
-footer p{
-	margin: 0 0 0 0;
-}
-
-
-
-
 
 /* Show section before nav on mobile */
 .backlayout
 {
 	display: grid;
 	width:100vw;
-	grid-template-rows: auto;
+	grid-template-rows: 3.2em auto 3.2em;
     overflow-x: hidden; !important;
 	grid-template-areas: 	"header"
 				            "section"
-				            "footer";
+				            "textmobile";
 }
 
 
@@ -356,15 +378,35 @@ footer p{
 		width:100vw;
 		grid-template-rows: 4vh auto 4vh;
 		grid-template-columns: auto 1200px auto;
-		grid-template-areas: 	"aside header beside"
+		grid-template-areas: 	"header header header"
 								"aside section beside"
 								"footer footer footer";
 	}
 
+    header{
+        background-color: whitesmoke;
+        font-family: Arial, Helvetica, sans-serif;
+        grid-area: header;
+    }
+    section{
+        background-color: whitesmoke;
+        font-family: Arial, Helvetica, sans-serif;
+        grid-area: section;
+    }
+    textmobile{
+        background-color: white;
+        grid-area: textmobile;
+        display:none;
+    }
+    footer{
+        background-color: white;
+        grid-area: footer;
+    }
+
     .headerDiv{
         z-index:1;
         position:fixed;
-        width:1200px;
+        width:100%;
         background-color: black;
         margin-top:0em;
         border: 1px solid #d9d9d9;
@@ -374,7 +416,6 @@ footer p{
     }
 	.memberNameDiv{
         width:30%;
-        height:100%;
         border: 1px solid black;
         display:flex;
         flex-direction:column;
@@ -399,16 +440,21 @@ footer p{
         border: 1px solid black;
         display:block;
     }
+
+    .backBtnMobile{
+        display:none;
+    }
+
     .messageDiv{
         height:50px;
         width:100%;
         border-bottom: 1px solid black;
     }
     .messages{
-        max-height:740px;
         height:100%;
         width:100%;
         background:cyan;
+        overflow-y:hidden;
     }
     .inputDiv{
         position:relative;
@@ -479,28 +525,41 @@ footer p{
 
     .showMemberName{
         width:100%;
-        height:700px;
+        height:auto;
         overflow-y:auto;
     }
 
     .buttdiv{
         border:1px solid black;
+        display:flex;
+        position:relative;
     }
     .buttclass{
-        width:100%;
         height:100px;
+        width:100%;
+    }
+    .buttclass:hover{
+        background:pink;
+    }
+
+    .messgeDelete{
+        position:absolute;
+        top:0;
+        right:0;
+        background:red;
+        padding: 2px 6px;
+    }
+    .messgeDelete:hover{
+        background:pink;
     }
 
     .message{
         display:flex;
         flex-direction:row;
         justify-content:center;
-        align-items:center;
-        #align-items:flex-end;
         background:white;
         border: 1px solid black;
         width:100%;
-        height:800px;
         position:relative;
         margin-top: 4em;
     }

@@ -13,6 +13,8 @@ public class Articles
     private String description;
     private String link;
     private int likes;
+
+    private int count;
     public Articles(){}
 
     public Articles(int id, String title, String description, String link, int likes)
@@ -62,5 +64,13 @@ public class Articles
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

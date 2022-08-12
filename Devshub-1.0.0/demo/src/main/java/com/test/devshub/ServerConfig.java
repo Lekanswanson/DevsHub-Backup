@@ -15,6 +15,8 @@ public class ServerConfig {
     @Value("${http.port}")
     private int httpPort;
 
+    private final static String httpScheme="http";
+
     @Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
@@ -34,8 +36,8 @@ public class ServerConfig {
 
     private Connector getHttpConnector() {
         Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-        connector.setScheme("http");
-        connector.setPort(8080);
+        connector.setScheme(httpScheme);
+        connector.setPort(httpPort);
         connector.setSecure(false);
         return connector;
     }

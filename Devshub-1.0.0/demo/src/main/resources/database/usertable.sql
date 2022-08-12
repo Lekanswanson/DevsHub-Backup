@@ -52,7 +52,7 @@ CREATE TABLE messages(
     dt varchar(30),
     sender varchar(30),
     receiver varchar(30),
-	message varchar(30),
+	message varchar(500),
     size integer
 );
 
@@ -67,9 +67,16 @@ CREATE TABLE articles(
 
 DROP TABLE IF EXISTS articleComments;
 CREATE TABLE articleComments(
-	id integer auto_increment not null primary key
+	id integer auto_increment not null primary key,
+    dt varchar(30) not null ,
+    email varchar(50) not null,
+    userComment varchar(500) not null,
+	articleId integer not null,
+    image varchar(30) not null,
+    FOREIGN KEY (articleId) REFERENCES articles (id)
 );
 
+insert in articleComments values (null, 'monday', 'admin'
 
 DROP TABLE IF EXISTS memberlikes;
 CREATE TABLE memberlikes(
@@ -177,9 +184,11 @@ select * from memberlikes;
 select * from projects;
 select * from languages;
 select * from memberLanguages;
+select * from articleComments;
 
 
-#delete from messages where id = 26;
+
+#delete from articleComments where id = 1;
 #select * from messages where sender='jack' or sender='joe';
 #update messages set size=16 where id=32;
 #update users set image="person.png" where email="admin";

@@ -43,9 +43,12 @@ public class TestController
     private String path ="../images/";
     private String videoPath ="../videos/";
 
-    private final String UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\images\\";
-    private final String VID_UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\videos\\";
-    private final String CLASS_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\target\\classes\\static\\videos\\";
+    //private final String UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\images\\";
+    private final String UPLOAD_DIR = "./src/main/resources/static/images/";
+    //private final String VID_UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\videos\\";
+    private final String VID_UPLOAD_DIR = "./src/main/resources/static/videos/";
+    //private final String CLASS_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\target\\classes\\static\\videos\\";
+    private final String CLASS_DIR = "./target/classes/static/videos/";
 
 
     @RequestMapping(method = RequestMethod.GET, path="/devshub")
@@ -357,36 +360,53 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path = "/user/profile")
     public String returnProfile(Model model)
     {
-        articles = database.getArticles();
+        int total=0;
 
+        articles = database.getArticles();
         model.addAttribute("articles", articles);
         model.addAttribute("member", member);
         model.addAttribute("color", member.getColor());
+        model.addAttribute("comments", database.getArticleComments());
         return "profile";
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/article/addlike")
+    @RequestMapping(method = RequestMethod.GET, path = "/article/addlike")
+    @ResponseBody
     public String likeArticle(Model model, @RequestParam("id") int id)
     {
-        for(Articles a : articles)
-        {
-            if(a.getId()==id)
-                a.setLikes(a.getLikes()+1);
-        }
+        String likes=null;
 
         if(database.memberHasLikedArticles(member, id))
         {
             System.out.println("Removing");
             database.removeArticleLike(id);
             database.removeMemberLike(member, id);
+
+            for(Articles a : articles)
+            {
+                if(a.getId()==id)
+                {
+                    a.setLikes(a.getLikes()-1);
+                    likes = Integer.toString(a.getLikes());
+                }
+            }
         }
         else
         {
             System.out.println("Adding");
             database.addArticleLike(id);
             database.addMemberLike(member, id);
+
+            for(Articles a : articles)
+            {
+                if(a.getId()==id)
+                {
+                    a.setLikes(a.getLikes()+1);
+                    likes = Integer.toString(a.getLikes());
+                }
+            }
         }
-        return "redirect:/user/profile";
+        return likes;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/user/setcolor")
@@ -563,5 +583,15 @@ public class TestController
     public String getSenderEmail(Model model)
     {
         return member.getEmail();
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, path = "/post/comment")
+    @ResponseBody
+    public String postComment(@RequestParam("comment") String comment, @RequestParam("articleId") int articleId)
+    {
+        Comment c = new Comment(0, member.getFirstName()+" "+member.getLastName(), comment, articleId, member.getImage());
+        database.addArticleComment(c, articleId, member);
+        return c.toString();
     }
 }

@@ -11,80 +11,67 @@ import java.util.HashMap;
 @Component
 @Repository
 @ConfigurationProperties(prefix = "sqldriver")
-public class SQL
-{
+public class SQL {
     private Connection connection;
     private Statement statement;
     private String driver;
     private String path;
     private String userName;
     private String passWord;
-    public boolean initDBConnection()
-    {
-        boolean successful=false;
-        try
-        {
+
+    public boolean initDBConnection() {
+        boolean successful = false;
+        try {
             Class.forName(driver);
             connection = DriverManager.getConnection(path, userName, passWord);
             statement = connection.createStatement();
-            successful=true;
-        }
-        catch(Exception e)
-        {
+            successful = true;
+        } catch (Exception e) {
             System.out.print("Failed to initialise DB Connection\n" + e.getMessage());
         }
         return successful;
     }
 
-    public boolean closeConnection()
-    {
-        boolean successful=false;
+    public boolean closeConnection() {
+        boolean successful = false;
         try {
             connection.close();
             statement.close();
-            successful=true;
-        }
-        catch (SQLException exception)
-        {
+            successful = true;
+        } catch (SQLException exception) {
             System.out.println(exception.getMessage());
         }
         return successful;
     }
 
-    boolean validateEmail(MemberEmail memberEmail)
-    {
-        boolean memberExists=false;
-        String command = "select * from logindetails where email='" + memberEmail.getEmail() +"'";
+    boolean validateEmail(MemberEmail memberEmail) {
+        boolean memberExists = false;
+        String command = "select * from logindetails where email='" + memberEmail.getEmail() + "'";
 
-        try{
+        try {
             ResultSet rs = statement.executeQuery(command);
-            if(rs.next())
-            {
+            if (rs.next()) {
                 String email = rs.getString("email");
                 String password = rs.getString("passcode");
 
-                if(email.trim().equals(memberEmail.getEmail().trim()))
-                    if(password.trim().equals(memberEmail.getPassword().trim()))
-                        memberExists=true;
+                if (email.trim().equals(memberEmail.getEmail().trim()))
+                    if (password.trim().equals(memberEmail.getPassword().trim()))
+                        memberExists = true;
             }
-        }
-        catch (SQLException sqlDataException){
+        } catch (SQLException sqlDataException) {
             System.out.println(sqlDataException.getMessage());
         }
         return memberExists;
     }
 
-    public void addMemberInformation(ArrayList<Member> members)
-    {
-        for(Member member : members)
-        {
+    public void addMemberInformation(ArrayList<Member> members) {
+        for (Member member : members) {
             String command = String.format("select * from education where email = '%s';", member.getEmail());
             try {
                 ResultSet resultSet = statement.executeQuery(command);
                 Education education = new Education();
 
-                while (resultSet.next())
-                {
+                while (resultSet.next()) {
                     education.setId(resultSet.getInt("id"));
                     education.setUniversityLocation(resultSet.getString("universityLocation"));
                     education.setYearStarted(resultSet.getInt("yearStarted"));
@@ -96,8 +83,7 @@ public class SQL
                     member.setEducation(education);
                 }
 
-            }catch (SQLException exception)
-            {
+            } catch (SQLException exception) {
                 System.out.println(exception.getMessage());
             }
 
@@ -106,8 +92,7 @@ public class SQL
                 ResultSet resultSet = statement.executeQuery(command);
                 Experience experience = new Experience();
 
-                while (resultSet.next())
-                {
+                while (resultSet.next()) {
                     experience.setId(resultSet.getInt("id"));
                     experience.setCompanyName(resultSet.getString("companyName"));
                     experience.setJobTitle(resultSet.getString("jobTitle"));
@@ -117,9 +102,7 @@ public class SQL
 
                     member.setExperiences(experience);
                 }
-            }
-            catch (SQLException exception)
-            {
+            } catch (SQLException exception) {
                 System.out.println(exception.getMessage());
             }
 
@@ -127,24 +110,20 @@ public class SQL
             try {
                 ResultSet resultSet = statement.executeQuery(command);
                 ArrayList<ProgrammingLanguages> langArray = new ArrayList<>();
-                if (resultSet.next())
-                {
+                if (resultSet.next()) {
                     ProgrammingLanguages languages = new ProgrammingLanguages(resultSet.getString("languageName"), resultSet.getString("yearsExperience"));
 
                     String[] lang = languages.getLanguage().split("_");
                     String[] exp = languages.getYearsExperience().split("_");
 
-                    int length=lang.length;
-                    for(int i=0; i<length; i++)
-                    {
+                    int length = lang.length;
+                    for (int i = 0; i < length; i++) {
                         ProgrammingLanguages pl = new ProgrammingLanguages(lang[i], exp[i]);
                         langArray.add(pl);
                     }
                     member.setProgrammingLanguages(langArray);
                 }
-            }
-            catch (SQLException exception)
-            {
+            } catch (SQLException exception) {
                 System.out.println(exception.getMessage());
             }
 
@@ -153,8 +132,7 @@ public class SQL
                 ResultSet resultSet = statement.executeQuery(command);
                 Project project = new Project();
 
-                while (resultSet.next())
-                {
+                while (resultSet.next()) {
                     project.setTitle(resultSet.getString("title"));
                     project.setDescription(resultSet.getString("details"));
                     project.setLanguage(resultSet.getString("lang"));
@@ -162,64 +140,115 @@ public class SQL
                     project.setVideo(resultSet.getString("video"));
 
                     String[] p = project.getLanguage().split("_");
-                    if(p.length > 0)
-                    {
-                        for(String i : p)
-                        {
+                    if (p.length > 0) {
+                        for (String i : p) {
                             project.setLanguages(i.trim());
                         }
                     }
                     String[] t = project.getTechnology().split("_");
-                    if(t.length > 0)
-                    {
-                        for(String i : t)
-                        {
+                    if (t.length > 0) {
+                        for (String i : t) {
                             project.setTechnologies(i.trim());
                         }
                     }
                     member.addProject(project);
                 }
-            }
-            catch (SQLException exception)
-            {
+            } catch (SQLException exception) {
                 System.out.println(exception.getMessage());
             }
         }
     }
-    ArrayList<Member> getMembers()
-    {
+
+    ArrayList<Member> getMembers() {
         ArrayList<Member> members = new ArrayList<>();
         String path = "../images/";
 
         String command = "select * from users;";
 
         Member member;
-        try
-        {
+        try {
             ResultSet resultSet = statement.executeQuery(command);
-            while(resultSet.next())
-            {
-                member=new Member(new MemberEmail(), new ArrayList<>(), new ArrayList(), new ArrayList(), new HashMap<>());
+            while (resultSet.next()) {
+                member = new Member(new MemberEmail(), new ArrayList<>(), new ArrayList(), new ArrayList(), new HashMap<>());
 
                 member.setFirstName(resultSet.getString("firstName"));
                 member.setLastName(resultSet.getString("lastName"));
                 member.setLocation(resultSet.getString("location"));
                 member.setMessage((resultSet.getString("message")));
-                member.setImage(path+resultSet.getString("image"));
+                member.setImage(path + resultSet.getString("image"));
                 member.setColor(resultSet.getString("color"));
                 member.setEmail(resultSet.getString("email"));
 
                 members.add(member);
             }
-        }
-        catch (SQLException exception)
-        {
+        } catch (SQLException exception) {
             System.out.println(exception.getMessage());
         }
         addMemberInformation(members);
         return members;
     }
 
+    boolean addArticleComment(Comment comment, int articleId, Member member) {
+        boolean successful = false;
+        String command = String.format("INSERT INTO articleComments VALUE (null, '%s', '%s', '%s', '%d', '%s');", comment.getDate(), comment.getMemberName(), comment.getComment(), articleId, member.getImage());
+        try {
+            statement.executeUpdate(command);
+            successful = true;
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+
+    ArrayList<Comment> getArticleComments()
+    {
+        ArrayList<Comment> allComments = new ArrayList<>();
+        String command = "select * from articleComments;";
+
+        Comment comment;
+
+        try{
+            ResultSet resultSet = statement.executeQuery(command);
+            while (resultSet.next())
+            {
+                int id = resultSet.getInt("id");
+                String date = resultSet.getString("dt");
+                String fullName = resultSet.getString("email");
+                String userComment = resultSet.getString("userComment");
+                int articleId = resultSet.getInt("articleId");
+                String image = resultSet.getString("image");
+
+                comment = new Comment(id, fullName, userComment, articleId, image);
+                comment.setDate(date);
+                allComments.add(comment);
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return allComments;
+    }
+
+    int countComments(int id)
+    {
+        int count=0;
+        String command = String.format("select * from articleComments where articleId='%d';", id);
+
+        try {
+            Statement statement1 = connection.createStatement();
+            ResultSet resultSet=statement1.executeQuery(command);
+            while (resultSet.next())
+            {
+                count++;
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return count;
+    }
 
     Member getMember(MemberEmail memberEmail)
     {
@@ -247,10 +276,9 @@ public class SQL
         command = String.format("select * from education where email = '%s';", member.getEmail());
         try {
             ResultSet resultSet = statement.executeQuery(command);
-            Education education = new Education();
-
             while (resultSet.next())
             {
+                Education education = new Education();
                 education.setId(resultSet.getInt("id"));
                 education.setUniversityLocation(resultSet.getString("universityLocation"));
                 education.setYearStarted(resultSet.getInt("yearStarted"));
@@ -270,10 +298,9 @@ public class SQL
         command = String.format("select * from experience where email = '%s';", member.getEmail());
         try {
             ResultSet resultSet = statement.executeQuery(command);
-            Experience experience = new Experience();
-
             while (resultSet.next())
             {
+                Experience experience = new Experience();
                 experience.setId(resultSet.getInt("id"));
                 experience.setCompanyName(resultSet.getString("companyName"));
                 experience.setJobTitle(resultSet.getString("jobTitle"));
@@ -317,10 +344,9 @@ public class SQL
         command = String.format("select * from projects where email = '%s';", member.getEmail());
         try {
             ResultSet resultSet = statement.executeQuery(command);
-            Project project = new Project();
-
             while (resultSet.next())
             {
+                Project project = new Project();
                 project.setTitle(resultSet.getString("title"));
                 project.setDescription(resultSet.getString("details"));
                 project.setLanguage(resultSet.getString("lang"));
@@ -578,7 +604,10 @@ public class SQL
                 String url = resultSet.getString("url");
                 int likes = resultSet.getInt("likes");
 
+                int count = countComments(id);
+
                 article = new Articles(id, title, description, url, likes);
+                article.setCount(count);
                 articles.add(article);
             }
         }

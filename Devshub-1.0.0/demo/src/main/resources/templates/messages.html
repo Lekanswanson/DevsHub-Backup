@@ -47,70 +47,74 @@
                                 <button type="button" onclick="showMessageMobile()">Search</button>
                             </div>
                         </div>
-
                         <div id="memName" class="showMemberName">
                             <div th:if="${user!=null}" class="buttdiv">
                                 <button th:text="${user}" class="buttclass" type="button" th:data-longDescription="${user}" onclick="showMessageDiv(this.getAttribute('data-longDescription'));">Name</button>
+                                <button type="button" class="messgeDelete">X</button>
                             </div>
                             <div th:if="${!allusers.isEmpty()}" th:each="user: ${allusers}" class="buttdiv">
                                 <button th:text="${user}" class="buttclass" type="button" th:data-longDescription="${user}" onclick="showMessageDiv(this.getAttribute('data-longDescription'));">Name</button>
+                                <button type="button" class="messgeDelete">X</button>
                             </div>
                         </div>
-
                     </div>
 
                     <div id="myView" class="memberMessageDiv">
                         <div class="messageDiv">
-                            <label><h3>Messages</h3></label>
+                            <label style="float:left;"><h3>Messages</h3></label>
+                            <button type="button" onclick="hideMessageMobile()" class="backBtnMobile">Back</button>
                         </div>
-                        <form action="#" th:action="@{/user/sendMessage}" method="post" th:object="${newMessage}" id="subform">
-                            <div class="messages">
-                                <div class="inputDiv">
-                                    <div>
-                                        <input class="messageInput" type="search" th:value="${senderName}" th:field="*{sender}" id="sndname" disabled>
-                                    </div>
-                                    <div style="margin-left:5px;">
+
+                        <div>
+                            <form action="#" th:action="@{/user/sendMessage}" method="post" th:object="${newMessage}" id="subform">
+                                <div class="messages">
+                                    <div class="inputDiv">
                                         <div>
-                                            <input class="messageInput" type="search" name="search" th:field="*{receiver}" id="rcvname" disabled>
+                                            <input class="messageInput" type="search" th:value="${senderName}" th:field="*{sender}" id="sndname" disabled>
                                         </div>
-                                        <div id="showNames" class="hide">
+                                        <div style="margin-left:5px;">
+                                            <div>
+                                                <input class="messageInput" type="search" name="search" th:field="*{receiver}" id="rcvname" disabled>
+                                            </div>
+                                            <div id="showNames" class="hide">
 
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div id="currView" class="loadMessage">
+                                        <div th:if="${user!=null}" th:id="${user}" class="show">
+                                            <div th:each="message : ${userMsg}" class="msgflow">
+                                                <div th:each="member : ${mems}" th:class="'imgflow '+${user==message.sender ? 'imgright' : 'imgflow'}">
+                                                    <img th:if="${message.sender == member.email}"  th:src="@{${member.image}}" class="imgstyle">
+                                                </div>
+                                                <div th:class="'flow '+${user==message.sender ? 'flowright' : 'flow'}">
+                                                    <label><h3 th:text="|Received: ${message.date}|">Message</h3></label>
+                                                    <label><h3 th:text="|From: ${message.sender}|">Message</h3></label>
+                                                    <label><h3 th:text="|To: ${message.receiver}|">Message</h3></label>
+                                                    <label><h3 th:text="|${message.message}|">Message</h3></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div th:if="${!allusers.isEmpty()}" th:each="user: ${allusers}" th:id="${user}" class="hide">
+                                            <div th:each="message : ${map.get(user)}" class="msgflow">
+                                                <div th:each="member : ${mems}" th:class="'imgflow '+${user==message.sender ? 'imgright' : 'imgflow'}">
+                                                    <img th:if="${message.sender == member.email}"  th:src="@{${member.image}}" class="imgstyle">
+                                                </div>
+                                                <div th:class="'flow '+${user==message.sender ? 'flowright' : 'flow'}">
+                                                    <label><h3 th:text="|Received: ${message.date}|">Message</h3></label>
+                                                    <label><h3 th:text="|From: ${message.sender}|">Message</h3></label>
+                                                    <label><h3 th:text="|To: ${message.receiver}|">Message</h3></label>
+                                                    <label><h3 th:text="|${message.message}|">Message</h3></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
-
-                                <div id="currView" class="loadMessage">
-                                    <div th:if="${user!=null}" th:id="${user}" class="show">
-                                        <div th:each="message : ${userMsg}" class="msgflow">
-                                            <div th:each="member : ${mems}" th:class="'imgflow '+${user==message.sender ? 'imgright' : 'imgflow'}">
-                                                <img th:if="${message.sender == member.email}"  th:src="@{${member.image}}" class="imgstyle">
-                                            </div>
-                                            <div th:class="'flow '+${user==message.sender ? 'flowright' : 'flow'}">
-                                                <label><h3 th:text="|Received: ${message.date}|">Message</h3></label>
-                                                <label><h3 th:text="|From: ${message.sender}|">Message</h3></label>
-                                                <label><h3 th:text="|To: ${message.receiver}|">Message</h3></label>
-                                                <label><h3 th:text="|${message.message}|">Message</h3></label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div th:if="${!allusers.isEmpty()}" th:each="user: ${allusers}" th:id="${user}" class="hide">
-                                        <div th:each="message : ${map.get(user)}" class="msgflow">
-                                            <div th:each="member : ${mems}" th:class="'imgflow '+${user==message.sender ? 'imgright' : 'imgflow'}">
-                                                <img th:if="${message.sender == member.email}"  th:src="@{${member.image}}" class="imgstyle">
-                                            </div>
-                                            <div th:class="'flow '+${user==message.sender ? 'flowright' : 'flow'}">
-                                                <label><h3 th:text="|Received: ${message.date}|">Message</h3></label>
-                                                <label><h3 th:text="|From: ${message.sender}|">Message</h3></label>
-                                                <label><h3 th:text="|To: ${message.receiver}|">Message</h3></label>
-                                                <label><h3 th:text="|${message.message}|">Message</h3></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </form>
+                            </form>
+                        </div>
 
                         <div class="textDiv">
                             <textarea th:field="*{message}" id="dmsg" style="border:1px solid black;"></textarea>
@@ -119,6 +123,13 @@
                     </div>
                 </div>
             </section>
+
+            <textmobile>
+                <div class="formobile" id="formmobile">
+                    <textarea th:field="*{message}" id="hmsg" style="border:1px solid black;"></textarea>
+                    <button type="button" onclick="postform();">Send</button>
+                </div>
+            </textmobile>
 
             <footer>
                 <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">

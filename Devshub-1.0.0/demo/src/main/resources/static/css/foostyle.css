@@ -99,7 +99,7 @@ footer{
     padding: 10px 20px;
 }
 
-.list.responsive {position: fixed;}
+.list.responsive {position: fixed; z-index:2;}
 .list.responsive .icon {
     position: absolute;
     padding: 10px 20px;
@@ -154,6 +154,35 @@ footer{
     font-family: Arial, Helvetica, sans-serif;
     color:red;
 }
+.expand a:hover{
+    color: #248a0f;
+}
+.expand a{
+    color: black;
+}
+
+
+    .inputLabelStyle{
+        position:absolute;
+        top:0;
+        left:0;
+        width: 96%;
+        margin: 1% 2%;
+        padding: 0.2em 0.75em;
+        font-size: small;
+        color: gray;
+        border-radius:0;
+        border:none;
+    }
+    .hide{
+        display:none;
+    }
+    .notEmptyInput{
+        padding: 1.2em 0.5em 0.4em 0.5em;
+    }
+
+
+
 
 .sub{
 	#background-color: #8b9bc1;
@@ -193,15 +222,6 @@ footer{
 	margin-bottom: 0.2em;
 }
 
-
-
-
-.expand a:hover{
-    color: #248a0f;
-}
-.expand a{
-    color: black;
-}
 
 .disable a:hover{
     padding: 0 0;
@@ -413,6 +433,7 @@ footer{
     	padding: 0.8em 0.5em;
     	font-size: 100%;
     	width: 96%;
+
     }
     .expand h1{
     	border: none;
@@ -433,6 +454,17 @@ footer{
     .expand h1 a:hover{
         color:gray;
     }
+    .expand a:hover{
+        color: #248a0f;
+    }
+    .expand a{
+        color: black;
+    }
+    .expand input:focus{
+        padding: 1.2em 0.5em 0.4em 0.5em;
+        background: #e4e6e7;
+    }
+
 
     .sub{
     	#background-color: #8b9bc1;
@@ -445,6 +477,26 @@ footer{
     }
 
 
+    .inputLabelStyle{
+        position:absolute;
+        top:0;
+        left:0;
+        width: 96%;
+        margin: 1% 2%;
+        padding: 0.2em 0.75em;
+        font-size: small;
+        color: gray;
+        border-radius:0;
+        border:none;
+    }
+    .hide{
+        display:none;
+    }
+    .notEmptyInput{
+        padding: 1.2em 0.5em 0.4em 0.5em;
+    }
+
+
     .padded{
     	width: 80%;
     	margin: 3% 10%;
@@ -453,7 +505,6 @@ footer{
     .padded:hover{
         background: #1b1452;
     }
-
 
     .motto{
     	font-family: Arial, Helvetica, sans-serif;
@@ -474,14 +525,6 @@ footer{
     	#margin-right: 2em;
     	#padding: 1em 1em;
     }
-
-    .expand a:hover{
-        color: #248a0f;
-    }
-    .expand a{
-        color: black;
-    }
-
 
     footer{
     	text-align: center;
