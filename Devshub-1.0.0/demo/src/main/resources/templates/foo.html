@@ -14,10 +14,9 @@
         <div class="backlayout">
             <leftheader>
                 <div class="list" id="myList">
-                    <a href="index.html">Home</a>
-                    <a href="home.html">About</a>
-                    <a href="">Contributors</a>
-                    <a href="">Careers</a>
+                    <a href="/devshub">Home</a>
+                    <a href="/contributors">Contributors</a>
+                    <a href="careers">Careers</a>
                     <div class="disable"><a style="border:none; padding:0.2em 0; border-left:3px solid black; color:whitesmoke;">.</a></div>
                     <a href="/members">Members</a></li>
                     <a href="#" class="icon" id="barIcon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
@@ -74,10 +73,11 @@
             </aside>
 
             <footer>
-                <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
-                    <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
-                    <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
-                    <p><a href="">Privacy policy</a>
+                <div class="footerDiv">
+                    <a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a>
+                    <a href="">Terms and conditions</a>
+                    <a href="/user/about">About</a>
+                    <a href="">Privacy policy</a>
                 </div>
             </footer>
         </div>

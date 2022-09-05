@@ -55,7 +55,7 @@
             </div>
 
             <div class="expand">
-                <button type="submit" class="sub padded">Continue with Google</button>
+                <button type="button" class="sub padded">Continue with Google</button>
             </div>
         </form>
     </section>
@@ -73,10 +73,11 @@
     </aside>
 
     <footer>
-        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
-            <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
-            <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
-            <p><a href="">Privacy policy</a>
+        <div class="footerDiv">
+            <a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a>
+            <a href="">Terms and conditions</a>
+            <a href="/user/about">About</a>
+            <a href="">Privacy policy</a>
         </div>
     </footer>
 </div>

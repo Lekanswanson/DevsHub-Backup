@@ -1,19 +1,26 @@
 package com.test.devshub;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
+
+import java.util.ArrayList;
+
+@Component
+@RequestScope
 public class Like
 {
     private String memberName;
-    private int likes;
+    private int id;
 
     public Like()
     {
 
     }
 
-    public  Like(String memberName, int likes)
+    public  Like(String memberName, int id)
     {
         this.memberName=memberName;
-        this.likes=likes;
+        this.id=id;
     }
 
     public String getMemberName() {
@@ -24,11 +31,17 @@ public class Like
         this.memberName = memberName;
     }
 
-    public int getLikes() {
-        return likes;
+    public int getId() {
+        return id;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%s,%d",memberName,id);
     }
 }

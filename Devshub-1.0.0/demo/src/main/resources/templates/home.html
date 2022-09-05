@@ -101,31 +101,32 @@
         <h3 class="formTitle">Add Languages</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeLanguageForm(this.getAttribute('data-longDescription'));">Exit</button>
     </div>
+
     <br>
     <h6 style="width: 80%; margin:0 auto;">* Indicates required</h6>
     <br>
     <p style="width: 80%; margin:0 auto;">Enter details</p>
     <br>
-    <div style="display:flex; flex-direction:row; width: 100%; margin:1em auto; align-items:center; justify-content:center;">
+    <div class="langInputDiv">
         <div>
             <div autocomplete="off">
-                <input autocomplete="off" style="width:140px;" type="search" name="search" id="plang">
+                <input autocomplete="off" class="langinp" type="search" name="search" id="plang">
             </div>
             <div id="showLang" class="hide">
 
             </div>
         </div>
         <div>
-            <input id="expYear" style="width:140px;" type="search" placeholder="Years experience">
+            <input id="expYear" class="langinp" type="search" placeholder="Years experience">
         </div>
     </div>
-    <button class="formbtn" type="button" onclick="addLanguage('plang', 'expYear', 'addLanguage')" style="float:right; padding:0.25em; width:100px; margin: 0 auto; border-radius:50px;">Add</button>
+    <button class="formbtn formButtons fb" type="button" onclick="addLanguage('plang', 'expYear', 'addLanguage')">Add</button>
     <div style="width:80%; height:auto; margin:1em auto; display:flex; flex-direction:row; gap:5px; flex-wrap:wrap;" id="addLanguage">
 
     </div>
     <input id="langtext" type="text" th:field="*{language}">
     <input id="langyear" type="text" th:field="*{yearsExperience}">
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+    <button class="formbtn formButtons fb" type="submit" value="submit">Save</button>
 </form>
 
 <form action="#" th:action="@{/addSkills}" method="post" class="hide" id="skillform" style="border-radius: 10px;">
@@ -133,14 +134,12 @@
         <h3 class="formTitle">Add skills</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" th:data-longDescription="${experience}" onclick="closeSkillsForm(this.getAttribute('data-longDescription'));">Exit</button>
     </div>
-    <br>
-    <h6 style="width: 80%; margin:0 auto;">* Indicates required</h6>
-    <br>
-    <p style="width: 80%; margin:0 auto;">Enter details</p>
-    <br>
-    <input type="text" placeholder="skill">
-    <br>
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+    <div class="forminfo">
+        <h6 style="width: 80%; margin:0 auto;">* Indicates required</h6>
+        <p style="width: 80%; margin:0 auto;">Enter details</p>
+        <input type="text" placeholder="skill">
+        <button class="formbtn formButtons" type="submit" value="submit">Save</button>
+    </div>
 </form>
 
 <form action="#" method="post" class="hide" id="editinfo" style="border-radius: 10px;">
@@ -148,24 +147,17 @@
         <h3 class="formTitle">Edit Information</h3>
         <button class="formbtn" type="button" style="float:right; padding: 0.2em 0.4em; height:100%; margin-right:2em;" onclick="closeEditInfoForm();">Exit</button>
     </div>
-    <br>
-    <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
-    <br>
-    <p style="width: 80%; margin:0 auto;">Enter details</p>
-    <br>
-    <input type="text" name="firstname" placeholder="First name">
-    <br>
-    <input type="text" name="lastname" placeholder="Last name">
-    <br>
-    <input type="email" name="email" placeholder="Email">
-    <br>
-    <input type="text" name="location" placeholder="Location">
-    <br>
-    <input type="text" name="level" placeholder="Level">
-    <br>
-    <input type="text" name="experience" placeholder="Experience">
-    <br>
-    <button class="formbtn" type="submit" value="submit" style="float:right; padding:0.5em; width:100px; margin: 0 auto; border-radius:50px;">Save</button>
+    <div class="forminfo">
+        <h6 style="width: 80%; margin:0 auto;"> * Indicates required</h6>
+        <p style="width: 80%; margin:0 auto;">Enter details</p>
+        <input type="text" name="firstname" placeholder="First name">
+        <input type="text" name="lastname" placeholder="Last name">
+        <input type="email" name="email" placeholder="Email">
+        <input type="text" name="location" placeholder="Location">
+        <input type="text" name="level" placeholder="Level">
+        <input type="text" name="experience" placeholder="Experience">
+        <button class="formbtn formButtons" type="submit" value="submit">Save</button>
+    </div>
 </form>
 
 <div class="backlayout" id="backlayout">
@@ -274,17 +266,21 @@
                         <p>This will help employers decided what role to offer you.</p>
                     </div>
                     <div th:if="${!member.education.isEmpty()}" style="width:90%; margin:0 5%;">
-                        <div th:each="education : ${member.getEducation()}" style="border: 1px dashed black; margin-bottom:1em;">
-                            <button type="button" th:data-longDescription="${education}" onclick="editEducationForm(this.getAttribute('data-longDescription'));" style="color:white; background-color: black;">Edit</button><br>
-                            <label th:text="*{education.universityLocation}">universityLocation</label><br>
-                            <label th:text="*{education.yearStarted}">yearStarted</label><br>
-                            <label th:text="*{education.yearEnded}">yearEnded</label><br>
-                            <label th:text="*{education.courseStudied}">courseStudied</label><br>
-                            <label th:text="*{education.degreeLevel}">degreeLevel</label><br>
-                            <label th:text="*{education.resultsAchieved}">resultsAchieved</label>
+                        <div th:each="education : ${member.getEducation()}" style="margin-bottom:1em;">
+                            <div style="display:flex; gap:0.2em; margin-bottom:0.5em;">
+                                <button type="button" th:data-longDescription="${education}" onclick="editEducationForm(this.getAttribute('data-longDescription'));" style="color:white; background-color: black;">Edit</button>
+                                <button type="button" style="color:white; background-color: black;">Delete</button>
+                            </div>
+                            <div class="memberLabels">
+                                <label th:text="|University name: *{education.universityLocation}|">universityLocation</label>
+                                <label th:text="|Year started: *{education.yearStarted} - Year ended: *{education.yearEnded}|">yearStarted</label>
+                                <label th:text="|Course studied: *{education.courseStudied}|">courseStudied</label>
+                                <label th:text="|Degree achieved: *{education.degreeLevel}|">degreeLevel</label>
+                                <label th:text="|Grade: *{education.resultsAchieved}|">resultsAchieved</label>
+                            </div>
                         </div>
-                    </div><br>
-                    <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openEducationForm();">Education Info</button>
+                    </div>
+                    <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openEducationForm();">Add Education</button>
                 </div>
 
                 <div style="width: 100%; min-height:150px; height:auto; padding: 10px 0; margin-top: 1em; background-color: white; border-radius: 10px; border: 1px solid #d9d9d9;">
@@ -297,15 +293,19 @@
                         </p>
                     </div>
                     <div th:if="${!member.experiences.isEmpty()}" style="width:90%; margin:0 5%;">
-                        <div th:each="job : ${member.getExperiences()}" style="border: 1px dashed black; margin-bottom:1em;">
-                            <button type="button" th:data-longDescription="${job}" onclick="editExperienceForm(this.getAttribute('data-longDescription'));" style="color:white; background-color: black;">Edit</button><br>
-                            <label th:text="*{job.companyName}">companyName</label><br>
-                            <label th:text="*{job.jobTitle}">jobTitle</label><br>
-                            <label th:text="*{job.yearStarted}">yearStarted</label><br>
-                            <label th:text="*{job.yearEnded}">yearEnded</label><br>
-                            <label th:text="*{job.location}">degreeLevel</label>
+                        <div th:each="job : ${member.getExperiences()}" style="margin-bottom:1em;">
+                            <div style="display:flex; gap:0.2em; margin-bottom:0.5em;">
+                                <button type="button" th:data-longDescription="${job}" onclick="editExperienceForm(this.getAttribute('data-longDescription'));" style="color:white; background-color: black;">Edit</button>
+                                <button type="button" style="color:white; background-color: black;">Delete</button>
+                            </div>
+                            <div class="memberLabels">
+                                <label th:text="|Company name: *{job.companyName}|">companyName</label>
+                                <label th:text="|Job title: *{job.jobTitle}|">jobTitle</label>
+                                <label th:text="|From: *{job.yearStarted} - To: *{job.yearEnded}|">yearStarted</label>
+                                <label th:text="|Location: *{job.location}|">degreeLevel</label>
+                            </div>
                         </div>
-                    </div><br>
+                    </div>
                     <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openExperienceForm()">Add experience</button>
                 </div>
 
@@ -316,12 +316,15 @@
                         <p>Include known programming languages and how many years experience.</p>
                     </div><br>
                     <div th:if="${!member.languages.isEmpty()}" style="width:90%; margin:0 5%;">
-                        <button type="button" style="color:white; background-color: black; margin-bottom:0.2em;">Edit</button><br>
-                        <div th:each="l : ${member.getLanguages()}" style="border: 1px dashed black; margin-bottom:0.2em;">
-                            <label th:text="*{l.language}">universityLocation</label><br>
-                            <label th:text="*{l.yearsExperience}">yearStarted</label><br>
+                        <div style="display:flex; gap:0.2em; margin-bottom:0.5em;">
+                            <button type="button" style="color:white; background-color: black;">Edit</button>
+                            <button type="button" style="color:white; background-color: black;">Delete</button>
                         </div>
-                    </div><br>
+                        <label>Language</label>
+                        <div th:each="l : ${member.getLanguages()}" class="memberLabels">
+                            <label th:text="|*{l.language} - *{l.yearsExperience} years experience|">universityLocation</label>
+                        </div>
+                    </div>
                     <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openLanguageForm()">Add programming languages</button>
                 </div>
 
@@ -330,7 +333,7 @@
                     <div style="width:90%; margin:0 5%;">
                         <h4>Add job related skills.</h4><br>
                         <p>What skills make you stand out</p>
-                    </div><br>
+                    </div>
                     <button class="btn" type="button" value="submit" style="margin-left:5%; padding: 1em 1em;" onclick="openSkillsForm()">Add skills</button>
                 </div>
             </div>
@@ -360,10 +363,11 @@
     </section>
 
     <footer>
-        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
-            <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
-            <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
-            <p><a href="">Privacy policy</a>
+        <div class="footerDiv">
+            <a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a>
+            <a href="">Terms and conditions</a>
+            <a href="/user/about">About</a>
+            <a href="">Privacy policy</a>
         </div>
     </footer>
 </div>

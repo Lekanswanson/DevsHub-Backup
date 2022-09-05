@@ -399,6 +399,7 @@ input{
         display:none;
     }
     footer{
+        display:block;
         background-color: white;
         grid-area: footer;
     }
@@ -649,11 +650,18 @@ input{
     }
 
 
-    footer{
-    	text-align: center;
+    .footerDiv{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100%;
+        gap:1em;
     }
-    footer p{
-    	margin: 0 0 0 0;
+    footer a{
+        color:gray;
+    }
+    footer{
+    	font-size: medium;
     }
 }
 

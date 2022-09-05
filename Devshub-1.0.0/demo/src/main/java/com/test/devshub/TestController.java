@@ -43,12 +43,12 @@ public class TestController
     private String path ="../images/";
     private String videoPath ="../videos/";
 
-    //private final String UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\images\\";
-    private final String UPLOAD_DIR = "./src/main/resources/static/images/";
-    //private final String VID_UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\videos\\";
-    private final String VID_UPLOAD_DIR = "./src/main/resources/static/videos/";
-    //private final String CLASS_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\target\\classes\\static\\videos\\";
-    private final String CLASS_DIR = "./target/classes/static/videos/";
+    private final String UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\images\\";
+    //private final String UPLOAD_DIR = "./src/main/resources/static/images/";
+    private final String VID_UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\videos\\";
+    //private final String VID_UPLOAD_DIR = "./src/main/resources/static/videos/";
+    private final String CLASS_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\target\\classes\\static\\videos\\";
+    //private final String CLASS_DIR = "./target/classes/static/videos/";
 
 
     @RequestMapping(method = RequestMethod.GET, path="/devshub")
@@ -232,6 +232,7 @@ public class TestController
         String path ="../images/"+fileName;
         member.setImage(path);
         database.setImagePath(fileName, member);
+        database.updateArticleImage(path, member);
 
         return "redirect:/home/"+member.getFirstName();
     }
@@ -256,7 +257,6 @@ public class TestController
             e.printStackTrace();
         }
         String path ="../images/"+fileName;
-
         member.setImage(path);
         return "redirect:/user/profile";
     }
@@ -363,7 +363,13 @@ public class TestController
         int total=0;
 
         articles = database.getArticles();
+        ArrayList<Like> memberLikes = database.memberLikedArticles(member);
+
+        for(Like like : memberLikes)
+            System.out.println(like);
+
         model.addAttribute("articles", articles);
+        model.addAttribute("memberLikes", memberLikes);
         model.addAttribute("member", member);
         model.addAttribute("color", member.getColor());
         model.addAttribute("comments", database.getArticleComments());
@@ -593,5 +599,24 @@ public class TestController
         Comment c = new Comment(0, member.getFirstName()+" "+member.getLastName(), comment, articleId, member.getImage());
         database.addArticleComment(c, articleId, member);
         return c.toString();
+    }
+
+    @RequestMapping(path="/interviewQuestions", method = RequestMethod.GET)
+    public String getQuestionVIew(Model model)
+    {
+        int total=0;
+
+        articles = database.getArticles();
+        ArrayList<Like> memberLikes = database.memberLikedArticles(member);
+
+        for(Like like : memberLikes)
+            System.out.println(like);
+
+        model.addAttribute("articles", articles);
+        model.addAttribute("memberLikes", memberLikes);
+        model.addAttribute("member", member);
+        model.addAttribute("color", member.getColor());
+        model.addAttribute("comments", database.getArticleComments());
+        return "interviewQuestions";
     }
 }

@@ -69,14 +69,14 @@ DROP TABLE IF EXISTS articleComments;
 CREATE TABLE articleComments(
 	id integer auto_increment not null primary key,
     dt varchar(30) not null ,
-    email varchar(50) not null,
+    fullName varchar(50) not null,
     userComment varchar(500) not null,
 	articleId integer not null,
     image varchar(30) not null,
-    FOREIGN KEY (articleId) REFERENCES articles (id)
+	email VARCHAR(20) not null,
+    FOREIGN KEY (articleId) REFERENCES articles (id),
+	FOREIGN KEY (email) REFERENCES logindetails (email)
 );
-
-insert in articleComments values (null, 'monday', 'admin'
 
 DROP TABLE IF EXISTS memberlikes;
 CREATE TABLE memberlikes(
@@ -84,6 +84,7 @@ CREATE TABLE memberlikes(
     articleId integer not null,
     foreign key (articleId) references articles (id)
 );
+
 
 DROP TABLE IF EXISTS projects;
 CREATE TABLE projects(
@@ -115,10 +116,10 @@ SELECT 'INSERTING DATA INTO DATABASE' as 'INFO';
 
 INSERT INTO logindetails VALUES ("admin", "password");
 INSERT INTO users VALUES (null, "Lekan", "Adams", "Athlone", null, "person.png", "#cad07c", "admin");
-update users set message = 'Hi from the other side' where email = 'admin';
+update users set message = 'My name is Lekan Adams. I am 27 years old from Athlone.' where email = 'admin';
 INSERT INTO education VALUES (null, "AIT", 2017, 2020, "Computer Engineering", "Ordinary Level", "2.1 GPA", "admin");
 INSERT INTO experience VALUES (null, "LMI Ericsson", "Junior Software Engineer", 2021, 2022, "Athlone", "admin");
-insert into projects values ("Cards Game", "Game of switch i created with java", "Java_Javascript_", "Docker_Github_", "", "admin");
+INSERT INTO memberLanguages VALUES (null, 'Java_Python_', '5_3_', 'admin');
 
 INSERT INTO articles VALUES (null, "What is Maven: Here's What You Need to Know", "Interactive maven tutorial", "https://www.simplilearn.com/tutorials/maven-tutorial/what-is-maven", 0);
 INSERT INTO articles VALUES (null, "Docker", "Docker is an open source platform for building, deploying, and managing containerized applications. Learn about containers, how they compare to VMs, and why Docker is so widely adopted and used.", "https://www.ibm.com/cloud/learn/docker", 0);
@@ -186,6 +187,9 @@ select * from languages;
 select * from memberLanguages;
 select * from articleComments;
 
+#insert into articleComments values (null, 'saturday', 'Lekan Adams', 'Hi Guys', 1, '../images/person.png', 'admin');
+#update articleComments set image = 'jajaja' where email='admin';
+#select * from articleComments where articleId=1;
 
 
 #delete from articleComments where id = 1;

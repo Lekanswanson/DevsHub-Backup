@@ -375,7 +375,7 @@ $(function(){
                 if(data==="")
                 {
                     const nameDiv = document.getElementById("showLang");
-                    nameDiv.classList.remove("display");
+                    nameDiv.classList.remove("displaylang");
                     nameDiv.classList.add("hide");
                 }
                 else
@@ -398,7 +398,7 @@ function createNameDiv(name)
     const nameDiv = document.getElementById("showLang");
 
     nameDiv.classList.remove("hide");
-    nameDiv.classList.add("display");
+    nameDiv.classList.add("displaylang");
 
     var newDiv = document.createElement("DIV");
     var userName = document.createElement("A");
@@ -406,7 +406,7 @@ function createNameDiv(name)
 
     userName.onclick = function(){
         document.getElementById("plang").value=name;
-        nameDiv.classList.remove("display");
+        nameDiv.classList.remove("displaylang");
         nameDiv.classList.add("hide");
     }
 

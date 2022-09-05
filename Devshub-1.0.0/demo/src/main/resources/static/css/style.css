@@ -224,13 +224,19 @@
     .hide{
     	display: none;
     }
-    .display{
+    .displaylang{
         position:fixed;
+        width:80%;
+        margin: 0 10%;
         height:auto;
         border:1px solid black;
         background:cyan;
-        width:140px;
     }
+    .displaylang a{
+        padding: 0.5em 0;
+        border: 1px solid black;
+    }
+
     #showLang a{
         display:flex;
         width:100%;
@@ -314,7 +320,7 @@
     }
     #langForm input{
         width:80%;
-        margin: 0 auto;
+        margin: 0 10%;
         border: 2px solid whitesmoke;
     }
 
@@ -336,6 +342,26 @@
         justify-content: center;
         align-items: center;
         color:gray;
+    }
+
+
+    .langInputDiv{
+        display:flex;
+        flex-direction:column;
+        width: 100%;
+        height:auto;
+    }
+
+    #langtext, #langyear{
+        display:none;
+    }
+    .langinp{
+        height:3em;
+    }
+    .fb{
+        height:3em;
+        color:black;
+        text-shadow:0px 0px 5px black;
     }
 
 
@@ -361,13 +387,22 @@
     	width: 100%;
     }
 
+    .footerDiv{
+        display:flex;
+        flex-direction:row;
+        justify-content:space-evenly;
+        align-items:center;
+        height:100%;
+        flex-wrap:wrap;
+    }
     footer{
-    	text-align: center;
-    	font-size:small;
+        font-size: x-small;
+        margin-top:1em;
     }
-    footer p{
-    	margin: 0 0 0 0;
+    footer a{
+        color:gray;
     }
+
 
 /* Show section before nav on mobile */
 .backlayout
@@ -427,7 +462,7 @@
 		overflow-x: hidden; !important;
 		height:100vh;
 		width:100vw;
-		grid-template-rows: auto auto 4vh;
+		grid-template-rows: auto;
 		grid-template-columns: auto 1024px auto;
 		grid-template-areas: 	"aside header beside"
 								"aside section beside"
@@ -450,6 +485,9 @@
 								"footer footer footer";
 	}
 
+    body{
+        background:whitesmoke;
+    }
     header{
     	background-color: whitesmoke;
     	font-family: Arial, Helvetica, sans-serif;
@@ -564,6 +602,10 @@
         background-color: #e6e5e5;
     }
 
+    .memberLabels{
+        display:flex;
+        flex-direction:column;
+    }
 
     .player {
       margin-top: -2em;
@@ -632,19 +674,25 @@
     .hide{
     	display: none;
     }
-    .display{
+    .displaylang{
         position:fixed;
+        width:40%;
+        margin: 0 5%;
         height:auto;
         border:1px solid black;
         background:cyan;
-        width:140px;
+    }
+    .displaylang a{
+        padding: 0.5em 0;
+        border: 0;
     }
 
-.dropSelect{
-    border:1px solid black;
-    display:flex;
-    flex-direction:row;
-}
+
+    .dropSelect{
+        border:1px solid black;
+        display:flex;
+        flex-direction:row;
+    }
 
     #showLang a{
         display:flex;
@@ -738,8 +786,9 @@
     }
     #langForm input{
         width:80%;
-        margin: 0 auto;
+        margin: 0 10%;
         border: 2px solid whitesmoke;
+        height:4em;
     }
 
     #editinfo input{
@@ -772,6 +821,17 @@
         align-items: center;
         color:gray;
     }
+
+    .langInputDiv{
+        display:flex;
+        flex-direction:column;
+        width: 100%;
+        margin:1em auto;
+    }
+    #langtext, #langyear{
+        display:hidden;
+    }
+
 
     .default{
         border-radius: 50%;
@@ -811,11 +871,12 @@
     	width: 100%;
     }
 
-    footer{
-    	text-align: center;
+    .footerDiv{
+        justify-content:center;
+        gap:1em;
     }
-    footer p{
-    	margin: 0 0 0 0;
+    footer{
+    	font-size: medium;
     }
 }
 

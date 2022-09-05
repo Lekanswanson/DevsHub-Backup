@@ -100,22 +100,60 @@ function addLike(id)
             {
                 if(data==1)
                 {
+                    var currVal = document.getElementById("liked_"+id).textContent;
+                    currVal = currVal.split(" ")[0];
+
                     document.getElementById("liked_"+id).innerHTML=data + " Like";
 
                     document.getElementById("liked_"+id).classList.add("showshow");
                     document.getElementById("liked_"+id).classList.remove("hide");
 
+
+                    if(currVal < data)
+                    {
+                        var span = document.createElement("SPAN");
+                        span.classList.add("memberHasLiked");
+                        span.id="span_"+id;
+                        document.getElementById("react_"+id).appendChild(span);
+                    }
+                    else
+                    {
+                        document.getElementById("span_"+id).classList.remove("memberHasLiked");
+                        document.getElementById("span_"+id).classList.add("memberNotHasLiked");
+                        document.getElementById("react_"+id).removeChild(document.getElementById("span_"+id));
+                    }
                 }
                 else if(data > 1)
                 {
+                    var currVal = document.getElementById("liked_"+id).textContent;
+                    currVal = currVal.split(" ")[0];
+
                     document.getElementById("liked_"+id).innerHTML=data + " Likes";
+
+                    if(currVal < data)
+                    {
+                        var span = document.createElement("SPAN");
+                        span.classList.add("memberHasLiked");
+                        span.id="span_"+id;
+                        document.getElementById("react_"+id).appendChild(span);
+                    }
+                    else
+                    {
+                        document.getElementById("span_"+id).classList.remove("memberHasLiked");
+                        document.getElementById("span_"+id).classList.add("memberNotHasLiked");
+                        document.getElementById("react_"+id).removeChild(document.getElementById("span_"+id));
+                    }
                 }
                 else
                 {
-                    document.getElementById("liked_"+id).text=data;;
+                    document.getElementById("liked_"+id).innerHTML=data + " Like";
 
                     document.getElementById("liked_"+id).classList.remove("showshow");
                     document.getElementById("liked_"+id).classList.add("hide");
+
+                    document.getElementById("span_"+id).classList.remove("memberHasLiked");
+                    document.getElementById("span_"+id).classList.add("memberNotHasLiked");
+                    document.getElementById("react_"+id).removeChild(document.getElementById("span_"+id));
                 }
             }
         }

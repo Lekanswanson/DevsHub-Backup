@@ -35,13 +35,14 @@ footer{
 .flexit{
 	display: flex;
 	background-color: white;
-	font-size: 1.2em;
+	font-size: 1em;
 	width: auto;
-	align-items:center;
-	justify-content:center;
-	padding:10px;
+	min-width: 200px;
+	height:100%;
+	float: right;
+    align-items:center;
+    justify-content:center;
 }
-
 .left{
 	background-color: white;
 	text-shadow: 1px 1px black;
@@ -57,6 +58,24 @@ footer{
 	border-bottom-right-radius: 5px;
 }
 
+#details{
+	background-color: white;
+	#box-shadow: 0px 0px 10px #aa9dc8;
+	border-radius: 5px;
+	width: 90vw;
+	height: auto;
+	margin: 0em auto 0em auto;
+}
+.block{
+	width: auto;
+	height: auto;
+	background-color: inherit;
+    margin-bottom: 2em;
+	display:flex;
+	flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
 
 .list {
 	display: none;
@@ -69,18 +88,8 @@ footer{
 }
 
 
-#details{
-	background-color: white;
-	#box-shadow: 0px 0px 10px #aa9dc8;
-	border-radius: 5px;
-	width: 100%;
-	height: auto;
-	margin: auto;
-}
-
-
 .expand:first-child{
-	#padding-top: 2%;
+    color:#d92626;
 }
 .expand:nth-child(5){
 	text-align: center;
@@ -88,59 +97,71 @@ footer{
 .expand:nth-child(6){
 	text-align: center;
 }
+.expand input {
+    padding-left: 0.5em;
+}
 .expand *{
-	margin: 1% 2%;
+	margin: 0.5% 2%;
 	border: 1px solid #c5cdec;
 	border-radius: 10px;
-	padding: 0.8em 0.5em;
+	padding: 0.5em 0em;
 	font-size: 100%;
 	width: 96%;
 }
 .expand h1{
 	border: none;
 	border-bottom: none;
+	text-align:center;
 }
 .expand h2{
 	border: none;
 	text-align: center;
-	font-size: 1.2em;
+	font-size: 1.5em;
+    font-family: Snell Roundhand, cursive;
+    color:red;
+}
+.expand a:hover{
+    color: #248a0f;
+}
+.expand a{
+    color: black;
 }
 
 .sub{
-	background-color: #8b9bc1;
+	#background-color: #8b9bc1;
+	background-color: #30b814;
 	color: white;
 }
 .sub:hover{
-	background-color: #7487b4;
+    background-color: #124508;
+	#background-color: #7487b4;
 }
-
-
+.expand h1 a{
+    color:black;
+}
+.expand h1 a:hover{
+    color:gray;
+}
 .padded{
-	width: 90%;
-	margin: 2.5% 5%;
+	width: 80%;
+	margin: 5% 10%;
+	background-color: red;
+}
+.padded:hover{
+    background: #1b1452;
 }
 
 
 .motto{
-	font-size: small;
 	font-family: Arial, Helvetica, sans-serif;
-	color: black;
-	padding: 0.5em 0;
-	margin: auto;
-	text-align: center;
+	color:#b9acac;
+	background-color:inherit;
+	display:flex;
+    text-align:center;
+    #height:30px;
+    font-size: small;
+	margin-bottom: 0.2em;
 }
-
-
-.block{
-	#max-width: 800px;
-	width: auto;
-	height: 100%;
-	background-color: inherit;
-	#margin-left: 30%;
-	#margin-top: 8em;
-	#padding: 1em 1em;
-}
-
 
 
 a, a:link{
@@ -152,31 +173,41 @@ a:hover{
 	color: red;
 }
 
-
+.footerDiv{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly;
+    align-items:center;
+    height:100%;
+    flex-wrap:wrap;
+}
 footer{
-	text-align: center;
-	font-size:small;
-	padding-top:10px;
+	font-size: x-small;
+	margin-top:1em;
 }
-footer p{
-	margin: 0;
-	text-align:center;
+footer a{
+	color:gray;
 }
+
+
 
 
 
 
 /* Show section before nav on mobile */
+/* Show section before nav on mobile */
 .backlayout
 {
 	display: grid;
-	width: 100vw;
-    grid-template-rows: auto auto auto auto;
-	grid-template-areas: 				"leftheader"
-								         "section"
-							            "aside"
-							            "footer";
+    overflow-x: hidden; !important;
+    width: 100vw;
+    grid-template-rows: 40px auto auto auto;
+	grid-template-areas: 				"leftheader rightheader"
+								        "section section"
+							            "aside aside"
+							            "footer footer";
 }
+
 
 
 /* Apply the following styles to screens > 720px */
@@ -363,8 +394,6 @@ footer p{
     	#padding: 1em 1em;
     }
 
-
-
     a, a:link{
     	text-decoration: none;
     	border: none;
@@ -374,12 +403,11 @@ footer p{
     	color: red;
     }
 
-
-    footer{
-    	text-align: center;
+    .footerDiv{
+        justify-content:center;
+        gap:1em;
     }
-
-    footer p{
-    	margin: 1% 0 0 0;
+    footer{
+    	font-size: medium;
     }
 }

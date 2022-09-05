@@ -190,11 +190,25 @@ public class SQL {
 
     boolean addArticleComment(Comment comment, int articleId, Member member) {
         boolean successful = false;
-        String command = String.format("INSERT INTO articleComments VALUE (null, '%s', '%s', '%s', '%d', '%s');", comment.getDate(), comment.getMemberName(), comment.getComment(), articleId, member.getImage());
+        String command = String.format("INSERT INTO articleComments VALUE (null, '%s', '%s', '%s', '%d', '%s', '%s');", comment.getDate(), comment.getMemberName(), comment.getComment(), articleId, member.getImage(), member.getEmail());
         try {
             statement.executeUpdate(command);
             successful = true;
         } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return successful;
+    }
+    boolean updateArticleImage(String path, Member member)
+    {
+        boolean successful=false;
+        String command = String.format("update articleComments set image='%s' where email='%s';", path, member.getEmail());
+        try{
+            statement.executeUpdate(command);
+            successful=true;
+        }
+        catch (SQLException exception)
+        {
             System.out.println(exception.getMessage());
         }
         return successful;
@@ -696,6 +710,24 @@ public class SQL {
             System.out.println(exception.getMessage());
         }
         return successful;
+    }
+    ArrayList<Like> memberLikedArticles(Member member)
+    {
+        ArrayList<Like> arrayList = new ArrayList<>();
+        String command = String.format("select * from memberlikes where email = '%s';", member.getEmail());
+        try {
+            ResultSet rs = statement.executeQuery(command);
+            while (rs.next())
+            {
+                Like like = new Like(rs.getString("email"), rs.getInt("articleId"));
+                arrayList.add(like);
+            }
+        }
+        catch (SQLException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        return  arrayList;
     }
 
     boolean addNewProject(Project project, Member member){

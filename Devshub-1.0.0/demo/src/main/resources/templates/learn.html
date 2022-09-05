@@ -28,16 +28,16 @@
 
     <section>
         <div class="sectionDiv">
-            <div class="interviewDiv">
+            <a href="/interviewQuestions" class="interviewDiv">
                 <div>
                     <h2>Preparing for an interview?</h2>
                     <br>
                     <h4>Here are some of the top interview questions.</h4>
                     <h4>Have a look at these resources.</h4>
                 </div>
-            </div>
+            </a>
 
-            <div class="codeDiv">
+            <a href="" class="codeDiv">
                 <div>
                     <h1>Practise your coding skills</h1>
                     <br>
@@ -45,7 +45,7 @@
                     <h3>HackerRank</h3>
                     <h3>Neetcode</h3>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
@@ -57,10 +57,11 @@
     </beside>
 
     <footer>
-        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
-            <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
-            <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
-            <p><a href="">Privacy policy</a>
+        <div class="footerDiv">
+            <a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a>
+            <a href="">Terms and conditions</a>
+            <a href="/user/about">About</a>
+            <a href="">Privacy policy</a>
         </div>
     </footer>
 </div>

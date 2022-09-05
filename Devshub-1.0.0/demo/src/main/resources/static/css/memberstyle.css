@@ -72,7 +72,7 @@ footer{
 .membersDiv{
     display:flex;
     flex-direction:column;
-    min-height:500px;
+    min-height:50vh;
     height:auto;
     border:1px solid black;
     #background:magenta;
@@ -199,11 +199,20 @@ a:link {
 }
 
 
-footer{
-	text-align: center;
+.footerDiv{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly;
+    align-items:center;
+    height:100%;
+    flex-wrap:wrap;
 }
-footer p{
-	margin: 0 0 0 0;
+footer{
+	font-size: x-small;
+	margin-top:1em;
+}
+footer a{
+	color:gray;
 }
 
 
@@ -450,11 +459,12 @@ footer p{
     }
 
 
-    footer{
-    	text-align: center;
+    .footerDiv{
+        justify-content:center;
+        gap:1em;
     }
-    footer p{
-    	margin: 0 0 0 0;
+    footer{
+    	font-size: medium;
     }
 }
 

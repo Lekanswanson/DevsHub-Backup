@@ -1,28 +1,32 @@
 
 
-
-$(function(){
-    function expandArea(id)
-    {
-        var textarea = document.getElementById("dcomments_")+id;
+function expandTextArea(id)
+{
+        var textarea = document.getElementById(id);
         var limit = 2000;
         var savecount=0;
 
-        textarea.oninput = function()
+        this.oninput = function()
         {
             var message="";
             var count=textarea.value.length;
 
             count = count - savecount;
-            if(count === 26)
+            if(count == 26)
             {
                 textarea.style.height = "";
                 textarea.style.height = Math.min(textarea.scrollHeight+30, limit) + "px";
                 console.log("dang")
             }
-            else if(count===51)
+            else if(count==51)
             {
                 message += textarea.value;
+
+                enteredText = textarea.value;
+                if(enteredText.match(/\n/g)||[])
+                {
+                    //alert("Break");
+                }
                 savecount = savecount + count;
             }
 
@@ -32,11 +36,11 @@ $(function(){
                 textarea.style.height = "";
                 textarea.style.height = Math.min(textarea.scrollHeight+30, limit) + "px";
             }
-            if(textarea.value.length===0)
+            if(textarea.value.length==0)
             {
                 textarea.style.height = "";
                 textarea.style.height = Math.min(textarea.scrollHeight+2, limit) + "px";
             }
         };
-    }
-});
+}
+

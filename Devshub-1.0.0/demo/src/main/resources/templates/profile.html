@@ -115,8 +115,8 @@
                     <a href="">Maven</a>
                 </div>
                 <div id="navbar" class="challengesMenu">
-                    <h3>Daily Challenges</h3><br>
-                    <h5>Improve your coding skills by trying these challenges</h5><br>
+                    <a><h3>Daily Challenges</h3></a>
+                    <a><h5>Improve your coding skills by trying these challenges</h5></a>
                     <a href="">Challenge One</a>
                     <a href="">Challenge Two</a>
                     <a href="">Challenge Three</a>
@@ -124,95 +124,88 @@
             </div>
 
             <div class="newsFeed">
-                <div th:if="${!articles.isEmpty()}" th:each="article : ${articles}" class="articles">
-                    <div class="titleDiv">
-                        <h3 th:text="*{article.title}">Dynamic content title/Articles</h3>
+                <div class="chooseContent">
+                    <div class="activeContent">
+                        <label>Articles</label>
                     </div>
-
-                    <div class="description">
-                        <h6 th:text="*{article.description}">Dynamic content description link</h6>
+                    <div class="contentstyle">
+                        <label>User Content</label>
                     </div>
-
-                    <div class="articleLink">
-                        <a th:text="*{article.link}" th:href="@{${article.link}}">Content area/Image. Clickable link</a>
-                    </div>
-
-                    <div style="display:flex;">
-                        <label class="hide" th:id="|liked_${article.id}|" th:class="${article.likes != 0 ? 'showshow' : 'hide'}" th:text="${article.likes == 1 ? article.likes+' Like' : article.likes+' Likes'}">0</label>
-                        <label class="hide" th:id="|count_${article.id}|" th:class="${article.count != 0 ? 'showshow' : 'hide'}" th:text="${article.count == 1 ? article.count+' Comment' : article.count+' Comments'}">0</label>
-                    </div>
-                    <div style="display:flex; height:auto;">
-                        <div class="react">
-                            <button type="button" th:data-longDescription="${article.id}" onclick="addLike(this.getAttribute('data-longDescription'))">Like</button>
+                </div>
+                <div>
+                    <div th:if="${!articles.isEmpty()}" th:each="article : ${articles}" class="articles">
+                        <div class="titleDiv">
+                            <h3 th:text="*{article.title}">Dynamic content title/Articles</h3>
                         </div>
-                        <div class="react">
-                            <button type="button" th:data-longDescription="${article.id}" onclick="showCommentsDiv(this.getAttribute('data-longDescription'))">Comment</button>
-                        </div>
-                        <div class="react">
-                            <button>Share</button>
-                        </div>
-                    </div>
 
-                    <div th:id="|usercomment_${article.id}|" class="hide">
-                        <label>
-                            <h2>Comment Section</h2>
-                        </label>
-                        <div th:id="${article.id}" class="commentsDiv">
-                            <img class="commImg" th:src="@{${member.image}}"/>
-                            <div class="postCommentDiv">
-                                <textarea th:id="|dcomments_${article.id}|" rows="1" cols="10" name="comments"></textarea>
-                                <button class="emojiButton" th:id="|emoji_${article.id}|">Emoji</button>
-                                <button class="commentButton" th:id="|post_${article.id}|" type="button" th:data-longDescription="${article.id}" onclick="postComment(this.getAttribute('data-longDescription'));">Post</button>
+                        <div class="description">
+                            <h6 th:text="*{article.description}">Dynamic content description link</h6>
+                        </div>
+
+                        <div class="articleLink">
+                            <a th:text="*{article.link}" th:href="@{${article.link}}">Content area/Image. Clickable link</a>
+                        </div>
+
+                        <div style="display:flex;">
+                            <label class="hide" th:id="|liked_${article.id}|" th:class="${article.likes != 0 ? 'showshow' : 'hide'}" th:text="${article.likes == 1 ? article.likes+' Like' : article.likes+' Likes'}">0</label>
+                            <label class="hide" th:id="|count_${article.id}|" th:class="${article.count != 0 ? 'showshow' : 'hide'}" th:text="${article.count == 1 ? article.count+' Comment' : article.count+' Comments'}">0</label>
+                        </div>
+                        <div style="display:flex; height:auto; background:light-gray;">
+                            <div th:id="|react_${article.id}|" class="react">
+                                <button type="button" th:data-longDescription="${article.id}" onclick="addLike(this.getAttribute('data-longDescription'))">Like</button>
+                                <span th:each="likes : ${memberLikes}" th:if="${likes.id==article.id}" th:id="|span_${article.id}|"  th:class="${likes.id == article.id ? 'memberHasLiked' : 'memberHasNotLiked'}"></span>
+                            </div>
+                            <div class="react">
+                                <button type="button" th:data-longDescription="${article.id}" onclick="showCommentsDiv(this.getAttribute('data-longDescription'))">Comment</button>
+                            </div>
+                            <div class="react">
+                                <button>Share</button>
                             </div>
                         </div>
 
-
-                        <div th:id="|userComments_${article.id}|" class="userComments">
+                        <div th:id="|usercomment_${article.id}|" class="hide">
                             <label>
-                                <h4>User comments</h4>
+                                <h2>Comment Section</h2>
                             </label>
-                            <div th:each="userComment : ${comments}" th:if="${article.id==userComment.articleId}" class="commentsDiv">
-                                <img class="commImg" th:src="@{${userComment.image}}"/>
-                                <div class="commdiv">
-                                    <h6 th:text="*{userComment.date}">Date</h6>
-                                    <h4 th:text="*{userComment.memberName}">Name</h4>
-                                    <label th:text="*{userComment.comment}">Comment</label>
+                            <div th:id="${article.id}" class="commentsDiv">
+                                <img class="commImg" th:src="@{${member.image}}"/>
+                                <div class="postCommentDiv">
+                                    <textarea onfocus="expandTextArea(this.id);" th:id="|dcomments_${article.id}|" rows="1" cols="51" name="comments"></textarea>
+                                    <button class="emojiButton" th:id="|emoji_${article.id}|">Emoji</button>
+                                    <button class="commentButton" th:id="|post_${article.id}|" type="button" th:data-longDescription="${article.id}" onclick="postComment(this.getAttribute('data-longDescription'));">Post</button>
+                                </div>
+                            </div>
+
+
+                            <div th:id="|userComments_${article.id}|" class="userComments">
+                                <label>
+                                    <h4>User comments</h4>
+                                </label>
+                                <div th:each="userComment : ${comments}" th:if="${article.id==userComment.articleId}" class="commentsDiv">
+                                    <img class="commImg" th:src="@{${userComment.image}}"/>
+                                    <div class="commdiv">
+                                        <h6 th:text="*{userComment.date}">Date</h6>
+                                        <h4 th:text="*{userComment.memberName}">Name</h4>
+                                        <label th:text="*{userComment.comment}">Comment</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <div>
                 <div class="booksMenu">
-                    <div>
-                        <h2 style="border-bottom: 1px solid whitesmoke;">Reading Material</h2>
-                        <h4>Books worth reading</h4>
-                    </div>
-                    <h4><a href="" >Clean code</a></h4>
-                    <h5>
-                        <a href="" >
-                            A Handbook of Agile Software Craftsmanship,<br> by
-                            (Robert C. Martin)
-                        </a>
-                    </h5>
+                    <a><h3>Reading Material</h3></a>
+                    <a><h5>Books worth reading</h5></a>
 
-                    <h4><a href="">Design Patterns</a></h4>
-                    <h5>
-                        <a href="">
-                            Elements of ReusableObject-Oriented Software,<br> by
-                            (Gamma Erich, Helm Richard, Johnson Ralph, Vlissides John)
-                        </a>
-                    </h5>
+                    <a class="book1" href=""><h4>Clean code</h4></a>
+                    <a class="book1bottom" href="">A Handbook of Agile Software Craftsmanship,<br> by (Robert C. Martin)</a>
 
-                    <h4><a href="">The Pragmatic Programmer</a></h4>
-                    <h5>
-                        <a href="">
-                            by, (Andrew Hunt, David Thomas)
-                        </a>
-                    </h5>
+                    <a class="book2" href=""><h4>Design Patterns</h4></a>
+                    <a class="book2bottom" href="">Elements of ReusableObject-Oriented Software,<br> by (Gamma Erich, Helm Richard, Johnson Ralph, Vlissides John)</a>
+
                 </div>
                 <div class="analytics">
                     <h3>Analytics</h3><br>
@@ -237,10 +230,11 @@
     </beside>
 
     <footer>
-        <div style="display:flex;flex-direction:row; justify-content:center; align-items:center; height:100%;">
-            <p style="margin-right:0.5em;"><a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a></p>
-            <p style="margin-right:0.5em;"><a href="">Terms and conditions</a>
-            <p><a href="">Privacy policy</a>
+        <div class="footerDiv">
+            <a th:text="'Lekan Adams &#169; DevsHub ' + ${@timestamp}" href="">msg</a>
+            <a href="">Terms and conditions</a>
+            <a href="/user/about">About</a>
+            <a href="">Privacy policy</a>
         </div>
     </footer>
 </div>
