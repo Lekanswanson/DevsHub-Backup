@@ -37,7 +37,7 @@ public class DemoApplication
 //			System.out.println(ctx.getBean(Book.class).getBooksdb().get(i).toString());
 //		}
 
-		ctx.getBean(SQL.class).initDBConnection();
+		//ctx.getBean(SQL.class).initDBConnection();
 	}
 
 	@Bean

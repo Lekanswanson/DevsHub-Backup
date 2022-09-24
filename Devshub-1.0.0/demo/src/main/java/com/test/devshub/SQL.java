@@ -19,26 +19,34 @@ public class SQL {
     private String userName;
     private String passWord;
 
-    public boolean initDBConnection() {
+    public boolean initDBConnection()
+    {
         boolean successful = false;
-        try {
+        try
+        {
             Class.forName(driver);
             connection = DriverManager.getConnection(path, userName, passWord);
             statement = connection.createStatement();
             successful = true;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.print("Failed to initialise DB Connection\n" + e.getMessage());
         }
         return successful;
     }
 
-    public boolean closeConnection() {
+    public boolean closeConnection()
+    {
         boolean successful = false;
-        try {
+        try
+        {
             connection.close();
             statement.close();
             successful = true;
-        } catch (SQLException exception) {
+        }
+        catch (SQLException exception)
+        {
             System.out.println(exception.getMessage());
         }
         return successful;
@@ -46,10 +54,12 @@ public class SQL {
 
     boolean validateEmail(MemberEmail memberEmail) {
         boolean memberExists = false;
-        String command = "select * from logindetails where email='" + memberEmail.getEmail() + "'";
-
+        PreparedStatement preparedStatement;
         try {
-            ResultSet rs = statement.executeQuery(command);
+            preparedStatement = connection.prepareStatement("select * from logindetails where email = ?");
+            preparedStatement.setString(1, memberEmail.getEmail());
+
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 String email = rs.getString("email");
                 String password = rs.getString("passcode");
@@ -65,10 +75,13 @@ public class SQL {
     }
 
     public void addMemberInformation(ArrayList<Member> members) {
+        PreparedStatement preparedStatement;
         for (Member member : members) {
-            String command = String.format("select * from education where email = '%s';", member.getEmail());
             try {
-                ResultSet resultSet = statement.executeQuery(command);
+                preparedStatement = connection.prepareStatement("select * from education where email = ?");
+                preparedStatement.setString(1, member.getEmail());
+
+                ResultSet resultSet = preparedStatement.executeQuery();
                 Education education = new Education();
 
                 while (resultSet.next()) {
@@ -87,9 +100,12 @@ public class SQL {
                 System.out.println(exception.getMessage());
             }
 
-            command = String.format("select * from experience where email = '%s';", member.getEmail());
-            try {
-                ResultSet resultSet = statement.executeQuery(command);
+            try
+            {
+                preparedStatement = connection.prepareStatement("select * from experience where email = ?");
+                preparedStatement.setString(1, member.getEmail());
+
+                ResultSet resultSet = preparedStatement.executeQuery();
                 Experience experience = new Experience();
 
                 while (resultSet.next()) {
@@ -106,10 +122,14 @@ public class SQL {
                 System.out.println(exception.getMessage());
             }
 
-            command = String.format("select * from memberLanguages where email = '%s';", member.getEmail());
-            try {
-                ResultSet resultSet = statement.executeQuery(command);
+            try
+            {
+                preparedStatement = connection.prepareStatement("select * from memberLanguages where email = ?");
+                preparedStatement.setString(1, member.getEmail());
+
+                ResultSet resultSet = preparedStatement.executeQuery();
                 ArrayList<ProgrammingLanguages> langArray = new ArrayList<>();
+
                 if (resultSet.next()) {
                     ProgrammingLanguages languages = new ProgrammingLanguages(resultSet.getString("languageName"), resultSet.getString("yearsExperience"));
 
@@ -127,9 +147,12 @@ public class SQL {
                 System.out.println(exception.getMessage());
             }
 
-            command = String.format("select * from projects where email = '%s';", member.getEmail());
-            try {
-                ResultSet resultSet = statement.executeQuery(command);
+            try
+            {
+                preparedStatement = connection.prepareStatement("select * from projects where email = ?");
+                preparedStatement.setString(1, member.getEmail());
+
+                ResultSet resultSet = preparedStatement.executeQuery();
                 Project project = new Project();
 
                 while (resultSet.next()) {
@@ -164,9 +187,9 @@ public class SQL {
         String path = "../images/";
 
         String command = "select * from users;";
-
         Member member;
-        try {
+        try
+        {
             ResultSet resultSet = statement.executeQuery(command);
             while (resultSet.next()) {
                 member = new Member(new MemberEmail(), new ArrayList<>(), new ArrayList(), new ArrayList(), new HashMap<>());
@@ -190,9 +213,18 @@ public class SQL {
 
     boolean addArticleComment(Comment comment, int articleId, Member member) {
         boolean successful = false;
-        String command = String.format("INSERT INTO articleComments VALUE (null, '%s', '%s', '%s', '%d', '%s', '%s');", comment.getDate(), comment.getMemberName(), comment.getComment(), articleId, member.getImage(), member.getEmail());
-        try {
-            statement.executeUpdate(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("INSERT INTO articleComments VALUE (null, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, comment.getDate());
+            preparedStatement.setString(2, comment.getMemberName());
+            preparedStatement.setString(3, comment.getComment());
+            preparedStatement.setInt(4, articleId);
+            preparedStatement.setString(5, member.getImage());
+            preparedStatement.setString(6, member.getEmail());
+
+            preparedStatement.executeUpdate();
             successful = true;
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
@@ -202,9 +234,13 @@ public class SQL {
     boolean updateArticleImage(String path, Member member)
     {
         boolean successful=false;
-        String command = String.format("update articleComments set image='%s' where email='%s';", path, member.getEmail());
+        PreparedStatement preparedStatement;
         try{
-            statement.executeUpdate(command);
+            preparedStatement = connection.prepareStatement("update articleComments set image=? where email=?");
+            preparedStatement.setString(1, path);
+            preparedStatement.setString(2, member.getEmail());
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -220,8 +256,8 @@ public class SQL {
         String command = "select * from articleComments;";
 
         Comment comment;
-
-        try{
+        try
+        {
             ResultSet resultSet = statement.executeQuery(command);
             while (resultSet.next())
             {
@@ -247,11 +283,13 @@ public class SQL {
     int countComments(int id)
     {
         int count=0;
-        String command = String.format("select * from articleComments where articleId='%d';", id);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("select * from articleComments where articleId=?");
+            preparedStatement.setInt(1, id);
 
-        try {
-            Statement statement1 = connection.createStatement();
-            ResultSet resultSet=statement1.executeQuery(command);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
                 count++;
@@ -267,11 +305,15 @@ public class SQL {
     Member getMember(MemberEmail memberEmail)
     {
         Member member=new Member(memberEmail, new ArrayList<>(), new ArrayList(), new ArrayList(), new HashMap<>());
-        String command = String.format("select * from users where email='%s';", member.getEmail());
         String path = "../images/";
+
+        PreparedStatement preparedStatement;
         try
         {
-            ResultSet resultSet = statement.executeQuery(command);
+            preparedStatement = connection.prepareStatement("select * from users where email=?");
+            preparedStatement.setString(1, member.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next())
             {
                 member.setFirstName(resultSet.getString("firstName"));
@@ -287,9 +329,11 @@ public class SQL {
             System.out.println(exception.getMessage());
         }
 
-        command = String.format("select * from education where email = '%s';", member.getEmail());
         try {
-            ResultSet resultSet = statement.executeQuery(command);
+            preparedStatement = connection.prepareStatement("select * from education where email = ?");
+            preparedStatement.setString(1, member.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
                 Education education = new Education();
@@ -309,9 +353,11 @@ public class SQL {
             System.out.println(exception.getMessage());
         }
 
-        command = String.format("select * from experience where email = '%s';", member.getEmail());
         try {
-            ResultSet resultSet = statement.executeQuery(command);
+            preparedStatement = connection.prepareStatement("select * from experience where email =?");
+            preparedStatement.setString(1, member.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
                 Experience experience = new Experience();
@@ -330,9 +376,11 @@ public class SQL {
             System.out.println(exception.getMessage());
         }
 
-        command = String.format("select * from memberLanguages where email = '%s';", member.getEmail());
         try {
-            ResultSet resultSet = statement.executeQuery(command);
+            preparedStatement = connection.prepareStatement("select * from memberLanguages where email =?");
+            preparedStatement.setString(1, member.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<ProgrammingLanguages> langArray = new ArrayList<>();
             if (resultSet.next())
             {
@@ -355,9 +403,11 @@ public class SQL {
             System.out.println(exception.getMessage());
         }
 
-        command = String.format("select * from projects where email = '%s';", member.getEmail());
         try {
-            ResultSet resultSet = statement.executeQuery(command);
+            preparedStatement = connection.prepareStatement("select * from projects where email =?");
+            preparedStatement.setString(1, member.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
                 Project project = new Project();
@@ -391,7 +441,7 @@ public class SQL {
             System.out.println(exception.getMessage());
         }
 
-        command = String.format("select * from messages;");
+        String command = String.format("select * from messages;");
         try {
             ResultSet rs = statement.executeQuery(command);
             while (rs.next())
@@ -445,12 +495,17 @@ public class SQL {
         return member;
     }
 
-    public boolean setImagePath(String fileName, Member member) {
+    public boolean setImagePath(String fileName, Member member)
+    {
         boolean successful=false;
-        String command = String.format("update users set image='%s' where email = '%s';", fileName, member.getEmail());
+        PreparedStatement preparedStatement;
         try
         {
-            statement.executeUpdate(command);
+            preparedStatement = connection.prepareStatement("update users set image=? where email = ?");
+            preparedStatement.setString(1, fileName);
+            preparedStatement.setString(2, member.getEmail());
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -460,12 +515,22 @@ public class SQL {
         return successful;
     }
 
-    boolean saveEducation(Member member, Education education) {
+    boolean saveEducation(Member member, Education education)
+    {
         boolean successful=false;
-        try {
-            String command = String.format("INSERT INTO education VALUES (null, '%s', %d, %d, '%s', '%s', '%s', '%s');",
-                    education.getUniversityLocation(), education.getYearStarted(), education.getYearEnded(), education.getCourseStudied(), education.getDegreeLevel(), education.getResultsAchieved(), member.getEmail());
-            statement.executeUpdate(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("INSERT INTO education VALUES (null, ?, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, education.getUniversityLocation());
+            preparedStatement.setInt(2, education.getYearStarted());
+            preparedStatement.setInt(3, education.getYearEnded());
+            preparedStatement.setString(4, education.getCourseStudied());
+            preparedStatement.setString(5, education.getDegreeLevel());
+            preparedStatement.setString(6, education.getResultsAchieved());
+            preparedStatement.setString(7, member.getEmail());
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -478,10 +543,18 @@ public class SQL {
     boolean saveExperience(Member member, Experience experience)
     {
         boolean successful=false;
-        try {
-            String command = String.format("INSERT INTO experience VALUES (null, '%s', '%s', %d, %d, '%s', '%s');",
-                    experience.getCompanyName(), experience.getJobTitle(), experience.getYearStarted(), experience.getYearEnded(), experience.getLocation(), member.getEmail());
-            statement.executeUpdate(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("INSERT INTO experience VALUES (null, ?, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, experience.getCompanyName());
+            preparedStatement.setString(2, experience.getJobTitle());
+            preparedStatement.setInt(3, experience.getYearStarted());
+            preparedStatement.setInt(4, experience.getYearEnded());
+            preparedStatement.setString(5, experience.getLocation());
+            preparedStatement.setString(6, member.getEmail());
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -491,13 +564,17 @@ public class SQL {
         return successful;
     }
 
-    boolean existAlready(MemberEmail email) {
+    boolean existAlready(MemberEmail email)
+    {
         boolean exists=false;
-        String command = String.format("select email from logindetails where email='%s';", email.getEmail());
+        PreparedStatement preparedStatement;
         try
         {
-            ResultSet rs = statement.executeQuery(command);
-            if(rs.next())
+            preparedStatement = connection.prepareStatement("select email from logindetails where email = ?");
+            preparedStatement.setString(1, email.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next())
             {
                 exists=true;
             }
@@ -512,11 +589,20 @@ public class SQL {
     boolean addMember(Member member)
     {
         boolean successful=false;
-        try {
-            String command = String.format("insert into logindetails values('%s','%s');", member.getEmail(), member.getPassWord());
-            statement.executeUpdate(command);
-            command = String.format("INSERT INTO users VALUES (null, '%s', '%s', '%s', null, 'person.png', '#cad07c', '%s');", member.getFirstName(), member.getLastName(), member.getLocation(), member.getEmail());
-            statement.executeUpdate(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("insert into logindetails values(?, ?)");
+            preparedStatement.setString(1, member.getEmail());
+            preparedStatement.setString(2, member.getPassWord());
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement("INSERT INTO users VALUES (null, ?, ?, ?, null, 'person.png', '#cad07c', ?)");
+            preparedStatement.setString(1, member.getFirstName());
+            preparedStatement.setString(2, member.getLastName());
+            preparedStatement.setString(3, member.getLocation());
+            preparedStatement.setString(4, member.getEmail());
+            preparedStatement.executeUpdate();
 
             successful=true;
         }
@@ -530,18 +616,21 @@ public class SQL {
     boolean setMessage(Member member, String message)
     {
         boolean successful=false;
+        PreparedStatement preparedStatement;
         try
         {
-            String command;
             if(message==null)
             {
-                command = String.format("update users set message=null where email = '%s';", member.getEmail());
+                preparedStatement = connection.prepareStatement("update users set message=null where email = ?");
+                preparedStatement.setString(1, member.getEmail());
             }
             else
             {
-                command = String.format("update users set message = '%s' where email = '%s';", message, member.getEmail());
+                preparedStatement = connection.prepareStatement("update users set message = ? where email = ?;");
+                preparedStatement.setString(1, message);
+                preparedStatement.setString(2, member.getEmail());
             }
-            statement.executeUpdate(command);
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -554,10 +643,16 @@ public class SQL {
     boolean addMessageToInbox(Message message)
     {
         boolean successful=false;
-        String command = String.format("INSERT INTO messages VALUES (null, '%s', '%s', '%s', '%s', 0);", message.getDate(), message.getSender(), message.getReceiver(), message.getMessage());
+        PreparedStatement preparedStatement;
         try
         {
-            statement.executeUpdate(command);
+            preparedStatement = connection.prepareStatement("INSERT INTO messages VALUES (null, ?, ?, ?, ?, 0);");
+            preparedStatement.setString(1, message.getDate());
+            preparedStatement.setString(2, message.getSender());
+            preparedStatement.setString(3, message.getReceiver());
+            preparedStatement.setString(4, message.getMessage());
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -569,10 +664,14 @@ public class SQL {
     boolean setSize(int size, int id)
     {
         boolean successful=false;
-        String command = String.format("update messages set size=%d where id=%d;", size, id);
+        PreparedStatement preparedStatement;
         try
         {
-            statement.executeUpdate(command);
+            preparedStatement = connection.prepareStatement("update messages set size=? where id=?");
+            preparedStatement.setInt(1, size);
+            preparedStatement.setInt(2, id);
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -586,9 +685,9 @@ public class SQL {
     {
         int size=0;
         String command = "select * from messages;";
-        try{
+        try
+        {
             ResultSet rs = statement.executeQuery(command);
-
             while (rs.next())
             {
                 size++;
@@ -633,13 +732,16 @@ public class SQL {
     }
 
 
-    public boolean removeArticleLike(int id) {
+    public boolean removeArticleLike(int id)
+    {
         boolean successful=false;
-
-        String command = String.format("update articles set likes=likes-1 where id=%d;", id);
+        PreparedStatement preparedStatement;
         try
         {
-            statement.executeUpdate(command);
+            preparedStatement = connection.prepareStatement("update articles set likes=likes-1 where id=?");
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -649,12 +751,17 @@ public class SQL {
         return successful;
     }
 
-    public boolean removeMemberLike(Member member, int id) {
+    public boolean removeMemberLike(Member member, int id)
+    {
         boolean successful=false;
-        String command = String.format("delete from memberlikes where email='%s' and articleId=%d;", member.getEmail(), id);
+        PreparedStatement preparedStatement;
         try
         {
-            statement.executeUpdate(command);
+            preparedStatement = connection.prepareStatement("delete from memberlikes where email=? and articleId=?");
+            preparedStatement.setString(1, member.getEmail());
+            preparedStatement.setInt(2, id);
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -668,10 +775,13 @@ public class SQL {
     boolean addArticleLike(int id)
     {
         boolean successful = false;
-        String command = String.format("update articles set likes=likes+1 where id=%d;", id);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("update articles set likes=likes+1 where id=?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
 
-        try{
-            statement.executeUpdate(command);
             successful=true;
         }
         catch (SQLException exception)
@@ -683,9 +793,14 @@ public class SQL {
     boolean addMemberLike(Member member, int id)
     {
         boolean successful = false;
-        String command = String.format("insert into memberlikes values ('%s', '%d');", member.getEmail(), id);
-        try{
-            statement.executeUpdate(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("insert into memberlikes values (?, ?);");
+            preparedStatement.setString(1, member.getEmail());
+            preparedStatement.setInt(2, id);
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -698,10 +813,14 @@ public class SQL {
     boolean memberHasLikedArticles(Member member, int id)
     {
         boolean successful=false;
-        String command = String.format("select * from memberlikes where email = '%s' and articleId=%d;", member.getEmail(), id);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("select * from memberlikes where email = ? and articleId=?");
+            preparedStatement.setString(1, member.getEmail());
+            preparedStatement.setInt(2, id);
 
-        try {
-            ResultSet rs = statement.executeQuery(command);
+            ResultSet rs = preparedStatement.executeQuery();
             if(rs.next())
                 successful=true;
         }
@@ -714,12 +833,16 @@ public class SQL {
     ArrayList<Like> memberLikedArticles(Member member)
     {
         ArrayList<Like> arrayList = new ArrayList<>();
-        String command = String.format("select * from memberlikes where email = '%s';", member.getEmail());
-        try {
-            ResultSet rs = statement.executeQuery(command);
-            while (rs.next())
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("select * from memberlikes where email = ?");
+            preparedStatement.setString(1, member.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
             {
-                Like like = new Like(rs.getString("email"), rs.getInt("articleId"));
+                Like like = new Like(resultSet.getString("email"), resultSet.getInt("articleId"));
                 arrayList.add(like);
             }
         }
@@ -730,12 +853,21 @@ public class SQL {
         return  arrayList;
     }
 
-    boolean addNewProject(Project project, Member member){
+    boolean addNewProject(Project project, Member member)
+    {
         boolean successful=false;
-        String command = String.format("insert into projects values ('%s', '%s', '%s', '%s', '%s', '%s');",
-                project.getTitle(), project.getDescription(), project.getLanguage(), project.getTechnology(), project.getVideo(), member.getEmail());
-        try {
-            statement.executeUpdate(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("insert into projects values (?, ?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, project.getTitle());
+            preparedStatement.setString(2, project.getDescription());
+            preparedStatement.setString(3, project.getLanguage());
+            preparedStatement.setString(4, project.getTechnology());
+            preparedStatement.setString(5, project.getVideo());
+            preparedStatement.setString(6, member.getEmail());
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)
@@ -747,10 +879,14 @@ public class SQL {
 
     public String getMembersMatching(String email)
     {
-        String command = String.format("select email from users where email like '%%%s%%' ;", email);
         StringBuilder emails=new StringBuilder();
-        try {
-            ResultSet resultSet = statement.executeQuery(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("select email from users where email like ?");
+            preparedStatement.setString(1, "%%%"+email+"%%");
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
                 emails.append(resultSet.getString("email")+"_");
@@ -760,16 +896,19 @@ public class SQL {
         {
             System.out.println(exception.getMessage());
         }
-        System.out.println(emails.toString());
         return emails.toString();
     }
 
     public String getLanguageMatching(String language)
     {
-        String command = String.format("select languageName from languages where languageName like '%%%s%%';", language);
         StringBuilder languageNames=new StringBuilder();
-        try {
-            ResultSet resultSet = statement.executeQuery(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("select languageName from languages where languageName like ?");
+            preparedStatement.setString(1, "%%%"+language+"%%");
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
                 languageNames.append(resultSet.getString("languageName")+"_");
@@ -779,16 +918,21 @@ public class SQL {
         {
             System.out.println(exception.getMessage());
         }
-        System.out.println(languageNames.toString());
         return languageNames.toString();
     }
 
     public boolean addProgrammingLanguages(Member member, ProgrammingLanguages languages)
     {
         boolean successful=false;
-        String command = String.format("INSERT INTO memberLanguages VALUES (null, '%s', '%s', '%S');", languages.getLanguage(), languages.getYearsExperience(), member.getEmail());
-        try {
-            statement.executeUpdate(command);
+        PreparedStatement preparedStatement;
+        try
+        {
+            preparedStatement = connection.prepareStatement("INSERT INTO memberLanguages VALUES (null, ?, ?, ?);");
+            preparedStatement.setString(1, languages.getLanguage());
+            preparedStatement.setString(2, languages.getYearsExperience());
+            preparedStatement.setString(3, member.getEmail());
+
+            preparedStatement.executeUpdate();
             successful=true;
         }
         catch (SQLException exception)

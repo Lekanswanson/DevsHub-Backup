@@ -7,15 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
-
 
 @Controller
 @SessionScope
@@ -39,10 +36,8 @@ public class TestController
     private OnlineUsers onlineUsers;
     private ArrayList<Message> messages;
     private ArrayList<Articles> articles;
-
     private String path ="../images/";
     private String videoPath ="../videos/";
-
     private final String UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\images\\";
     //private final String UPLOAD_DIR = "./src/main/resources/static/images/";
     private final String VID_UPLOAD_DIR = "C:\\Users\\adams\\IdeaProjects\\demo\\src\\main\\resources\\static\\videos\\";
@@ -68,6 +63,8 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path="/register")
     public String registerMember(@ModelAttribute Member m, Model model)
     {
+        database.initDBConnection();
+
         member.setFirstName(m.getFirstName());
         member.setLastName(m.getLastName());
         member.setLocation(m.getLocation());
@@ -77,6 +74,7 @@ public class TestController
         database.addMember(member);
         onlineUsers.addMember(member);
 
+        database.closeConnection();
         model.addAttribute("member", member);
         return "redirect:/home/"+member.getFirstName();
     }
@@ -84,6 +82,7 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path="/saveMessage")
     public String saveMessage(@ModelAttribute Member m, Model model)
     {
+        database.initDBConnection();
         if(m.getMessage().isEmpty())
         {
             member.setMessage(null);
@@ -94,6 +93,7 @@ public class TestController
             member.setMessage(m.getMessage());
             database.setMessage(member, m.getMessage());
         }
+        database.closeConnection();
         model.addAttribute("member", member);
         return "redirect:/home/"+member.getFirstName();
     }
@@ -115,15 +115,18 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path = "/next")
     public String next(@ModelAttribute MemberEmail memberEmail, Model model)
     {
+        database.initDBConnection();
         if(database.existAlready(memberEmail))
         {
             System.out.println(memberEmail.getEmail() + " already exists! Sign in instead;");
+            database.closeConnection();
             return "redirect:/newaccount";
         }
         else
         {
             member = new Member(memberEmail, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap());
             model.addAttribute("member", member);
+            database.closeConnection();
             return "nextpage";
         }
     }
@@ -131,22 +134,28 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path = "/saveEducation")
     public String saveEducationInformation(@ModelAttribute Education edu, Model model)
     {
+        database.initDBConnection();
         member.setEducation(edu);
         database.saveEducation(member, edu);
 
         model.addAttribute("member", member);
         model.addAttribute("education", new Education());
+
+        database.closeConnection();
         return "redirect:/home/"+member.getFirstName();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/saveExperience")
     public String saveExperience(@ModelAttribute Experience experience, Model model)
     {
+        database.initDBConnection();
         member.setExperiences(experience);
         database.saveExperience(member, experience);
 
         model.addAttribute("member", member);
         model.addAttribute("experience", new Experience());
+
+        database.closeConnection();
         return "redirect:/home/"+member.getFirstName();
     }
 
@@ -165,16 +174,19 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path = "/profile")
     public String signIn(@ModelAttribute MemberEmail memberEmail, Model model)
     {
+        database.initDBConnection();
         if(database.validateEmail(memberEmail))
         {
             member = database.getMember(memberEmail);
             onlineUsers.addMember(member);
             model.addAttribute("member", member);
+            database.closeConnection();
             return "redirect:/home/"+member.getFirstName();
         }
         else
         {
             System.out.println("Login  Failed");
+            database.closeConnection();
             return "redirect:/devshub";
         }
     }
@@ -212,8 +224,9 @@ public class TestController
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/user/save/image")
-    public String uploadFileCv(@RequestParam("file") MultipartFile file) throws InterruptedException {
-
+    public String uploadFileCv(@RequestParam("file") MultipartFile file) throws InterruptedException
+    {
+        database.initDBConnection();
         // check if file is empty
         if (file.isEmpty()) {
             System.out.println("No file");
@@ -234,12 +247,13 @@ public class TestController
         database.setImagePath(fileName, member);
         database.updateArticleImage(path, member);
 
+        database.closeConnection();
         return "redirect:/home/"+member.getFirstName();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/profile/save/image")
-    public String uploadFileProfile(@RequestParam("file") MultipartFile file) throws InterruptedException {
-
+    public String uploadFileProfile(@RequestParam("file") MultipartFile file) throws InterruptedException
+    {
         // check if file is empty
         if (file.isEmpty()) {
             System.out.println("No file");
@@ -264,6 +278,8 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, path = "/projects/save/project")
     public String addNewProject(@RequestParam("file") MultipartFile file, @ModelAttribute Project project) throws InterruptedException
     {
+        database.initDBConnection();
+
         if(!project.getVideo().isEmpty()) {
             project.setVideo(videoPath+project.getVideo());
         }
@@ -307,6 +323,7 @@ public class TestController
         catch (IOException e) {
             e.printStackTrace();
         }
+        database.closeConnection();
         return "redirect:/user/projects";
     }
 
@@ -327,6 +344,7 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path = "/members")
     public String getMembersList(Model model)
     {
+        database.initDBConnection();
         ArrayList<Member> members = database.getMembers();
         int exp=0;
         ProgrammingLanguages pl=null;
@@ -345,6 +363,8 @@ public class TestController
             exp=0;
         }
         model.addAttribute("allMembers", members);
+
+        database.closeConnection();
         return "members";
     }
 
@@ -360,7 +380,7 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path = "/user/profile")
     public String returnProfile(Model model)
     {
-        int total=0;
+        database.initDBConnection();
 
         articles = database.getArticles();
         ArrayList<Like> memberLikes = database.memberLikedArticles(member);
@@ -373,6 +393,8 @@ public class TestController
         model.addAttribute("member", member);
         model.addAttribute("color", member.getColor());
         model.addAttribute("comments", database.getArticleComments());
+
+        database.closeConnection();
         return "profile";
     }
 
@@ -381,6 +403,7 @@ public class TestController
     public String likeArticle(Model model, @RequestParam("id") int id)
     {
         String likes=null;
+        database.initDBConnection();
 
         if(database.memberHasLikedArticles(member, id))
         {
@@ -412,6 +435,7 @@ public class TestController
                 }
             }
         }
+        database.closeConnection();
         return likes;
     }
 
@@ -431,6 +455,7 @@ public class TestController
     @RequestMapping(method = RequestMethod.GET, path = "/user/messages")
     public String getMessagesView(Model model)
     {
+        database.initDBConnection();
         model.addAttribute("member", member);
         model.addAttribute("senderName", member.getEmail());
 
@@ -465,6 +490,8 @@ public class TestController
         model.addAttribute("showclass", MemberDB.message.getShowClass());
         model.addAttribute("hideclass", MemberDB.message.getHideClass());
         model.addAttribute("messages", messages);
+
+        database.closeConnection();
         return "messages";
     }
 
@@ -479,9 +506,12 @@ public class TestController
     @ResponseBody
     public String createMessage(Model model, @RequestParam("sender") String sender,@RequestParam("receiver") String receiver,@RequestParam("message") String message)
     {
+        database.initDBConnection();
         Message m = new Message(sender,receiver,message,"show","hide");
         database.addMessageToInbox(m);
         sendMessage(model, m);
+
+        database.closeConnection();
         return m.toString();
     }
 
@@ -489,9 +519,11 @@ public class TestController
     @ResponseBody
     public String getUsersMatching(Model model, @RequestParam("email") String email)
     {
+        database.initDBConnection();
         if(email.trim().isEmpty())
             return null;
         String emails = database.getMembersMatching(email);
+        database.closeConnection();
         return emails;
     }
 
@@ -499,10 +531,12 @@ public class TestController
     @ResponseBody
     public String getLanguageMatching(Model model, @RequestParam("language") String language)
     {
+        database.initDBConnection();
         System.out.println(language);
         if(language.trim().isEmpty())
             return null;
         String languageMatching = database.getLanguageMatching(language);
+        database.closeConnection();
         return languageMatching;
     }
 
@@ -546,11 +580,14 @@ public class TestController
 
                 if(currentSize > oldSize)
                 {
+                    database.initDBConnection();
                     member.getMessages().get(name).get(currentSize-1).setSize(currentSize);
                     member.getMessages().get(name).get(currentSize-1).setId(database.getMessagesSize());
 
                     message = member.getMessages().get(name).get(currentSize-1).toString();
                     database.setSize(currentSize, database.getMessagesSize());
+
+                    database.closeConnection();
                     break;
                 }
             }
@@ -565,6 +602,7 @@ public class TestController
     @RequestMapping(method = RequestMethod.POST, value = "/add/languages")
     public String addLanguages(@ModelAttribute ProgrammingLanguages languages)
     {
+        database.initDBConnection();
         System.out.println(languages);
         ArrayList<ProgrammingLanguages> langArray = new ArrayList<>();
 
@@ -581,6 +619,7 @@ public class TestController
         member.setProgrammingLanguages(langArray);
         database.addProgrammingLanguages(member, languages);
 
+        database.closeConnection();
         return "redirect:/home/"+member.getFirstName();
     }
 
@@ -596,15 +635,18 @@ public class TestController
     @ResponseBody
     public String postComment(@RequestParam("comment") String comment, @RequestParam("articleId") int articleId)
     {
+        database.initDBConnection();
         Comment c = new Comment(0, member.getFirstName()+" "+member.getLastName(), comment, articleId, member.getImage());
         database.addArticleComment(c, articleId, member);
+
+        database.closeConnection();
         return c.toString();
     }
 
     @RequestMapping(path="/interviewQuestions", method = RequestMethod.GET)
     public String getQuestionVIew(Model model)
     {
-        int total=0;
+        database.initDBConnection();
 
         articles = database.getArticles();
         ArrayList<Like> memberLikes = database.memberLikedArticles(member);
@@ -617,6 +659,8 @@ public class TestController
         model.addAttribute("member", member);
         model.addAttribute("color", member.getColor());
         model.addAttribute("comments", database.getArticleComments());
-        return "interviewQuestions";
+
+        database.closeConnection();
+        return "interviewquestions";
     }
 }
